@@ -2,6 +2,8 @@ package at.ac.univie.frog;
 
 import org.junit.Test;
 
+import at.ac.univie.SplitDAO.Friend;
+
 import static org.junit.Assert.*;
 
 /**
@@ -11,5 +13,7 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
+        Friend max =  new Friend(1,"Weinbahn", "Andy");
+        max.toString();
     }
 }
