@@ -35,3 +35,5 @@ public class SplitEqual extends Expense implements IExpensecalculations {
         return debts;
     }
 }
+
+

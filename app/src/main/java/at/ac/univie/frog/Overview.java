@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import at.ac.univie.SplitDAO.Expense;
+//import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.SplitEqual;
 
@@ -44,7 +44,7 @@ public class Overview extends AppCompatActivity {
         textView.setText(max.toString());
         String code = max.getUniqueid().toString();
         code = "HALT DIE FRESSE";
-        
+
 /*
 
         Expense first = new SplitEqual(max, max, (double) 30, "Kai ist gut");
@@ -61,8 +61,16 @@ public class Overview extends AppCompatActivity {
         QRGenerate myqr = new QRGenerate(Overview.this, textView, imageView, code);
         myqr.execute();
 
+        friends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Intent goToFriends = new Intent(Overview.this, FriendActivity.class);
+                startActivity(goToFriends);
 
+            }
+
+        });
 
 
     }
