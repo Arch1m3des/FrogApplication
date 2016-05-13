@@ -4,6 +4,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
+ * gadsfjlksdlfk
  * Created by Andy on 12.05.16.
  */
 public class Expense {

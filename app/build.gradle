@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'java'
 
 android {
     compileSdkVersion 23
@@ -19,6 +20,10 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     //testCompile 'junit:junit:4.12'
@@ -27,3 +32,5 @@ dependencies {
     //compile 'com.jakewharton:butterknife:6.0.0'
 
 }
+
+
