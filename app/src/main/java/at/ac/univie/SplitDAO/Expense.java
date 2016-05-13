@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Andy on 12.05.16.
  */
 class Expense {
-    GregorianCalendar curr_date;
+/*    GregorianCalendar curr_date;
     Friend creator;
     double amount;
     String description;
@@ -41,14 +41,14 @@ class Expense {
     public boolean modifyparticipants(List<Friend> participants) {
         this.participants
         //pseudocode
-    	/*
+    	////
     	wenn participants nicht gesetzt, dann überschreiben
     	Wenn neue participants gleiche anzahl haben, dann überschreiben
     	wenn anzahl unterschiedlich, spending array zwischenspeichern. beträge die nicht auf neues participants
     	array passen, auf payer aufsummieren
 
 		danach immer update der spendings. Spendingsgröße muss angepasst werden.
-    	*/
+    	////
 
         //update();
     }
@@ -60,5 +60,5 @@ class Expense {
 
 
 
-
+*/
 }
