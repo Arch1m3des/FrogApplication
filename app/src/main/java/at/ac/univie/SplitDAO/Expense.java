@@ -7,8 +7,13 @@ import java.util.List;
  * gadsfjlksdlfk
  * Created by Andy on 12.05.16.
  */
+<<<<<<< HEAD
+class Expense {
+/*    GregorianCalendar curr_date;
+=======
 public class Expense {
     GregorianCalendar curr_date;
+>>>>>>> ecd37de17d5750ab3581d4852994315e4316d486
     Friend creator;
     double amount;
     String description;
@@ -64,6 +69,20 @@ public class Expense {
     }
 
     public boolean modifyparticipants(List<Friend> participants) {
+<<<<<<< HEAD
+        this.participants
+        //pseudocode
+    	////
+    	wenn participants nicht gesetzt, dann überschreiben
+    	Wenn neue participants gleiche anzahl haben, dann überschreiben
+    	wenn anzahl unterschiedlich, spending array zwischenspeichern. beträge die nicht auf neues participants
+    	array passen, auf payer aufsummieren
+
+		danach immer update der spendings. Spendingsgröße muss angepasst werden.
+    	////
+
+        //update();
+=======
         if (this.participants.isEmpty()) {
             this.participants = participants;
             return true;
@@ -85,6 +104,7 @@ public class Expense {
             }
 
         }
+>>>>>>> ecd37de17d5750ab3581d4852994315e4316d486
     }
 
     public boolean isparticipant(Friend friend) {
@@ -97,5 +117,5 @@ public class Expense {
 
 
 
-
+*/
 }

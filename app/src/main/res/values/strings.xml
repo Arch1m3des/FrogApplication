@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Frog</string>
+    <string-array name="test_friends">
+        <item>Markus</item>
+        <item>Andy</item>
+        <item>Daniel</item>
+    </string-array>
 </resources>

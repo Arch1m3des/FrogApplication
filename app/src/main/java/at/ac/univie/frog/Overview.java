@@ -1,6 +1,7 @@
 package at.ac.univie.frog;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.Image;
@@ -8,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,10 +31,11 @@ public class Overview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_overview);
+        setContentView(R.layout.content_overview);
 
         final TextView textView = (TextView) findViewById(R.id.textView);
         final ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        Button friends = (Button) findViewById(R.id.button);
 
 
         Friend max = new Friend(1, "Weinbahn", "Andy", "ich@du.com");
@@ -40,7 +44,7 @@ public class Overview extends AppCompatActivity {
         textView.setText(max.toString());
         String code = max.getUniqueid().toString();
         code = "HALT DIE FRESSE";
-
+        
 /*
 
         Expense first = new SplitEqual(max, max, (double) 30, "Kai ist gut");
@@ -62,8 +66,5 @@ public class Overview extends AppCompatActivity {
 
 
     }
-
-
-
 
 }
