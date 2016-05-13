@@ -11,14 +11,16 @@ public class Friend implements Serializable {
     String name;
     String surname;
     UUID uniqueid;
+    String mailaddress;
     //setlater = UUID.randomUUID();
 
 
-    public Friend(int friendID, String surname, String name) {
+    public Friend(int friendID, String surname, String name, String mailaddress) {
         FriendID = friendID;
         this.setUniqueid();
         this.surname = surname;
         this.name = name;
+        this.mailaddress =  mailaddress;
     }
 
     public void setUniqueid() {
