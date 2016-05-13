@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Andy on 12.05.16.
  */
-class Expense {
+public class Expense {
     GregorianCalendar curr_date;
     Friend creator;
     double amount;
@@ -19,12 +19,12 @@ class Expense {
     List<Double> spending;
     Friend payer;
 
-    Expense (Friend creator, Friend payer, double amount, String description, Category category) {
+    Expense (Friend creator, Friend payer, double amount, String description) {
         this.creator = creator;
         setpayer(payer);
         setamount(amount);
         setdescription(description);
-        setcategory(category);
+        //setcategory(category);
 
     }
 
