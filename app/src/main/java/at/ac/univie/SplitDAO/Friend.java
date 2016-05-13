@@ -1,6 +1,7 @@
 package at.ac.univie.SplitDAO;
 
 import java.io.Serializable;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -11,16 +12,24 @@ public class Friend implements Serializable {
     String name;
     String surname;
     UUID uniqueid;
+    String mailaddress;
+    int iconcolor;
     //setlater = UUID.randomUUID();
 
 
-    public Friend(int friendID, String surname, String name) {
+    public Friend(int friendID, String surname, String name, String mailaddress) {
         FriendID = friendID;
         this.setUniqueid();
         this.surname = surname;
         this.name = name;
+        this.mailaddress =  mailaddress;
+        this.iconcolor = generateiconcolor();
     }
 
+    public int generateiconcolor() {
+        Random rand = new Random();
+        return rand.nextInt(10)+1;
+    }
     public void setUniqueid() {
         this.uniqueid = UUID.randomUUID();
     }
