@@ -41,7 +41,6 @@ public class Overview extends AppCompatActivity {
         Friend max = new Friend(1, "Weinbahn", "Andy", "ich@du.com");
         Friend andy = new Friend(2, "Hagen", "Nina",  "ich@du.com");
         System.out.println(max.toString());
-        textView.setText(max.toString());
         String code = max.getUniqueid().toString();
         code = "HALT DIE FRESSE";
 

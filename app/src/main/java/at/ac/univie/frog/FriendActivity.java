@@ -3,18 +3,28 @@ package at.ac.univie.frog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import at.ac.univie.SplitDAO.Friend;
+
+/**
+ * Created by Tamara on 13.05.16.
+ */
 
 public class FriendActivity extends AppCompatActivity {
 
     ListView friendsView;
     ArrayAdapter adapter;
-    ArrayList<String> friends;
-    ImageView imageView;
+    //TextView initials;
+    ArrayList<Friend> friends = new ArrayList();
+    ArrayList<String> friendsToString = new ArrayList();
+    ArrayList<String> friendsInitials = new ArrayList();
+    ArrayList<String> iconColors = new ArrayList();
+    //ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +32,29 @@ public class FriendActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_friend);
 
-        friends = new ArrayList();
+        friends.add(new Friend(1, "Weinbahn", "Andy", "ich@du.com"));
+        friends.add(new Friend(2, "Bader", "Markus",  "ich@du.com"));
+        friends.add(new Friend(3, "Bubla", "Daniel",  "ich@du.com"));
+        friends.add(new Friend(4, "Eins", "Freund",  "ich@du.com"));
+        friends.add(new Friend(5, "Zwei", "Freund",  "ich@du.com"));
+        friends.add(new Friend(6, "Drei", "Freund",  "ich@du.com"));
+        friends.add(new Friend(7, "Vier", "Freund",  "ich@du.com"));
+        friends.add(new Friend(8, "Fuenf", "Freund",  "ich@du.com"));
+        friends.add(new Friend(9, "Sechs", "Freund",  "ich@du.com"));
+        friends.add(new Friend(10, "Sieben", "Freund",  "ich@du.com"));
 
-        friends.addAll(Arrays.asList("Markus", "Andy", "Daniel", "Freund1", "Freund2", "Freund3", "Freund4", "Freund5", "Freund6", "Freund7", "Freund8", "Freund9", "Freund10"));
+        for (Friend temp : friends) {
+            friendsToString.add(temp.getName() + " " + temp.getSurname());
+            friendsInitials.add(temp.getInitials());
+            iconColors.add(temp.getIconColor());
+        }
 
         friendsView = (ListView) findViewById(R.id.friendsView);
-        adapter = new FancyListAdapter(this, R.layout.fancy_list, friends);
+        adapter = new FancyListAdapter(this, R.layout.fancy_list, friendsToString, friendsInitials, iconColors);
+
+        //initials = (TextView) findViewById(R.id.listInitials);
+
+        //initials.setText("hoi");
 
         friendsView.setAdapter(adapter);
     }

@@ -2,6 +2,7 @@ package at.ac.univie.frog;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,16 @@ public class FancyListAdapter extends ArrayAdapter<String> {
     private Context context;
     private int layoutResourceId;
     private ArrayList<String> list = null;
+    private ArrayList<String> initials = null;
+    private ArrayList<String> colors = null;
 
-    public FancyListAdapter(Context context, int layoutResourceId, ArrayList<String> list) {
+    public FancyListAdapter(Context context, int layoutResourceId, ArrayList<String> list, ArrayList<String> initials, ArrayList<String> colors) {
         super(context, layoutResourceId, list);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.list = list;
+        this.initials = initials;
+        this.colors = colors;
     }
 
     @Override
@@ -41,10 +46,14 @@ public class FancyListAdapter extends ArrayAdapter<String> {
         }
 
         TextView textView = (TextView) fancyView.findViewById(R.id.textView);
+        TextView initialsView = (TextView) fancyView.findViewById(R.id.listInitials);
 
         textView.setTextColor(Color.BLACK);
         textView.setText(list.get(position));
         textView.setBackgroundColor(Color.WHITE);
+
+        initialsView.setText(initials.get(position));
+        initialsView.getBackground().setTint(Color.parseColor(colors.get(position)));
 
         return fancyView;
     }
