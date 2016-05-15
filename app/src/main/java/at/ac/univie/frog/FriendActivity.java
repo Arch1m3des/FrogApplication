@@ -1,7 +1,10 @@
 package at.ac.univie.frog;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,6 +34,7 @@ public class FriendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.content_friend);
+        getSupportActionBar().setTitle("Friends");
 
         friends.add(new Friend(1, "Weinbahn", "Andy", "ich@du.com"));
         friends.add(new Friend(2, "Bader", "Markus",  "ich@du.com"));
@@ -52,10 +56,19 @@ public class FriendActivity extends AppCompatActivity {
         friendsView = (ListView) findViewById(R.id.friendsView);
         adapter = new FancyListAdapter(this, R.layout.fancy_list, friendsToString, friendsInitials, iconColors);
 
-        //initials = (TextView) findViewById(R.id.listInitials);
-
-        //initials.setText("hoi");
-
         friendsView.setAdapter(adapter);
+
+        friendsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
+
+                Intent goToFriendDetail = new Intent(FriendActivity.this, FriendDetailActivity.class);
+                startActivity(goToFriendDetail);
+
+            }
+
+        });
+
     }
 }
