@@ -26,7 +26,8 @@
         <activity android:name=".FriendDetailActivity" />
         <activity android:name=".Overview" />
         <activity android:name=".GroupActivity" />
-        <activity android:name=".AddFriendActivity"></activity>
+        <activity android:name=".AddFriendActivity"/>
+        <activity android:name=".AddDummyActivity"></activity>
     </application>
 
 </manifest>

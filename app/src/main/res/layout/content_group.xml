@@ -16,7 +16,7 @@
         android:fontFamily="sans-serif-thin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/friendsView"
+        android:id="@+id/groupView"
         android:layout_alignParentEnd="true"
         android:clickable="true"/>
 

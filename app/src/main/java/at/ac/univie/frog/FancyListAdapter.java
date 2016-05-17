@@ -2,15 +2,17 @@ package at.ac.univie.frog;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+/**
+ * Created by Tamara on 13.05.16.
+ */
 
 /**
  * This class is an extension of the ArrayAdapter class in order to be
@@ -52,7 +54,15 @@ public class FancyListAdapter extends ArrayAdapter<String> {
         textView.setText(list.get(position));
         textView.setBackgroundColor(Color.WHITE);
 
-        initialsView.setText(initials.get(position));
+        if (position == 0 || !initials.get(position).equals("")) {
+            initialsView.setText(initials.get(position));
+            initialsView.setBackgroundResource(R.drawable.circle);
+        }
+
+        else  {
+            initialsView.setBackgroundResource(R.drawable.group_icon);
+        }
+
         initialsView.getBackground().setTint(Color.parseColor(colors.get(position)));
 
         return fancyView;
