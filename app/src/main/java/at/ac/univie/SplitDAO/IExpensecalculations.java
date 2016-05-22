@@ -7,5 +7,5 @@ import java.util.List;
  */
 public interface IExpensecalculations {
 
-    public List<Double> calculatedebt(Friend payer, List<Friend> participants, double amount) throws Exception;
+    public boolean calculatedebt() throws Exception;
 }

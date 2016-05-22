@@ -23,6 +23,7 @@ public class Group {
         this.id = id;
         this.name = name;
         this.members = new ArrayList();
+        this.expenses = new ArrayList();
         this.iconColor = generateIconColor();
     }
 
@@ -86,17 +87,48 @@ public class Group {
 
 
     //Methods
-    public void addMember(Friend friend) throws Exception {
+    public boolean addMember(Friend friend) throws Exception {
         if (friend != null && !members.contains(friend)) {
             members.add(friend);
+            return true;
         }
-        throw new Exception("Member already in list");
+        else return false;
     }
 
-    public double calculateowes(Friend friend) {
+    public boolean addExpense(Expense newexpense) {
+        return expenses.add(newexpense);
+    }
 
-        double calculatedexpenses = 0;
+    public double calculatebalance(Friend me) {
+        double balance = 0;
 
-        return calculatedexpenses;
+        for (Expense expense: expenses) {
+            double debt;
+            if(expense.isparticipant(me)) {
+                debt = 0;
+                debt = expense.getSpendingbyIndex(expense.participants.indexOf(me));
+                balance += debt;
+            }
+
+        }
+        return balance;
+    }
+
+    public double calculateowes(Friend me, Friend friend) {
+        double owes = 0;
+
+        for (Expense expense: expenses) {
+            if (expense.isparticipant(me) && expense.isparticipant(friend)) {
+                int indexpayer;
+                int indexdebtor;
+                if (expense.getPayer() == me) {
+                    owes += expense.getSpendingbyIndex(expense.participants.indexOf(friend));
+                } if(expense.getPayer() == friend) {
+                    owes -= expense.getSpendingbyIndex(expense.participants.indexOf(me));
+                }
+            }
+        }
+
+        return owes;
     }
 }
