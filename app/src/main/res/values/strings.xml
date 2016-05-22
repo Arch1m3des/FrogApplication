@@ -5,4 +5,9 @@
         <item>Andy</item>
         <item>Daniel</item>
     </string-array>
+    <string name="navbar_friends">Friends</string>
+    <string name="navbar_groups">Groups</string>
+    <string name="navbar_map">Map</string>
+    <string name="navbar_me">Me</string>
+    <string name="navbar_settings">Settings</string>
 </resources>
