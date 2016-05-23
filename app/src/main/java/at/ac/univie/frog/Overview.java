@@ -77,7 +77,7 @@ public class Overview extends AppCompatActivity {
         Friend andy = new Friend(2, "Hagen", "Nina",  "ich@du.com");
         System.out.println(max.toString());
         String code = max.getUniqueid().toString();
-        code = "HALT DIE FRESSE";
+        code = surname + ";" + name + ";" + email;
 
 /*
 

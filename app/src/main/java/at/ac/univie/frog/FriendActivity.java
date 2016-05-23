@@ -40,6 +40,7 @@ public class FriendActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // getSupportActionBar().setHomeAsUpIndicator(R.drawable.katze); // if different icon is desired
 
+        Intent intent = getIntent();
 
         friends.add(new Friend(1, "Weinbahn", "Andy", "ich@du.com"));
         friends.add(new Friend(2, "Bader", "Markus",  "ich@du.com"));
@@ -51,6 +52,17 @@ public class FriendActivity extends AppCompatActivity {
         friends.add(new Friend(8, "Fuenf", "Freund",  "ich@du.com"));
         friends.add(new Friend(9, "Sechs", "Freund",  "ich@du.com"));
         friends.add(new Friend(10, "Sieben", "Freund",  "ich@du.com"));
+
+
+
+        //Wenn der intent ein StringArrayExtra mit dem Namen values hat wird dieser ausgelesen
+        //Bevor der Intent ausgelesen werden kann, muss zuerst die Liste der Freunde geladen werden0
+        if(intent.getStringArrayExtra("values")!=null){
+            String[] newFriend = intent.getStringArrayExtra("values");
+
+            //Einen neuen Freund der Liste hinzufuegen, die Nummer wird durch die Anzahl der Elemente in der Liste +1 festgelegt.
+            friends.add(new Friend(friends.size()+1,newFriend[0],newFriend[1],newFriend[2]));
+        }
 
         friendsToString.add("Add Friend");
         friendsInitials.add("+");

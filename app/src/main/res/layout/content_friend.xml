@@ -19,5 +19,4 @@
         android:id="@+id/friendsView"
         android:layout_alignParentEnd="true"
         android:clickable="true"/>
-
 </RelativeLayout>
