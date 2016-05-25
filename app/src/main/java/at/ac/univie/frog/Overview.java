@@ -48,6 +48,7 @@ public class Overview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_overview);
         getSupportActionBar().setTitle("Overview");
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
 
         final TextView textView = (TextView) findViewById(R.id.textView);
         final ImageView imageView = (ImageView) findViewById(R.id.imageView);

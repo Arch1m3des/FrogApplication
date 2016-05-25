@@ -35,6 +35,7 @@ public class AddFriendActivity extends AppCompatActivity {
         setContentView(R.layout.content_add_friend);
         getSupportActionBar().setTitle("Add Friend");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
 
         searchView = (ListView) findViewById(R.id.searchView);
         adapter = new FancyListAdapter(this, R.layout.fancy_list, friends, sign, color);

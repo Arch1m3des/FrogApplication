@@ -38,7 +38,7 @@ public class FriendActivity extends AppCompatActivity {
         setContentView(R.layout.content_friend);
         getSupportActionBar().setTitle("Friends");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // getSupportActionBar().setHomeAsUpIndicator(R.drawable.katze); // if different icon is desired
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
 
 
         friends.add(new Friend(1, "Weinbahn", "Andy", "ich@du.com"));
