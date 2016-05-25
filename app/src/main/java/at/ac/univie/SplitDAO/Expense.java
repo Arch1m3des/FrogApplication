@@ -16,16 +16,20 @@ public abstract class Expense implements IExpensecalculations {
     Friend creator;
     double amount;
     String description;
+
     enum Category { travelling, food, drinks, fun, moneytransfer, medical , misc } //maybe more
     Category category;
 
     //TODO currency missing
+    String currency="USD";
     //TODO location missing
 
     HashMap<Friend, Double> inputfields = new HashMap();
     List<Friend> participants = new ArrayList<>();
     List<Double> spending = new ArrayList<>();
+    List<Double> spendingInHomeCurrency = new ArrayList<>();
     Friend payer;
+
 
     Expense (Friend creator, Friend payer, double amount, String description) {
         this.creator = creator;
@@ -143,5 +147,16 @@ public abstract class Expense implements IExpensecalculations {
     }
 
 
+    //Function calculates the spendings in the home currency
+    public boolean calculateDebtInHomeSpendings(){
+        CurrencyManager cm=new CurrencyManager();
 
+        spendingInHomeCurrency=cm.getSpendingInHomeCurrency(spending,currency);
+
+        return true;
+    }
+
+    public List<Double> getSpendingInHomeCurrency() {
+        return spendingInHomeCurrency;
+    }
 }

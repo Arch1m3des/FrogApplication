@@ -1,8 +1,9 @@
-package at.ac.univie.frog;
+package at.ac.univie.SplitDAO;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -16,6 +17,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import at.ac.univie.SplitDAO.Expense;
+import at.ac.univie.SplitDAO.Friend;
+import at.ac.univie.SplitDAO.Group;
+import at.ac.univie.SplitDAO.SplitEqual;
 
 /**
  * Created by Daniel on 24.05.2016.
@@ -32,6 +41,7 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
         "CNY"
         "CZK"
         "DKK"
+        "EUR"
         "GBP"
         "HKD"
         "HRK"
@@ -56,9 +66,8 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
         "USD"
         "ZAR"
      */
-    private static final String API_URL="http://api.fixer.io/latest?symbols=";
-    private String currency;
-    private double amount;
+    private static final String API_URL="http://api.fixer.io/latest?";
+    private static final String[] currencies={"AUD","BGN","BRL","CAD","CHF","CNY","CZK","DKK","GBP","HKD","HRK","HUF","IDR","ILS","INR","JPY","KRW","MXN","MYR","NOK","NZD","PHP","PLN","RON","RUB","SEK","SGD","THB","TRY","USD","ZAR"};
 
     @Override
     //Beim Aufruf muss als erstes Element die Fremdwaehrung und als zweites Element der Betrag uebergeben werden
@@ -68,13 +77,9 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
         JSONObject object = null;
         InputStream inStream = null;
 
-        //Uebergebenen Werte holen und abspeichern
-        currency=currencies[0];
-        amount=Double.parseDouble(currencies[1]);
-
         try {
             //Zusammenfuegen des api-Strings und spezifizieren der URL Connection
-            url = new URL(API_URL+currency);
+            url = new URL(API_URL);
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.setDoOutput(true);
@@ -107,19 +112,22 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
 
     protected void onPostExecute(JSONObject result){
         double rate=0.0;
-        double amountInEuros=0.0;
+        HashMap<String,Double> currencyRates=new HashMap<>();
 
         try{
             JSONArray rateArray=result.getJSONArray("rates");
             JSONObject rateResult=rateArray.getJSONObject(0);
-            rate=rateResult.getDouble(currency);
+
+            for(String currency:currencies) {
+                rate = rateResult.getDouble(currency);
+                currencyRates.put(currency, rate);
+            }
+
         }catch (JSONException e) {
             Log.e("ERROR", e.getMessage(), e);
         }
 
-        amountInEuros=amount/rate;
-
-        //do stuff with amountInEuros
-
+        CurrencyManager cgm=new CurrencyManager();
+        cgm.setCurrencyRates(currencyRates);
     }
 }
