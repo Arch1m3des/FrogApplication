@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayout"
+    tools:context=".AddDummyActivity"
+    tools:showIn="@layout/activity_add_dummy">
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,7 +15,7 @@
         android:textSize="25sp"
         android:fontFamily="sans-serif-thin"
         android:id="@+id/hello"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -65,14 +68,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorDarkGrey"
-        android:textColor="@color/colorLightGrey"
+        android:textColor="@color/colorWhite"
         android:ems="10"
-        android:text="Join us"
+        android:text="@string/save_friend"
         android:id="@+id/toOverview"
         android:textSize="18sp"
         android:fontFamily="sans-serif-light"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/editSurname"
-        android:layout_marginBottom="67dp" />
+        android:layout_marginBottom="147dp" />
 
+    <include layout="@layout/navbar_bottom" />
 </RelativeLayout>

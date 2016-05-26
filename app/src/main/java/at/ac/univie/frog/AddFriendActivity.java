@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -115,5 +116,30 @@ public class AddFriendActivity extends AppCompatActivity {
             toast.show();
         }
 
+    }
+
+    public void gotToFriendsActivity(View v){
+        Intent goToFriends=new Intent(AddFriendActivity.this,FriendActivity.class);
+        startActivity(goToFriends);
+    }
+
+    public void goToGroupActivity(View v){
+        Intent goToFriends=new Intent(AddFriendActivity.this,GroupActivity.class);
+        startActivity(goToFriends);
+    }
+
+    public void goToMap(View v){
+        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    public void goToMeActivity(View v){
+        Intent goToMe=new Intent(AddFriendActivity.this,MeActivity.class);
+        startActivity(goToMe);
+    }
+
+    public void goToSettings(View v){
+        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
+        toast.show();
     }
 }

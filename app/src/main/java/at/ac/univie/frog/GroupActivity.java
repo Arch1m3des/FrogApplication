@@ -1,9 +1,12 @@
 package at.ac.univie.frog;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -15,12 +18,6 @@ import at.ac.univie.SplitDAO.Group;
 
 
 public class GroupActivity extends AppCompatActivity {
-
-    @Override
-    public boolean onSupportNavigateUp(){
-        finish();
-        return true;
-    }
 
     ListView groupView;
     ArrayAdapter adapter;
@@ -35,7 +32,6 @@ public class GroupActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_group);
         getSupportActionBar().setTitle("Groups");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         groups.add(new Group(1, "Thailand"));
         groups.add(new Group(2, "South America"));
@@ -65,5 +61,30 @@ public class GroupActivity extends AppCompatActivity {
         
         
        
+    }
+
+    public void gotToFriendsActivity(View v){
+        Intent goToFriends=new Intent(GroupActivity.this,FriendActivity.class);
+        startActivity(goToFriends);
+    }
+
+    public void goToGroupActivity(View v){
+        Toast toast=Toast.makeText(getApplicationContext(),"You are already in the Group Tab!",Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    public void goToMap(View v){
+        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    public void goToMeActivity(View v){
+        Intent goToMe=new Intent(GroupActivity.this,MeActivity.class);
+        startActivity(goToMe);
+    }
+
+    public void goToSettings(View v){
+        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
+        toast.show();
     }
 }

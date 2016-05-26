@@ -11,4 +11,6 @@
     <string name="navbar_me">Me</string>
     <string name="navbar_settings">Settings</string>
     <string name="scan">QR Scan</string>
+    <string name="save_friend">Save Friend</string>
+    <string name="update">Update</string>
 </resources>

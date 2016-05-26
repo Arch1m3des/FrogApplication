@@ -34,7 +34,7 @@ public class StartActivity extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("Log", 0);
 
         if (sharedPreferences.contains("Name")) {
-            Intent goToOverview = new Intent(StartActivity.this, Overview.class);
+            Intent goToOverview = new Intent(StartActivity.this, GroupActivity.class);
             startActivity(goToOverview);
 
         }
@@ -76,8 +76,8 @@ public class StartActivity extends AppCompatActivity {
                         editor.putString("Surname", surnameToString);
                         editor.commit();
 
-                        Intent goToOverview = new Intent(StartActivity.this, Overview.class);
-                        startActivity(goToOverview);
+                        Intent goToHomeScreen = new Intent(StartActivity.this, GroupActivity.class);
+                        startActivity(goToHomeScreen);
                     }
 
                 }

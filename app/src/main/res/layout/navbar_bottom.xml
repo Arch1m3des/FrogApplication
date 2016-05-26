@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/bottom_toolbar"
         android:layout_width="match_parent"
@@ -12,7 +13,8 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -32,6 +34,7 @@
                 android:textColor="@color/colorWhite"
                 android:gravity="center"
                 android:clickable="true"
+                android:onClick="gotToFriendsActivity"
                 android:text="@string/navbar_friends"
                 android:drawableTop="@mipmap/ic_friends"/>
 
@@ -43,6 +46,7 @@
                 android:textColor="@color/colorWhite"
                 android:gravity="center"
                 android:clickable="true"
+                android:onClick="goToGroupActivity"
                 android:text="@string/navbar_groups"
                 android:drawableTop="@mipmap/ic_group"/>
 
@@ -54,6 +58,7 @@
                 android:textColor="@color/colorWhite"
                 android:gravity="center"
                 android:clickable="true"
+                android:onClick="goToMap"
                 android:text="@string/navbar_map"
                 android:drawableTop="@mipmap/ic_world"/>
 
@@ -65,6 +70,7 @@
                 android:textColor="@color/colorWhite"
                 android:gravity="center"
                 android:clickable="true"
+                android:onClick="goToMeActivity"
                 android:text="@string/navbar_me"
                 android:drawableTop="@mipmap/ic_me"/>
 
@@ -75,6 +81,7 @@
                 android:textColor="@color/colorWhite"
                 android:gravity="center"
                 android:clickable="true"
+                android:onClick="goToSettings"
                 android:text="@string/navbar_settings"
                 android:drawableTop="@mipmap/ic_settings"/>
 
