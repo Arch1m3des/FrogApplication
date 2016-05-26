@@ -1,12 +1,14 @@
 package at.ac.univie.frog;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,6 +35,10 @@ public class FriendActivity extends AppCompatActivity {
         setContentView(R.layout.content_friend);
         getSupportActionBar().setTitle("Friends");
         // getSupportActionBar().setHomeAsUpIndicator(R.drawable.katze); // if different icon is desired
+
+        TextView group=(TextView) findViewById(R.id.imageFriendsWithText);
+        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_friends_clicked,0,0);
+        group.setTextColor(Color.parseColor("#000000"));
 
         Intent intent = getIntent();
 

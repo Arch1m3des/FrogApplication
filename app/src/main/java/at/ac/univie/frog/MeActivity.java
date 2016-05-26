@@ -3,6 +3,7 @@ package at.ac.univie.frog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,10 @@ public class MeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me);
         getSupportActionBar().setTitle("Me");
+
+        TextView group=(TextView) findViewById(R.id.imageMeWithText);
+        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_me_clicked,0,0);
+        group.setTextColor(Color.parseColor("#000000"));
 
         final TextView qrCodeText = (TextView) findViewById(R.id.qrCodeText);
         final ImageView qrCode = (ImageView) findViewById(R.id.qrCode);

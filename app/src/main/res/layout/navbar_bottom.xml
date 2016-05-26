@@ -39,6 +39,7 @@
                 android:drawableTop="@mipmap/ic_friends"/>
 
             <TextView
+                android:id="@+id/imageGroupsWithText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="30dp"
@@ -51,6 +52,7 @@
                 android:drawableTop="@mipmap/ic_group"/>
 
             <TextView
+                android:id="@+id/imageMapWithText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="30dp"
@@ -63,6 +65,7 @@
                 android:drawableTop="@mipmap/ic_world"/>
 
             <TextView
+                android:id="@+id/imageMeWithText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
@@ -75,6 +78,7 @@
                 android:drawableTop="@mipmap/ic_me"/>
 
             <TextView
+                android:id="@+id/imageSettingsWithText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

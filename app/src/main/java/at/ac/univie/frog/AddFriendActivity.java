@@ -1,6 +1,7 @@
 package at.ac.univie.frog;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -40,6 +42,10 @@ public class AddFriendActivity extends AppCompatActivity {
         setContentView(R.layout.content_add_friend);
         getSupportActionBar().setTitle("Add Friend");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView group=(TextView) findViewById(R.id.imageFriendsWithText);
+        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_friends_clicked,0,0);
+        group.setTextColor(Color.parseColor("#000000"));
 
         searchView = (ListView) findViewById(R.id.searchView);
         adapter = new FancyListAdapter(this, R.layout.fancy_list, friends, sign, color);

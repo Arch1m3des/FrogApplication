@@ -1,11 +1,13 @@
 package at.ac.univie.frog;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,10 +30,15 @@ public class GroupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.content_group);
         getSupportActionBar().setTitle("Groups");
+
+        TextView group=(TextView) findViewById(R.id.imageGroupsWithText);
+        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
+        group.setTextColor(Color.parseColor("#000000"));
 
         groups.add(new Group(1, "Thailand"));
         groups.add(new Group(2, "South America"));
