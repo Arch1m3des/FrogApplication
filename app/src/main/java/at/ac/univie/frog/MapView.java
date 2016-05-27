@@ -2,12 +2,16 @@ package at.ac.univie.frog;
 
 import at.ac.univie.SplitDAO.MapMarker;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -23,7 +27,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 
-public class MapView extends FragmentActivity implements OnMapReadyCallback{
+public class MapView extends Activity implements OnMapReadyCallback{
     //MapMarker mapMarker;
     Marker marker;
     GoogleMap map;
@@ -52,6 +56,11 @@ public class MapView extends FragmentActivity implements OnMapReadyCallback{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_view);
+
+        TextView settings = (TextView) findViewById(R.id.imageMapWithText);
+        settings.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_map_clicked,0,0);
+        settings.setTextColor(Color.parseColor("#000000"));
+
         MapFragment mf = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mf.getMapAsync(this);
         //Hardcoded MapMarkers
@@ -128,8 +137,28 @@ public class MapView extends FragmentActivity implements OnMapReadyCallback{
         Polyline route = map.addPolyline(line);
         route.setPoints(points); //route 
 
+    }
 
+    public void gotToFriendsActivity(View v){
+        Intent goToFriends = new Intent(MapView.this, FriendActivity.class);
+        startActivity(goToFriends);
+    }
 
+    public void goToGroupActivity(View v){
+        Intent goToGroups=new Intent(MapView.this,GroupActivity.class);
+        startActivity(goToGroups);
+    }
 
+    public void goToMap(View v){
+       //
+    }
+
+    public void goToMeActivity(View v){
+        Intent goToMe=new Intent(MapView.this , MeActivity.class);
+        startActivity(goToMe);
+    }
+
+    public void goToSettings(View v){
+        //
     }
 }
