@@ -27,6 +27,7 @@ public abstract class Expense implements IExpensecalculations {
     HashMap<Friend, Double> inputfields = new HashMap();
     List<Friend> participants = new ArrayList<>();
     List<Double> spending = new ArrayList<>();
+    List<Double> spendingInHomeCurrency = new ArrayList<>();
     Friend payer;
 
 
