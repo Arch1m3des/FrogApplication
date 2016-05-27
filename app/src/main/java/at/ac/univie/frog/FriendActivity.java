@@ -1,12 +1,15 @@
 package at.ac.univie.frog;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,19 +29,16 @@ public class FriendActivity extends AppCompatActivity {
     ArrayList<String> iconColors = new ArrayList();
 
     @Override
-    public boolean onSupportNavigateUp(){
-        finish();
-        return true;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.content_friend);
         getSupportActionBar().setTitle("Friends");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // getSupportActionBar().setHomeAsUpIndicator(R.drawable.katze); // if different icon is desired
+
+        TextView group=(TextView) findViewById(R.id.imageFriendsWithText);
+        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_friends_clicked,0,0);
+        group.setTextColor(Color.parseColor("#000000"));
 
         Intent intent = getIntent();
 
@@ -97,5 +97,30 @@ public class FriendActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    public void gotToFriendsActivity(View v){
+        Toast toast=Toast.makeText(getApplicationContext(),"You are already in the Friend Tab!",Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    public void goToGroupActivity(View v){
+        Intent goToFriends=new Intent(FriendActivity.this,GroupActivity.class);
+        startActivity(goToFriends);
+    }
+
+    public void goToMap(View v){
+        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    public void goToMeActivity(View v){
+        Intent goToMe=new Intent(FriendActivity.this,MeActivity.class);
+        startActivity(goToMe);
+    }
+
+    public void goToSettings(View v){
+        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
+        toast.show();
     }
 }

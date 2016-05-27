@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import at.ac.univie.SplitDAO.CurrencyChanger;
+
 public class StartActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
@@ -33,13 +35,12 @@ public class StartActivity extends AppCompatActivity {
 
         sharedPreferences = getApplicationContext().getSharedPreferences("Log", 0);
 
+        new CurrencyChanger().execute();
+
         if (sharedPreferences.contains("Name")) {
-            Intent goToOverview = new Intent(StartActivity.this, Overview.class);
+            Intent goToOverview = new Intent(StartActivity.this, GroupActivity.class);
             startActivity(goToOverview);
-
-        }
-
-        else {
+        }else {
 
             setContentView(R.layout.content_start);
             getSupportActionBar().setTitle("Join us");
@@ -76,8 +77,8 @@ public class StartActivity extends AppCompatActivity {
                         editor.putString("Surname", surnameToString);
                         editor.commit();
 
-                        Intent goToOverview = new Intent(StartActivity.this, Overview.class);
-                        startActivity(goToOverview);
+                        Intent goToHomeScreen = new Intent(StartActivity.this, GroupActivity.class);
+                        startActivity(goToHomeScreen);
                     }
 
                 }

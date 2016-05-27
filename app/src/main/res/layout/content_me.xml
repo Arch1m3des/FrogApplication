@@ -1,31 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayout"
+    tools:context=".MeActivity"
+    tools:showIn="@layout/activity_me">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Making the most of travel"
-        android:textSize="25sp"
-        android:fontFamily="sans-serif-thin"
-        android:id="@+id/hello"
-        android:layout_marginTop="76dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Let us help you split group travel costs efficiently"
-        android:paddingRight="20dp"
-        android:textSize="18sp"
-        android:fontFamily="sans-serif-thin"
-        android:id="@+id/text"
-        android:layout_below="@+id/hello"
-        android:layout_alignStart="@+id/hello" />
+    <include layout="@layout/navbar_bottom" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -35,8 +18,7 @@
         android:ems="10"
         android:fontFamily="sans-serif-light"
         android:id="@+id/editEmail"
-        android:layout_marginTop="41dp"
-        android:layout_below="@+id/text"
+        android:layout_marginTop="20dp"
         android:layout_alignStart="@+id/editSurname" />
 
     <EditText
@@ -61,18 +43,39 @@
         android:layout_below="@+id/editEmail"
         android:layout_alignStart="@+id/editEmail" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/update"
+        android:id="@+id/qrCodeText"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="344dp"
+        android:layout_alignParentBottom="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/update"
+        android:id="@+id/qrCode"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/qrCodeText"
+        android:layout_marginBottom="150dp" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorDarkGrey"
-        android:textColor="@color/colorLightGrey"
+        android:textColor="@color/colorWhite"
+        android:onClick="updateUserdata"
         android:ems="10"
-        android:text="Join us"
-        android:id="@+id/toOverview"
+        android:text="@string/update"
+        android:id="@+id/update"
         android:textSize="18sp"
         android:fontFamily="sans-serif-light"
-        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/editSurname"
+        android:layout_below="@+id/editSurname"
         android:layout_marginBottom="67dp" />
 
 </RelativeLayout>
