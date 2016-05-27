@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 
-public class MapView extends Activity implements OnMapReadyCallback{
+public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     //MapMarker mapMarker;
     Marker marker;
     GoogleMap map;
@@ -56,6 +56,7 @@ public class MapView extends Activity implements OnMapReadyCallback{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_view);
+        getSupportActionBar().setTitle("Map");
 
         TextView settings = (TextView) findViewById(R.id.imageMapWithText);
         settings.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_map_clicked,0,0);
@@ -159,6 +160,7 @@ public class MapView extends Activity implements OnMapReadyCallback{
     }
 
     public void goToSettings(View v){
-        //
+        Intent goToSettings=new Intent(MapView.this , SettingActivity.class);
+        startActivity(goToSettings);
     }
 }

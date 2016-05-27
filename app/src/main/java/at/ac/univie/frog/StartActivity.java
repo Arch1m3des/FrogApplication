@@ -55,6 +55,7 @@ public class StartActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Log", Context.MODE_PRIVATE);
 
+        /*
         String me_name = "";
         String me_surname = "";
         String me_email = "";
@@ -68,7 +69,7 @@ public class StartActivity extends AppCompatActivity {
 
         if (sharedPreferences.contains("Email")) {
             me_email = sharedPreferences.getString("Email", "");
-        }
+        }*/
 
 
         /*
@@ -83,96 +84,6 @@ public class StartActivity extends AppCompatActivity {
         }
 
         */
-
-
-
-        FriendManager frienddao =  new FriendManager();
-
-        Friend f1 =  new Friend(1,me_surname, me_name, me_email);
-        Friend f2 =  new Friend(2,"Weinbahn", "Andy", "arch1m3des1988@gmail.com");
-        Friend f3 =  new Friend(3,"Druggs", "Tamara", "tammyd@googlemail.com");
-        Friend f4 =  new Friend(4,"Bubly", "Daniel", "ich@du.com");
-        Friend f5 =  new Friend(5,"Duda", "Samuel", "sammy@deluxe.com");
-        Friend f6 =  new Friend(6,"Bada", "Margus", "ich@du.com");
-
-        frienddao.addFriend(f1);
-        frienddao.addFriend(f2);
-        frienddao.addFriend(f3);
-        frienddao.addFriend(f4);
-        frienddao.addFriend(f6);
-        frienddao.addFriend(f5);
-
-
-        //saving friends
-        try {
-            frienddao.saveFriendData(this, "Friends");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //Add Groups
-        GroupManager groupdao =  new GroupManager();
-
-        Group g1 =  new Group(1, "Thailand");
-        Group g2 =  new Group(2, "London");
-        Group g3 =  new Group(3, "Spa Weekend");
-        Group g4 =  new Group(4, "Uruguay");
-
-        //add members
-
-        g1.addMember(f1);
-        g1.addMember(f2);
-        g1.addMember(f3);
-        g1.addMember(f4);
-
-        g2.addMember(f4);
-        g2.addMember(f5);
-        g2.addMember(f6);
-
-        g3.addMember(f3);
-        g3.addMember(f6);
-
-        g4.addMember(f3);
-        g4.addMember(f2);
-
-        //add expenses
-        Expense firstexpense = new SplitEqual(g1.getMembers().get(1) ,g1.getMembers().get(1), 350, "Straßenessen");
-        firstexpense.addparticipant(f1);
-        firstexpense.addparticipant(f2);
-        firstexpense.addparticipant(f3);
-        firstexpense.addparticipant(f4);
-
-        g1.addExpense(firstexpense);
-
-        firstexpense = new SplitParts(g2.getMembers().get(1) ,g2.getMembers().get(1), 34, "Eis essen Hotel-Restaurant");
-        firstexpense.addparticipant(f3);
-        firstexpense.addparticipant(f6);
-        firstexpense.setitem(f3, 4);
-        firstexpense.setitem(f6, 1);
-        try {
-            firstexpense.calculatedebt();
-            //firstexpense.calculateDebtInHomeSpendings();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        g2.addExpense(firstexpense);
-
-
-        groupdao.addGroup(g1);
-        groupdao.addGroup(g2);
-        groupdao.addGroup(g3);
-        groupdao.addGroup(g4);
-
-        //saving groups
-        try {
-            groupdao.saveGroupData(this, "Groups");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
 
 
 
@@ -216,6 +127,91 @@ public class StartActivity extends AppCompatActivity {
                         editor.putString("Surname", surnameToString);
                         editor.commit();
 
+                        /*FriendManager frienddao =  new FriendManager();
+
+                        Friend f1 =  new Friend(1,surnameToString, nameToString, emailToString);
+                        Friend f2 =  new Friend(2,"Weinbahn", "Andy", "arch1m3des1988@gmail.com");
+                        Friend f3 =  new Friend(3,"Druggs", "Tamara", "tammyd@googlemail.com");
+                        Friend f4 =  new Friend(4,"Bubly", "Daniel", "ich@du.com");
+                        Friend f5 =  new Friend(5,"Duda", "Samuel", "sammy@deluxe.com");
+                        Friend f6 =  new Friend(6,"Bada", "Margus", "ich@du.com");
+
+                        frienddao.addFriend(f1);
+                        frienddao.addFriend(f2);
+                        frienddao.addFriend(f3);
+                        frienddao.addFriend(f4);
+                        frienddao.addFriend(f6);
+                        frienddao.addFriend(f5);
+
+
+                        //saving friends
+                        try {
+                            frienddao.saveFriendData(StartActivity.this, "Friends");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        //Add Groups
+                        GroupManager groupdao =  new GroupManager();
+
+                        Group g1 =  new Group(1, "Thailand");
+                        Group g2 =  new Group(2, "London");
+                        Group g3 =  new Group(3, "Spa Weekend");
+                        Group g4 =  new Group(4, "Uruguay");
+
+                        //add members
+
+                        g1.addMember(f1);
+                        g1.addMember(f2);
+                        g1.addMember(f3);
+                        g1.addMember(f4);
+
+                        g2.addMember(f4);
+                        g2.addMember(f5);
+                        g2.addMember(f6);
+
+                        g3.addMember(f3);
+                        g3.addMember(f6);
+
+                        g4.addMember(f3);
+                        g4.addMember(f2);
+
+                        //add expenses
+                        Expense firstexpense = new SplitEqual(g1.getMembers().get(1) ,g1.getMembers().get(1), 350, "Straßenessen");
+                        firstexpense.addparticipant(f1);
+                        firstexpense.addparticipant(f2);
+                        firstexpense.addparticipant(f3);
+                        firstexpense.addparticipant(f4);
+
+                        g1.addExpense(firstexpense);
+
+                        firstexpense = new SplitParts(g2.getMembers().get(1) ,g2.getMembers().get(1), 34, "Eis essen Hotel-Restaurant");
+                        firstexpense.addparticipant(f3);
+                        firstexpense.addparticipant(f6);
+                        firstexpense.setitem(f3, 4);
+                        firstexpense.setitem(f6, 1);
+                        try {
+                            firstexpense.calculatedebt();
+                            //firstexpense.calculateDebtInHomeSpendings();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        g2.addExpense(firstexpense);
+
+
+                        groupdao.addGroup(g1);
+                        groupdao.addGroup(g2);
+                        groupdao.addGroup(g3);
+                        groupdao.addGroup(g4);
+
+                        //saving groups
+                        try {
+                            groupdao.saveGroupData(StartActivity.this, "Groups");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }*/
+
                         Intent goToHomeScreen = new Intent(StartActivity.this, GroupActivity.class);
                         startActivity(goToHomeScreen);
                     }
@@ -224,5 +220,6 @@ public class StartActivity extends AppCompatActivity {
 
             });
         }
+
     }
 }
