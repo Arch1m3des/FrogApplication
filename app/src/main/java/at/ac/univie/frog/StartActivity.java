@@ -35,7 +35,7 @@ public class StartActivity extends AppCompatActivity {
 
         sharedPreferences = getApplicationContext().getSharedPreferences("Log", 0);
 
-        new CurrencyChanger().execute();
+        new CurrencyChanger(StartActivity.this).execute();
 
         if (sharedPreferences.contains("Name")) {
             Intent goToOverview = new Intent(StartActivity.this, GroupActivity.class);

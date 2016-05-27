@@ -55,8 +55,7 @@ public class AddFriendActivity extends AppCompatActivity {
         friends.add("Add Dummy");
         sign.add("+");
         color.add("#6E6E6E");
-
-        friends.add("QR Scan");
+        friends.add("Add Friend by QR-Code");
         sign.add("+");
         color.add("#6E6E6E");
 
@@ -73,8 +72,11 @@ public class AddFriendActivity extends AppCompatActivity {
                     IntentIntegrator scanIntegrator = new IntentIntegrator(AddFriendActivity.this);
                     scanIntegrator.initiateScan();
                 }
+                else if (position == 1){
+                    //TODO implement QR-Code scan and friend add
+                }
                 else {
-
+                    //TODO add existing friend to friendlist
                 }
 
             }
