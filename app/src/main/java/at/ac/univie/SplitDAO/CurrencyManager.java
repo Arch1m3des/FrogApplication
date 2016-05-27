@@ -36,35 +36,4 @@ public class CurrencyManager {
 
         return spendingsInHomeCurrency;
     }
-
-
-
-    public boolean saveCurrencyData(Context context, String key) throws IOException {
-        FileOutputStream fos = context.openFileOutput(key, Context.MODE_PRIVATE);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        try {
-            oos.writeObject(this.currencyRates);
-            oos.close();
-            fos.close();
-            return true;
-        } catch (IOException e) {
-            throw new IOException("Error CurrencyDAO: Error writing file! \n " + e.getMessage());
-        } finally { try { oos.close(); return false; } catch ( Exception e ) { e.printStackTrace(); } }
-
-    }
-
-
-
-    public boolean loadCurrencyData(Context context, String key) throws IOException, ClassNotFoundException {
-        try {
-            FileInputStream fis = context.openFileInput(key);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            HashMap<String,Double> object = (HashMap<String,Double>) ois.readObject();
-            this.currencyRates = object;
-            return true;
-        } catch (IOException e) {
-            throw new IOException("Error CurrencyDAO: Error reading file! \n " + e.getMessage());
-        }
-    }
-
 }

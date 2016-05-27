@@ -128,14 +128,5 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
         }catch (JSONException e) {
             Log.e("ERROR", e.getMessage(), e);
         }
-
-        CurrencyManager cgm=new CurrencyManager();
-        cgm.setCurrencyRates(currencyRates);
-
-        try {
-            cgm.saveCurrencyData(context, "Currency");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
