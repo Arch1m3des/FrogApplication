@@ -137,8 +137,8 @@ public class AddFriendActivity extends AppCompatActivity {
     }
 
     public void goToMap(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
-        toast.show();
+        Intent goToMaps = new Intent(AddFriendActivity.this, MapView.class);
+        startActivity(goToMaps);
     }
 
     public void goToMeActivity(View v){
@@ -147,7 +147,7 @@ public class AddFriendActivity extends AppCompatActivity {
     }
 
     public void goToSettings(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
-        toast.show();
+        Intent goToSettings=new Intent(AddFriendActivity.this, SettingActivity.class);
+        startActivity(goToSettings);
     }
 }

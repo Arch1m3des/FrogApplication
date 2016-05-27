@@ -101,8 +101,8 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void goToMap(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
-        toast.show();
+        Intent goToMaps = new Intent(SettingActivity.this, MapView.class);
+        startActivity(goToMaps);
     }
 
     public void goToMeActivity(View v){

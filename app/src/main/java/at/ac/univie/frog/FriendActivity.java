@@ -100,8 +100,7 @@ public class FriendActivity extends AppCompatActivity {
     }
 
     public void gotToFriendsActivity(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"You are already in the Friend Tab!",Toast.LENGTH_LONG);
-        toast.show();
+        //Do Nothing
     }
 
     public void goToGroupActivity(View v){

@@ -42,8 +42,8 @@ public class FriendDetailActivity extends AppCompatActivity {
     }
 
     public void goToMap(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
-        toast.show();
+        Intent goToMaps = new Intent(FriendDetailActivity.this, MapView.class);
+        startActivity(goToMaps);
     }
 
     public void goToMeActivity(View v){
@@ -52,7 +52,7 @@ public class FriendDetailActivity extends AppCompatActivity {
     }
 
     public void goToSettings(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
-        toast.show();
+        Intent goToSettings=new Intent(FriendDetailActivity.this, SettingActivity.class);
+        startActivity(goToSettings);
     }
 }

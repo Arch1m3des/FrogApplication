@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -35,6 +36,7 @@ public class MeActivity extends AppCompatActivity {
         nameEdit=(EditText) findViewById(R.id.editName);
 
         sharedPreferences = getSharedPreferences("Log", Context.MODE_PRIVATE);
+
 
         if (sharedPreferences.contains("Name")) {
             name = sharedPreferences.getString("Name", "");
@@ -111,22 +113,21 @@ public class MeActivity extends AppCompatActivity {
     }
 
     public void goToGroupActivity(View v){
-        Intent goToFriends=new Intent(MeActivity.this,GroupActivity.class);
-        startActivity(goToFriends);
+        Intent goToGroups=new Intent(MeActivity.this,GroupActivity.class);
+        startActivity(goToGroups);
     }
 
     public void goToMap(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
-        toast.show();
+        Intent goToMaps = new Intent(MeActivity.this, MapView.class);
+        startActivity(goToMaps);
     }
 
     public void goToMeActivity(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"You are already in the Me Tab!",Toast.LENGTH_LONG);
-        toast.show();
+        //Do nothing
     }
 
     public void goToSettings(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
-        toast.show();
+        Intent goToSettings=new Intent(MeActivity.this, SettingActivity.class);
+        startActivity(goToSettings);
     }
 }

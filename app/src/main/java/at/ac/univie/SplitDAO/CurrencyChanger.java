@@ -1,12 +1,11 @@
 package at.ac.univie.SplitDAO;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -17,14 +16,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import at.ac.univie.SplitDAO.Expense;
-import at.ac.univie.SplitDAO.Friend;
-import at.ac.univie.SplitDAO.Group;
-import at.ac.univie.SplitDAO.SplitEqual;
 
 /**
  * Created by Daniel on 24.05.2016.
@@ -115,18 +107,23 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
 
     protected void onPostExecute(JSONObject result){
         double rate=0.0;
-        HashMap<String,Double> currencyRates=new HashMap<>();
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor=sharedPrefs.edit();
 
         try{
             JSONObject rateResult=result.getJSONObject("rates");
 
             for(String currency:currencies) {
                 rate = rateResult.getDouble(currency);
-                currencyRates.put(currency, rate);
+                editor.putString(currency,""+rate);
             }
 
+            editor.apply();
         }catch (JSONException e) {
             Log.e("ERROR", e.getMessage(), e);
         }
+
+
     }
 }

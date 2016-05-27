@@ -76,13 +76,12 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     public void goToGroupActivity(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"You are already in the Group Tab!",Toast.LENGTH_LONG);
-        toast.show();
+        //Do Nothing
     }
 
     public void goToMap(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
-        toast.show();
+        Intent goToMaps = new Intent(GroupActivity.this, MapView.class);
+        startActivity(goToMaps);
     }
 
     public void goToMeActivity(View v){
@@ -91,7 +90,7 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     public void goToSettings(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
-        toast.show();
+        Intent goToSettings=new Intent(GroupActivity.this, SettingActivity.class);
+        startActivity(goToSettings);
     }
 }

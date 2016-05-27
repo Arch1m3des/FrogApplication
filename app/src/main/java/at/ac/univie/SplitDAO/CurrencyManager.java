@@ -1,6 +1,8 @@
 package at.ac.univie.SplitDAO;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,20 +17,17 @@ import java.util.List;
  * Created by Daniel on 25.05.2016.
  */
 public class CurrencyManager {
-    private HashMap<String,Double> currencyRates=new HashMap<>();
+    Context context;
 
-    /*
-    public HashMap<String, Double> getCurrencyRates() {
-        return currencyRates;
-    }*/
-
-    public void setCurrencyRates(HashMap<String, Double> currencyRates) {
-        this.currencyRates = currencyRates;
+    public CurrencyManager(Context context){
+        this.context=context;
     }
 
     public List<Double> getSpendingInHomeCurrency(List<Double> spending,String currency){
         List<Double> spendingsInHomeCurrency=new ArrayList<>();
-        double rate=currencyRates.get(currency);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        double rate=Double.parseDouble(sharedPrefs.getString(currency,""));
 
         for(double amount:spending){
             spendingsInHomeCurrency.add(amount/rate);
