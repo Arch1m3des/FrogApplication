@@ -78,4 +78,20 @@
         android:layout_below="@+id/editSurname"
         android:layout_marginBottom="67dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorDarkGrey"
+        android:textColor="@color/colorWhite"
+        android:onClick="deleteSharedPreferences"
+        android:ems="10"
+        android:text="@string/delete"
+        android:id="@+id/delete"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-light"
+        android:layout_above="@+id/qrCodeText"
+        android:layout_marginBottom="27dp" />
+
+
 </RelativeLayout>

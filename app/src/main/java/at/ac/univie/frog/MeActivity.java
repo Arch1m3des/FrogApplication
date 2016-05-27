@@ -58,6 +58,12 @@ public class MeActivity extends AppCompatActivity {
         myqr.execute();
     }
 
+    public void deleteSharedPreferences(View v) {
+        getApplicationContext().getSharedPreferences("Log", 0).edit().clear().commit();
+        Intent goToStart = new Intent(MeActivity.this, StartActivity.class);
+        startActivity(goToStart);
+    }
+
     public void updateUserdata(View v){
         final TextView qrCodeText = (TextView) findViewById(R.id.qrCodeText);
         final ImageView qrCode = (ImageView) findViewById(R.id.qrCode);

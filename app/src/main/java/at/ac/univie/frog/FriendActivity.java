@@ -120,7 +120,7 @@ public class FriendActivity extends AppCompatActivity {
     }
 
     public void goToSettings(View v){
-        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
-        toast.show();
+        Intent goToSettings=new Intent(FriendActivity.this, SettingActivity.class);
+        startActivity(goToSettings);
     }
 }
