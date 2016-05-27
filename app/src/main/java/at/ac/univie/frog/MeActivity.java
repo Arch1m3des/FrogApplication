@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -35,6 +36,7 @@ public class MeActivity extends AppCompatActivity {
         nameEdit=(EditText) findViewById(R.id.editName);
 
         sharedPreferences = getSharedPreferences("Log", Context.MODE_PRIVATE);
+
 
         if (sharedPreferences.contains("Name")) {
             name = sharedPreferences.getString("Name", "");

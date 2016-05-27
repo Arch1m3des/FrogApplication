@@ -17,6 +17,7 @@ public abstract class Expense implements IExpensecalculations {
     Friend creator;
     double amount;
     String description;
+    Context context;
 
     enum Category { travelling, food, drinks, fun, moneytransfer, medical , misc } //maybe more
     Category category;
@@ -31,6 +32,9 @@ public abstract class Expense implements IExpensecalculations {
     List<Double> spendingInHomeCurrency = new ArrayList<>();
     Friend payer;
 
+    public Expense(Context context){
+        this.context=context;
+    }
 
     Expense (Friend creator, Friend payer, double amount, String description) {
         this.creator = creator;
@@ -150,13 +154,14 @@ public abstract class Expense implements IExpensecalculations {
 
     //Function calculates the spendings in the home currency
     public boolean calculateDebtInHomeSpendings(){
-        CurrencyManager cm=new CurrencyManager();
+        CurrencyManager cm=new CurrencyManager(context);
 
         spendingInHomeCurrency=cm.getSpendingInHomeCurrency(spending,currency);
 
         return true;
     }
 
+    //Function returning the spendings in hom Currency
     public List<Double> getSpendingInHomeCurrency() {
         return spendingInHomeCurrency;
     }
