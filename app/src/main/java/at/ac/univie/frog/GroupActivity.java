@@ -36,6 +36,7 @@ public class GroupActivity extends AppCompatActivity {
         setContentView(R.layout.content_group);
         getSupportActionBar().setTitle("Groups");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
 
         groups.add(new Group(1, "Thailand"));
         groups.add(new Group(2, "South America"));

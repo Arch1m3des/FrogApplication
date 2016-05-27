@@ -22,6 +22,7 @@ public class AddDummyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_dummy);
         getSupportActionBar().setTitle("Add Dummy");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
 
     }
 }
