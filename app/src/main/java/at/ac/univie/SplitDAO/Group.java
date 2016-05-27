@@ -88,7 +88,7 @@ public class Group implements Serializable {
 
 
     //Methods
-    public boolean addMember(Friend friend) throws Exception {
+    public boolean addMember(Friend friend) {
         if (friend != null && !members.contains(friend)) {
             members.add(friend);
             return true;
