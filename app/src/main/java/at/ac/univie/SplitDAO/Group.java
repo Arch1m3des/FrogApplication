@@ -1,5 +1,6 @@
 package at.ac.univie.SplitDAO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.TimeZone;
  * Created by Andy on 12.05.16.
  */
 
-public class Group {
+public class Group implements Serializable {
 
     long id;
     String name;

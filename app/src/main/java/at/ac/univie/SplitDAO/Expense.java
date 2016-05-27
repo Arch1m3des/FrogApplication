@@ -2,6 +2,7 @@ package at.ac.univie.SplitDAO;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -11,7 +12,7 @@ import java.util.List;
  * gadsfjlksdlfk
  * Created by Andy on 12.05.16.
  */
-public abstract class Expense implements IExpensecalculations {
+public abstract class Expense implements IExpensecalculations, Serializable {
     GregorianCalendar curr_date;
     Friend creator;
     double amount;
@@ -25,6 +26,8 @@ public abstract class Expense implements IExpensecalculations {
     HashMap<Friend, Double> inputfields = new HashMap();
     List<Friend> participants = new ArrayList<>();
     List<Double> spending = new ArrayList<>();
+    List<Double> spendinginhomecurrency = new ArrayList<>();
+
     Friend payer;
 
     Expense (Friend creator, Friend payer, double amount, String description) {

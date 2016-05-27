@@ -17,7 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import at.ac.univie.SplitDAO.Expense;
+import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
+import at.ac.univie.SplitDAO.FriendManager;
+import at.ac.univie.SplitDAO.Group;
+import at.ac.univie.SplitDAO.GroupManager;
 import at.ac.univie.SplitDAO.SplitEqual;
 
 import com.google.zxing.*;
@@ -25,6 +29,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.encoder.QRCode;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -69,15 +74,137 @@ public class Overview extends AppCompatActivity {
             email = sharedPreferences.getString("Email", "");
         }
 
+
         Toast.makeText(getApplicationContext(), "name = " + name + ", surname = " + surname + ", email = " + email, Toast.LENGTH_LONG).show();
 
 
+        FriendManager friendsdao =  new FriendManager();
 
-        Friend max = new Friend(1, "Weinbahn", "Andy", "ich@du.com");
-        Friend andy = new Friend(2, "Hagen", "Nina",  "ich@du.com");
+
+        Friend max =  new Friend(1,"Glett", "Max", "ich@du.com");
+        Friend andy = new Friend(2,"Weinbahn", "Andy", "ich@du.com");
         System.out.println(max.toString());
         String code = max.getUniqueid().toString();
         code = surname + ";" + name + ";" + email;
+
+
+        Friend max2 =  new Friend(3,"Dreibahn", "Andy", "ich@du.com");
+        Friend max3 =  new Friend(4,"Vierbah", "Andy", "ich@du.com");
+
+        friendsdao.addFriend(max);
+        friendsdao.addFriend(andy);
+        friendsdao.addFriend(max2);
+        friendsdao.addFriend(max3);
+
+
+        //saving friends
+        try {
+            friendsdao.saveFriendData(this, "Friends");
+            TextView textView2 = (TextView) findViewById(R.id.textView2);
+            textView2.setText("Successfully saved");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        //load friends
+
+        /*
+        try {
+            friendsdao.loadFriendData(this, "Friends");
+            TextView textView2 = (TextView) findViewById(R.id.textView2);
+            textView2.setText("Successfully loaded friends");
+            textView2.setText(friendsdao.friendList.get(0).getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        */
+
+
+        //manage groups
+
+        Group thailand = new Group(1, "Thailand");
+        try {
+            thailand.addMember(andy);
+            thailand.addMember(max);
+            thailand.addMember(max2);
+            thailand.addMember(max3);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Expense firstexpense = new SplitEqual(max ,max, 26, "Erstes Essen nach dem Krankenhaus");
+        firstexpense.addparticipant(andy);
+        firstexpense.addparticipant(max2);
+        firstexpense.addparticipant(max3);
+
+        GroupManager  x =  new GroupManager();
+        x.addGroup(thailand);
+
+
+        //Save groups
+        /*
+        try {
+            x.saveGroupData(this, "Groups");
+            TextView textView2 = (TextView) findViewById(R.id.textView2);
+            textView2.setText("Successfully saved");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+*/
+
+
+        //Load groups
+        try {
+            x.loadGroupData(this, "Groups");
+            TextView textView2 = (TextView) findViewById(R.id.textView2);
+            textView2.setText("Successfully loaded2");
+            textView2.setText(x.groupList.get(0).getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+       // System.out.println(x.groupList.get(1).getName());
+/*
+        Group thailand = new Group(1, "Thailand1");
+        try {
+            thailand.addMember(andy);
+            thailand.addMember(max);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Group thailand2 = new Group(1, "Thailand2");
+        try {
+            thailand2.addMember(andy);
+            thailand2.addMember(max);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        x.groupList = thailand2;
+
+        try {
+            x.saveGroupData(this, "1");
+            TextView textView2 = (TextView) findViewById(R.id.textView2);
+            textView2.setText("Scuccess");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
+
+
+
+
+
+
+
 
 /*
 
