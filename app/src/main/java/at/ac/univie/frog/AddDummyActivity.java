@@ -1,13 +1,22 @@
 package at.ac.univie.frog;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by tamara on 17.05.16.
  */
 
 public class AddDummyActivity extends AppCompatActivity {
+    EditText email, surname, name;
+    Button button;
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -20,9 +29,72 @@ public class AddDummyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_dummy);
-        getSupportActionBar().setTitle("Add Dummy");
+        getSupportActionBar().setTitle("Add Friend");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
 
+        TextView group=(TextView) findViewById(R.id.imageFriendsWithText);
+        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_friends_clicked,0,0);
+        group.setTextColor(Color.parseColor("#000000"));
+
+        button = (Button) findViewById(R.id.addFriend);
+        email = (EditText) findViewById(R.id.editEmail);
+        name = (EditText) findViewById(R.id.editName);
+        surname = (EditText) findViewById(R.id.editSurname);
+
+        button.setTransformationMethod(null); // to decapitalize the button text
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String emailToString = email.getText().toString();
+                final String nameToString = name.getText().toString();
+                final String surnameToString = surname.getText().toString();
+
+                if (emailToString.length() == 0)
+                    Toast.makeText(getApplicationContext(), "Please enter your email address.", Toast.LENGTH_LONG).show();
+                else if (nameToString.length() == 0)
+                    Toast.makeText(getApplicationContext(), "Please enter your name.", Toast.LENGTH_LONG).show();
+                else if (surnameToString.length() == 0)
+                    Toast.makeText(getApplicationContext(), "Please enter your surname.", Toast.LENGTH_LONG).show();
+
+                else {
+                    String[] parts=new String[3];
+                    parts[0]=surnameToString;
+                    parts[1]=nameToString;
+                    parts[2]=emailToString;
+
+                    Intent addQR = new Intent(AddDummyActivity.this, FriendActivity.class);
+                    addQR.putExtra("values",parts);
+                    startActivity(addQR);
+                }
+
+            }
+
+        });
+    }
+
+    public void gotToFriendsActivity(View v){
+        Intent goToFriends=new Intent(AddDummyActivity.this,FriendActivity.class);
+        startActivity(goToFriends);
+    }
+
+    public void goToGroupActivity(View v){
+        Intent goToFriends=new Intent(AddDummyActivity.this,GroupActivity.class);
+        startActivity(goToFriends);
+    }
+
+    public void goToMap(View v){
+        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    public void goToMeActivity(View v){
+        Intent goToMe=new Intent(AddDummyActivity.this,MeActivity.class);
+        startActivity(goToMe);
+    }
+
+    public void goToSettings(View v){
+        Toast toast=Toast.makeText(getApplicationContext(),"Not implemented yet!",Toast.LENGTH_LONG);
+        toast.show();
     }
 }

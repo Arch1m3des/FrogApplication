@@ -66,12 +66,12 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
         "USD"
         "ZAR"
      */
-    private static final String API_URL="http://api.fixer.io/latest?";
+    private static final String API_URL="http://api.fixer.io/latest";
     private static final String[] currencies={"AUD","BGN","BRL","CAD","CHF","CNY","CZK","DKK","GBP","HKD","HRK","HUF","IDR","ILS","INR","JPY","KRW","MXN","MYR","NOK","NZD","PHP","PLN","RON","RUB","SEK","SGD","THB","TRY","USD","ZAR"};
 
     @Override
     //Beim Aufruf muss als erstes Element die Fremdwaehrung und als zweites Element der Betrag uebergeben werden
-    protected JSONObject doInBackground(String... currencies) {
+    protected JSONObject doInBackground(String... params) {
         HttpURLConnection urlConnection = null;
         URL url = null;
         JSONObject object = null;
@@ -82,8 +82,6 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
             url = new URL(API_URL);
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
-            urlConnection.setDoOutput(true);
-            urlConnection.setDoInput(true);
             urlConnection.connect();
             inStream = urlConnection.getInputStream();
             BufferedReader bReader = new BufferedReader(new InputStreamReader(inStream));
@@ -115,8 +113,7 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
         HashMap<String,Double> currencyRates=new HashMap<>();
 
         try{
-            JSONArray rateArray=result.getJSONArray("rates");
-            JSONObject rateResult=rateArray.getJSONObject(0);
+            JSONObject rateResult=result.getJSONObject("rates");
 
             for(String currency:currencies) {
                 rate = rateResult.getDouble(currency);

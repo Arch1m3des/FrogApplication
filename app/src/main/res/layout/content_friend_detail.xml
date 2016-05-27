@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="at.ac.univie.frog.GroupActivity">
+    android:id="@+id/relativeLayout"
+    tools:context=".FriendDetailActivity"
+    tools:showIn="@layout/activity_friend_detail">
 
-    <include layout="@layout/content_group" />
-</RelativeLayout>
+    <include layout="@layout/navbar_bottom" />
+</LinearLayout>
