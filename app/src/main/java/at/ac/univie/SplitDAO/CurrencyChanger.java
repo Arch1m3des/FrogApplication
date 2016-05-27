@@ -68,6 +68,11 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
      */
     private static final String API_URL="http://api.fixer.io/latest";
     private static final String[] currencies={"AUD","BGN","BRL","CAD","CHF","CNY","CZK","DKK","GBP","HKD","HRK","HUF","IDR","ILS","INR","JPY","KRW","MXN","MYR","NOK","NZD","PHP","PLN","RON","RUB","SEK","SGD","THB","TRY","USD","ZAR"};
+    Context context;
+
+    public CurrencyChanger(Context context) {
+        this.context = context;
+    }
 
     @Override
     //Beim Aufruf muss als erstes Element die Fremdwaehrung und als zweites Element der Betrag uebergeben werden
@@ -126,5 +131,11 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
 
         CurrencyManager cgm=new CurrencyManager();
         cgm.setCurrencyRates(currencyRates);
+
+        try {
+            cgm.saveCurrencyData(context, "Currency");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -31,6 +31,7 @@ public class Friend implements Serializable {
         this.iconColor = generateIconColor();
     }
 
+
     public String generateIconColor() {
         Random rand = new Random();
 

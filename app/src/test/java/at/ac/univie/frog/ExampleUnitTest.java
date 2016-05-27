@@ -1,5 +1,8 @@
 package at.ac.univie.frog;
 
+import android.content.Context;
+import android.widget.ArrayAdapter;
+
 import org.junit.Test;
 
 import java.text.DecimalFormat;
@@ -10,6 +13,7 @@ import java.util.List;
 import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.Group;
+import at.ac.univie.SplitDAO.GroupManager;
 import at.ac.univie.SplitDAO.SplitEqual;
 import at.ac.univie.SplitDAO.SplitParts;
 import at.ac.univie.SplitDAO.SplitPercent;
@@ -20,8 +24,17 @@ import static org.junit.Assert.*;
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
 public class ExampleUnitTest {
+
+    Context context;
+    public ExampleUnitTest(Context context){
+        this.context = context.getApplicationContext();
+    }
+
+
     @Test
     public void addition_isCorrect() throws Exception {
+
+
         assertEquals(4, 2 + 2);
         Friend max =  new Friend(1,"Glett", "Max", "ich@du.com");
         Friend andy =  new Friend(2,"Weinbahn", "Andy", "ich@du.com");
@@ -56,8 +69,6 @@ public class ExampleUnitTest {
         System.out.println("Owes by max: " + owes);
 
 
-
-
         System.out.println("Adding first expense");
         System.out.println(firstexpense.isparticipant(andy));
 
@@ -71,6 +82,9 @@ public class ExampleUnitTest {
                System.out.println(firstexpense.getParticipants().get(index++).getName() + "\t\t" + x + " €");
            }
        }
+
+
+
 
       /*
         Expense secondexpense = new SplitPercent(max ,max, 111, "Zweites Essen nach dem Krankenhaus");
@@ -186,4 +200,5 @@ public class ExampleUnitTest {
 
 
     }
+
 }
