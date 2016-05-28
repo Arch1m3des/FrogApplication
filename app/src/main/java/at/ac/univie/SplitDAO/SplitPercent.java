@@ -2,6 +2,7 @@ package at.ac.univie.SplitDAO;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import java.util.Objects;
 /**
  * Created by Andy on 19.05.16.
  */
-public class SplitPercent extends Expense {
+public class SplitPercent extends Expense implements Serializable {
 
 
     public SplitPercent(Friend creator, Friend payer, double amount, String description) {

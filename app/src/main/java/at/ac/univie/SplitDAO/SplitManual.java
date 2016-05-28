@@ -1,5 +1,6 @@
 package at.ac.univie.SplitDAO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Objects;
 /**
  * Created by Andy on 21.05.16.
  */
-public class SplitManual extends Expense{
+public class SplitManual extends Expense implements Serializable{
 
     public SplitManual(Friend creator, Friend payer, double amount, String description) {
         super(creator, payer, amount, description);

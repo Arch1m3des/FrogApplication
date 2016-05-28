@@ -3,7 +3,9 @@ package at.ac.univie.SplitDAO;
 import android.content.Context;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +14,8 @@ import java.util.List;
  * gadsfjlksdlfk
  * Created by Andy on 12.05.16.
  */
-public abstract class Expense implements IExpensecalculations {
-    GregorianCalendar curr_date;
+public abstract class Expense implements IExpensecalculations, Serializable {
+    Date curr_date;
     Friend creator;
     double amount;
     String description;
@@ -38,6 +40,7 @@ public abstract class Expense implements IExpensecalculations {
 
     Expense (Friend creator, Friend payer, double amount, String description) {
         this.creator = creator;
+        curr_date = new Date();
         setpayer(payer);
         setamount(amount);
         setdescription(description);
@@ -149,6 +152,14 @@ public abstract class Expense implements IExpensecalculations {
 
     public boolean isparticipant(Friend friend) {
         return this.participants.contains(friend);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Date getDate() {
+        return curr_date;
     }
 
 

@@ -16,10 +16,13 @@ import android.widget.Toast;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -68,9 +71,13 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
         MapMarker perth = new MapMarker(-31.90, 115.86, "Snakes on the plane");
         MapMarker sydney = new MapMarker(-33.86, 151.20, "I met a guy pretending to be a banana");
         MapMarker canberra = new MapMarker (-35.343784, 149.082977, "the food was amazing!");
-        places.add(perth);
-        places.add(sydney);
-        places.add(canberra);
+        //places.add(perth);
+        //places.add(sydney);
+        //places.add(canberra);
+        places.add(new MapMarker(10.088645, 99.826005, "Streetfood at the beach"));
+        places.add(new MapMarker(10.090023, 99.827195, "Divingsession with Callie"));
+        places.add(new MapMarker(10.094486, 99.828300, "Freediving course"));
+        places.add(new MapMarker(10.121690, 99.832549, "Bike Rental"));
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -133,10 +140,17 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
                     .position(obj)
                     .title(places.get(i).getDescription()));
 
-        points.add(obj); //for the route
+            points.add(obj); //for the route
         }
         Polyline route = map.addPolyline(line);
-        route.setPoints(points); //route 
+        route.setPoints(points); //route
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(new LatLng(places.get(0).getLat(),places.get(0).getLang()));
+        builder.include(new LatLng(places.get(places.size()-1).getLat(),places.get(places.size()-1).getLang()));
+        LatLngBounds bounds = builder.build();
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 30);
+        this.map.animateCamera(cu);
 
     }
 
