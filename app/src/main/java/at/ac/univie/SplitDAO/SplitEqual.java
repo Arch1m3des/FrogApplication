@@ -2,6 +2,7 @@ package at.ac.univie.SplitDAO;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,7 +12,7 @@ import java.util.ListIterator;
 /**
  * Created by Andy on 13.05.16.
  */
-public class SplitEqual extends Expense {
+public class SplitEqual extends Expense implements Serializable {
     public SplitEqual(Friend creator, Friend payer, double amount, String description) {
         super(creator, payer, amount, description);
     }

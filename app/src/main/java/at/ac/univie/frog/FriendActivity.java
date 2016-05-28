@@ -11,9 +11,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import at.ac.univie.SplitDAO.Friend;
+import at.ac.univie.SplitDAO.FriendManager;
 
 /**
  * Created by Tamara on 13.05.16.
@@ -42,6 +44,16 @@ public class FriendActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        FriendManager frienddao = new FriendManager();
+        try {
+            frienddao.loadFriendData(getApplicationContext(), "Friends");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        friends =  frienddao.getFriendList();
+        /*
         friends.add(new Friend(1, "Weinbahn", "Andy", "ich@du.com"));
         friends.add(new Friend(2, "Bader", "Markus",  "ich@du.com"));
         friends.add(new Friend(3, "Bubla", "Daniel",  "ich@du.com"));
@@ -52,7 +64,7 @@ public class FriendActivity extends AppCompatActivity {
         friends.add(new Friend(8, "Fuenf", "Freund",  "ich@du.com"));
         friends.add(new Friend(9, "Sechs", "Freund",  "ich@du.com"));
         friends.add(new Friend(10, "Sieben", "Freund",  "ich@du.com"));
-
+        */
 
 
         //Wenn der intent ein StringArrayExtra mit dem Namen values hat wird dieser ausgelesen

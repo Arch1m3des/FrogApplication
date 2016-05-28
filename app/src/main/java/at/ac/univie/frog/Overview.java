@@ -126,23 +126,7 @@ public class Overview extends AppCompatActivity {
 
         //manage groups
 
-        Group thailand = new Group(1, "Thailand");
-        try {
-            thailand.addMember(andy);
-            thailand.addMember(max);
-            thailand.addMember(max2);
-            thailand.addMember(max3);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        Expense firstexpense = new SplitEqual(max ,max, 26, "Erstes Essen nach dem Krankenhaus");
-        firstexpense.addparticipant(andy);
-        firstexpense.addparticipant(max2);
-        firstexpense.addparticipant(max3);
-
-        GroupManager  x =  new GroupManager();
-        x.addGroup(thailand);
 
 
         //Save groups
@@ -157,17 +141,7 @@ public class Overview extends AppCompatActivity {
 */
 
 
-        //Load groups
-        try {
-            x.loadGroupData(this, "Groups");
-            TextView textView2 = (TextView) findViewById(R.id.textView2);
-            textView2.setText("Successfully loaded2");
-            textView2.setText(x.groupList.get(0).getName());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
 
 
        // System.out.println(x.groupList.get(1).getName());

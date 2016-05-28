@@ -20,18 +20,18 @@ import java.util.List;
 public class FriendManager {
 
 
-    public List<Friend> friendList;
+    public ArrayList<Friend> friendList;
 
     public FriendManager() {
         friendList = new ArrayList<>();
 
     }
 
-    public List<Friend> getFriendList() {
+    public ArrayList<Friend> getFriendList() {
         return friendList;
     }
 
-    public boolean setFriendList(List<Friend> friendList) {
+    public boolean setFriendList(ArrayList<Friend> friendList) {
         try {
             this.friendList = friendList;
             return true;
@@ -63,7 +63,7 @@ public class FriendManager {
         try {
             FileInputStream fis = context.openFileInput(key);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            List<Friend> object = (List<Friend>) ois.readObject();
+            ArrayList<Friend> object = (ArrayList<Friend>) ois.readObject();
             this.friendList = object;
             return true;
         } catch (IOException e) {

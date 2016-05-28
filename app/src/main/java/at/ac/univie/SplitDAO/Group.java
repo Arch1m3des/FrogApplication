@@ -86,6 +86,15 @@ public class Group implements Serializable {
         return expenses;
     }
 
+    public double getsumexpenses() {
+        double sum = 0;
+        if (expenses.isEmpty()) return 0;
+        for (Expense ex :
+                expenses) {
+            sum += ex.getAmount();
+        }
+        return sum;
+    }
 
     //Methods
     public boolean addMember(Friend friend) {
