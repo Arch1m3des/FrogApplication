@@ -125,6 +125,21 @@ public class StartActivity extends AppCompatActivity {
 
         g2.addExpense(firstexpense);
 
+        firstexpense = new SplitEqual( f3, f3 , 28.50, "Eintritt Therme");
+        g3.addExpense(firstexpense);
+        firstexpense = new SplitEqual( f3, f6 , 30.50, "Eintritt Therme");
+        g3.addExpense(firstexpense);
+
+
+        firstexpense = new SplitParts(f3 , f3 , 340, "Safari");
+        firstexpense.addparticipant(f2);
+        try {
+            firstexpense.calculatedebt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        g4.addExpense(firstexpense);
+
         groupdao.addGroup(g1);
         groupdao.addGroup(g2);
         groupdao.addGroup(g3);
