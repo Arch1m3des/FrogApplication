@@ -16,7 +16,6 @@ import java.util.ArrayList;
 /**
  * Created by tamara on 28.05.16.
  */
-
 public class FancyExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;

@@ -23,9 +23,12 @@
         android:id="@+id/simpleEdit"
         android:textSize="20sp"
         android:fontFamily="sans-serif-light"
+        android:inputType="numberDecimal"
         android:paddingRight="10dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="30dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:editable="true" />
+
 
 </RelativeLayout>

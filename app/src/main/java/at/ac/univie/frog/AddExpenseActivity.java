@@ -14,8 +14,10 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
+import at.ac.univie.SplitDAO.GroupManager;
 
 public class AddExpenseActivity extends AppCompatActivity {
 
@@ -30,6 +32,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     ArrayList<String> friendsToString = new ArrayList();
     ArrayList<Group> options = new ArrayList();
     Button button;
+    Expense newexpense;
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -52,9 +55,12 @@ public class AddExpenseActivity extends AppCompatActivity {
         splitView = (ExpandableListView) findViewById(R.id.viewSplitOptions);
 
         FriendManager frienddao = new FriendManager();
+        GroupManager groupdao = new GroupManager();
+
 
         try {
             frienddao.loadFriendData(getApplicationContext(), "Friends");
+            groupdao.loadGroupData(getApplicationContext(), "Groups");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -88,7 +94,8 @@ public class AddExpenseActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
 
-                //deselect doesn't work yet :(
+
+                //TODO deselect doesn't work yet :(
                     if (!view.isSelected()) {
                         Toast.makeText(getApplicationContext(), "checked = " + childClicked, Toast.LENGTH_SHORT).show();
                         view.setBackgroundColor(Color.parseColor("#79d2a6"));
