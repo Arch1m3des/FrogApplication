@@ -111,9 +111,9 @@ public class Group implements Serializable {
 
     public double calculatebalance(Friend me) {
         double balance = 0;
-
+        double debt;
         for (Expense expense: expenses) {
-            double debt;
+
             if(expense.isparticipant(me)) {
                 debt = 0;
                 debt = expense.getSpendingbyIndex(expense.participants.indexOf(me));
@@ -141,4 +141,25 @@ public class Group implements Serializable {
 
         return owes;
     }
+
+    public double calculateowesinhomecurrency(Friend me, Friend friend) {
+        double owes = 0;
+
+        for (Expense expense: expenses) {
+            if (expense.isparticipant(me) && expense.isparticipant(friend)) {
+                int indexpayer;
+                int indexdebtor;
+                if (expense.getPayer() == me) {
+                    owes += expense.getSpendinginHomeCurrencybyIndex(expense.participants.indexOf(friend));
+                }
+                if(expense.getPayer() == friend) {
+                    owes -= expense.getSpendinginHomeCurrencybyIndex(expense.participants.indexOf(me));
+                }
+            }
+        }
+
+        return owes;
+    }
+
+
 }

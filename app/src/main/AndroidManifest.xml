@@ -69,9 +69,12 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AddGroupActivity" />
         <activity android:name=".GroupDetailActivity" />
+<<<<<<< HEAD
         <activity android:name=".AddExpenseActivity" />
         <activity android:name=".SplitOptionActivity" />
         <activity android:name=".SplitViewActivity"></activity>
+=======
+>>>>>>> 2443ec2e77071676e1b4be28cdbd5071a4968f5a
     </application>
 
 </manifest>

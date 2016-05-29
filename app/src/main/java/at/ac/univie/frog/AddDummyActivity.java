@@ -46,7 +46,7 @@ public class AddDummyActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String emailToString = email.getText().toString();
+                final String emailToString = "dummy@mail.com"; //email.getText().toString();
                 final String nameToString = name.getText().toString();
                 final String surnameToString = surname.getText().toString();
 

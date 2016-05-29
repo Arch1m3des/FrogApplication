@@ -18,6 +18,7 @@ import java.util.Locale;
 import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
+import at.ac.univie.SplitDAO.Group;
 import at.ac.univie.SplitDAO.GroupManager;
 
 public class GroupDetailActivity extends AppCompatActivity {
@@ -55,6 +56,7 @@ public class GroupDetailActivity extends AppCompatActivity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
         ArrayList<Expense> expense = (ArrayList<Expense>) groupdao.getGroupList().get(position).getExpenses();
 
 

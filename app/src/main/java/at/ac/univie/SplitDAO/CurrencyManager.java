@@ -35,4 +35,18 @@ public class CurrencyManager {
 
         return spendingsInHomeCurrency;
     }
+
+    public double getAmountinHomeCurrency(double amount,String currency){
+        double amountInHomeCurrency = 0;
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        double rate=Double.parseDouble(sharedPrefs.getString(currency,""));
+
+        amountInHomeCurrency = amount/rate;
+
+
+        return amountInHomeCurrency;
+    }
+
+
 }
