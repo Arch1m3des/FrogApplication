@@ -50,6 +50,8 @@ public class GroupActivity extends AppCompatActivity {
         group.setTextColor(Color.parseColor("#000000"));
 
         Intent intent = getIntent();
+        if (intent.getStringExtra("check") != null)
+            Toast.makeText(getApplicationContext(), "Your expense has been saved", Toast.LENGTH_SHORT).show();
         // get from extra //groups =   (ArrayList<Group>)intent.getSerializableExtra("Groups");
 
         GroupManager groupdao = new GroupManager();

@@ -145,11 +145,12 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
         Polyline route = map.addPolyline(line);
         route.setPoints(points); //route
 
+
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(new LatLng(places.get(0).getLat(),places.get(0).getLang()));
         builder.include(new LatLng(places.get(places.size()-1).getLat(),places.get(places.size()-1).getLang()));
         LatLngBounds bounds = builder.build();
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 30);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 13);
         this.map.animateCamera(cu);
 
     }

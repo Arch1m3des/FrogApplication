@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ExpandableListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amount in €"
+        android:id="@+id/viewCurrency"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-light"
+        android:clickable="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true" />
+
+    <ExpandableListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textCategory"
+        android:textSize="20sp"
+        android:layout_marginLeft="5dp"
+        android:fontFamily="sans-serif-light"
+        android:layout_below="@+id/viewCurrency"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true"
+        android:clickable="true"/>
+
+    <CheckedTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-light"
+        android:id="@+id/textLocation"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@+id/textCategory"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:textColor="@color/colorDarkGrey"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:checked="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true" />
+
+
+    <ExpandableListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewSplitOptions"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-light"
+        android:clickable="true"
+        android:layout_below="@+id/textLocation"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Note"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-light"
+        android:id="@+id/textNote"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@+id/viewSplitOptions"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:id="@+id/editText"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginEnd="20dp"
+        android:layout_alignStart="@+id/textNote"
+        android:background="@drawable/frame"
+        android:layout_below="@+id/textNote" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="4"
+        android:id="@+id/amount"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="sans-serif-light"
+        android:layout_alignTop="@+id/viewCurrency"
+        android:layout_alignParentEnd="true" />
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="payment options"
+        android:fontFamily="sans-serif-light"
+        android:id="@+id/forward"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="184dp" />
+
+</RelativeLayout>

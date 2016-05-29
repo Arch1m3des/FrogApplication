@@ -51,11 +51,11 @@ public class AddDummyActivity extends AppCompatActivity {
                 final String surnameToString = surname.getText().toString();
 
                 if (emailToString.length() == 0)
-                    Toast.makeText(getApplicationContext(), "Please enter your email address.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Please enter an email address.", Toast.LENGTH_LONG).show();
                 else if (nameToString.length() == 0)
-                    Toast.makeText(getApplicationContext(), "Please enter your name.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Please enter a name.", Toast.LENGTH_LONG).show();
                 else if (surnameToString.length() == 0)
-                    Toast.makeText(getApplicationContext(), "Please enter your surname.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Please enter a surname.", Toast.LENGTH_LONG).show();
 
                 else {
                     String[] parts=new String[3];

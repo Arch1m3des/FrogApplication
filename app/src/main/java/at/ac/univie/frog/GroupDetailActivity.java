@@ -94,8 +94,8 @@ public class GroupDetailActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
 
                 if (position == 0) {
-                   // Intent addFriend = new Intent(GroupDetailActivity.this, AddGroupDetailActivity.class);
-                    // startActivity(addFriend);
+                   Intent addFriend = new Intent(GroupDetailActivity.this, AddExpenseActivity.class);
+                   startActivity(addFriend);
                 }
                 else {
                     //change frienddetailac to expensedetailactivity
