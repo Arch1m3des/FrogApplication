@@ -18,6 +18,7 @@ public abstract class Expense implements IExpensecalculations, Serializable {
     Date curr_date;
     Friend creator;
     double amount;
+    double amountinHomeCurrency;
     String description;
     Context context;
 
@@ -38,7 +39,7 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         this.context=context;
     }
 
-    Expense (Friend creator, Friend payer, double amount, String description) {
+    public Expense (Friend creator, Friend payer, double amount, String description) {
         this.creator = creator;
         curr_date = new Date();
         setpayer(payer);
@@ -150,6 +151,14 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         }
     }
 
+    public double getSpendinginHomeCurrencybyIndex(int index)  {
+        try {
+            return spendingInHomeCurrency.get(index);
+        } catch (IndexOutOfBoundsException e) {
+            return 0;
+        }
+    }
+
     public boolean isparticipant(Friend friend) {
         return this.participants.contains(friend);
     }
@@ -162,13 +171,18 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         return curr_date;
     }
 
+    public void setAmountinHomeCurrency(double amountinhomecurr){
+        this.amountinHomeCurrency = amountinhomecurr;
+    }
+
+
 
     //Function calculates the spendings in the home currency
     public boolean calculateDebtInHomeSpendings(){
         CurrencyManager cm=new CurrencyManager(context);
 
         spendingInHomeCurrency=cm.getSpendingInHomeCurrency(spending,currency);
-
+        amountinHomeCurrency = cm.getAmountinHomeCurrency(amount, currency);
         return true;
     }
 

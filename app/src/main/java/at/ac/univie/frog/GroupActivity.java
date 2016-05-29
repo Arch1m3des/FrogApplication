@@ -65,18 +65,9 @@ public class GroupActivity extends AppCompatActivity {
         Friend me = frienddao.getFriendList().get(0);
         groups = groupdao.getGroupList();
 
-        /*
-        groups.add(new Group(1, "Thailand"));
-        groups.add(new Group(2, "South America"));
-        groups.add(new Group(3, "Wales"));
-        groups.add(new Group(4, "Fieberbrunn"));
-        groups.add(new Group(5, "Spa Weekend"));
-        groups.add(new Group(6, "Gruppe 1"));
-        groups.add(new Group(7, "Gruppe 2"));
-        groups.add(new Group(8, "Gruppe 3"));
-        groups.add(new Group(9, "Gruppe 4"));
-        groups.add(new Group(10, "Gruppe 5"));
-*/
+
+
+
         groupsToString.add("New Group");
         text.add("+");
         iconColors.add("#6E6E6E");
@@ -140,24 +131,5 @@ public class GroupActivity extends AppCompatActivity {
     public void goToSettings(View v){
         Intent goToSettings=new Intent(GroupActivity.this, SettingActivity.class);
         startActivity(goToSettings);
-    }
-
-    public ArrayList<Group> load(String filename){
-        Log.d("Load", "loading object");
-        Object object = null;
-        try{
-            FileInputStream fileInputStream = new FileInputStream(filename);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            object = objectInputStream.readObject();
-            objectInputStream.close();
-            Log.d("Load", "object loaded");
-            ArrayList<Group> grouplist = (ArrayList<Group>) object;
-            return grouplist;
-        }catch(FileNotFoundException e){
-            Log.e("Load", e.getMessage());
-        }catch(Exception e){
-            Log.e("Load", e.getMessage());
-        }
-    return null;
     }
 }
