@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayout"
+    tools:context=".AddFriendActivity"
+    tools:showIn="@layout/activity_add_friend">
+
+    <EditText
+        android:fontFamily="sans-serif-light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchCity"
+        android:hint="Search for a friend"
+        android:textSize="20sp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <ListView
+        android:fontFamily="sans-serif-thin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="62dp"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:id="@+id/searchView"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/searchCity"
+        android:clickable="true"/>
+
+    <include layout="@layout/navbar_bottom" />
+
+</RelativeLayout>

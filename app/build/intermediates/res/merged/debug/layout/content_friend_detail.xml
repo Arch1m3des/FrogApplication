@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayout">
+
+    <include layout="@layout/navbar_bottom" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Markus"
+        android:fontFamily="sans-serif-light"
+        android:textSize="40sp"
+        android:id="@+id/name"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-thin"
+        android:text="Clear Dept"
+        android:id="@+id/dept"
+        android:layout_below="@+id/name"
+        android:layout_alignStart="@+id/name" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-thin"
+        android:text="Export List"
+        android:id="@+id/export"
+        android:layout_below="@+id/name"
+        android:layout_alignEnd="@+id/name" />
+
+    <ListView
+        android:fontFamily="sans-serif-thin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="62dp"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:id="@+id/groupView"
+        android:layout_below="@+id/export"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"/>
+
+
+</RelativeLayout>

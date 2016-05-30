@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayout">
+
+    <include layout="@layout/navbar_bottom" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description: "
+        android:id="@+id/textDescription"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-light"
+        android:clickable="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amount in €:"
+        android:id="@+id/textAmount"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-light"
+        android:clickable="true"
+        android:layout_below="@+id/textDescription"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textCategory"
+        android:text="Category:"
+        android:textSize="20sp"
+        android:layout_marginLeft="5dp"
+        android:fontFamily="sans-serif-light"
+        android:layout_below="@+id/textAmount"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true"
+        android:clickable="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textDate"
+        android:textSize="20sp"
+        android:text="Date:"
+        android:fontFamily="sans-serif-light"
+        android:clickable="true"
+        android:layout_below="@+id/textCategory"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true" />
+
+    <ExpandableListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textMember"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-light"
+        android:clickable="true"
+        android:layout_below="@+id/textDate"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

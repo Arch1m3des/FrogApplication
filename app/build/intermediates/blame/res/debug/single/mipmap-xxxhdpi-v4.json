@@ -1,0 +1,50 @@
+[
+    {
+        "merged": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_group.png",
+        "source": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/src/main/res/mipmap-xxxhdpi/ic_group.png"
+    },
+    {
+        "merged": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_me.png",
+        "source": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/src/main/res/mipmap-xxxhdpi/ic_me.png"
+    },
+    {
+        "merged": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_friends.png",
+        "source": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/src/main/res/mipmap-xxxhdpi/ic_friends.png"
+    },
+    {
+        "merged": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_settings.png",
+        "source": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/src/main/res/mipmap-xxxhdpi/ic_settings.png"
+    },
+    {
+        "merged": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_group_clicked.png",
+        "source": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/src/main/res/mipmap-xxxhdpi/ic_group_clicked.png"
+    },
+    {
+        "merged": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_friends_clicked.png",
+        "source": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/src/main/res/mipmap-xxxhdpi/ic_friends_clicked.png"
+    },
+    {
+        "merged": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_settings_clicked.png",
+        "source": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/src/main/res/mipmap-xxxhdpi/ic_settings_clicked.png"
+    },
+    {
+        "merged": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_map_clicked.png",
+        "source": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/src/main/res/mipmap-xxxhdpi/ic_map_clicked.png"
+    },
+    {
+        "merged": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_world.png",
+        "source": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/src/main/res/mipmap-xxxhdpi/ic_world.png"
+    },
+    {
+        "merged": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/back_button.png",
+        "source": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/src/main/res/mipmap-xxxhdpi/back_button.png"
+    },
+    {
+        "merged": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_launcher.png",
+        "source": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_me_clicked.png",
+        "source": "/home/tamara/Dev/AndroidStudioProjects/FrogApplication/app/src/main/res/mipmap-xxxhdpi/ic_me_clicked.png"
+    }
+]
