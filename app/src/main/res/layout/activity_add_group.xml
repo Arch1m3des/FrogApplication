@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/relativeLayout"
-    tools:context=".AddGroupActivity"
-    tools:showIn="@layout/activity_add_group">
+    android:fitsSystemWindows="true"
+    tools:context=".AddGroupActivity">
+    <!--
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-    <include layout="@layout/navbar_bottom" />
+        </android.support.design.widget.AppBarLayout>
+    -->
+    <include layout="@layout/content_add_group" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/GroupNameLabel" />
-
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_GroupName" />
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -6,12 +6,12 @@ import java.util.ArrayList;
  * Created by tamara on 28.05.16.
  */
 
-public class Group {
+public class Parent {
 
     private String name;
-    private ArrayList<String> items;
+    private ArrayList<Child> items;
 
-    public Group(String name, ArrayList<String> items) {
+    public Parent(String name, ArrayList<Child> items) {
         this.name = name;
         this.items = items;
     }
@@ -24,11 +24,11 @@ public class Group {
             this.name = name;
         }
 
-    public ArrayList<String> getItems() {
+    public ArrayList<Child> getItems() {
         return items;
     }
 
-    public void setItems(ArrayList<String> Items) {
+    public void setItems(ArrayList<Child> Items) {
         this.items = Items;
     }
 

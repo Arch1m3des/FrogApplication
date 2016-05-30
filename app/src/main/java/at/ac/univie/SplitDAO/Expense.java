@@ -25,7 +25,6 @@ public abstract class Expense implements IExpensecalculations, Serializable {
     enum Category { travelling, food, drinks, fun, moneytransfer, medical , misc } //maybe more
     Category category;
 
-    //TODO currency missing
     String currency="USD";
     //TODO location missing
 

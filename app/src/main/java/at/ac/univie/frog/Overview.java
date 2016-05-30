@@ -124,12 +124,12 @@ public class Overview extends AppCompatActivity {
         */
 
 
-        //manage groups
+        //manage parents
 
 
 
 
-        //Save groups
+        //Save parents
         /*
         try {
             x.saveGroupData(this, "Groups");
@@ -146,7 +146,7 @@ public class Overview extends AppCompatActivity {
 
        // System.out.println(x.groupList.get(1).getName());
 /*
-        Group thailand = new Group(1, "Thailand1");
+        Parent thailand = new Parent(1, "Thailand1");
         try {
             thailand.addMember(andy);
             thailand.addMember(max);
@@ -154,7 +154,7 @@ public class Overview extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Group thailand2 = new Group(1, "Thailand2");
+        Parent thailand2 = new Parent(1, "Thailand2");
         try {
             thailand2.addMember(andy);
             thailand2.addMember(max);

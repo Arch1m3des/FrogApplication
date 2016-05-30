@@ -207,7 +207,7 @@ public class StartActivity extends AppCompatActivity {
 
         g1.addExpense(firstexpense);
 
-        firstexpense = new SplitParts(f1 , f3 , 34, "Eis essen Hotel-Restaurant");
+        firstexpense = new SplitParts(f1 , f3 , 34, "Eis essen");
         firstexpense.addparticipant(f3);
         firstexpense.addparticipant(f6);
         firstexpense.setitem(f3, 4);

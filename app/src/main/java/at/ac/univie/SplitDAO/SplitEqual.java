@@ -12,6 +12,7 @@ import java.util.ListIterator;
 /**
  * Created by Andy on 13.05.16.
  */
+
 public class SplitEqual extends Expense implements Serializable {
     public SplitEqual(Friend creator, Friend payer, double amount, String description) {
         super(creator, payer, amount, description);
