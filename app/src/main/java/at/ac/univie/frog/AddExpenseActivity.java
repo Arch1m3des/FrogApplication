@@ -14,25 +14,27 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import at.ac.univie.SplitDAO.Expense;
-import at.ac.univie.SplitDAO.Friend;
-import at.ac.univie.SplitDAO.FriendManager;
-import at.ac.univie.SplitDAO.GroupManager;
+import at.ac.univie.SplitDAO.*;
 
 public class AddExpenseActivity extends AppCompatActivity {
 
     CheckedTextView location;
     ExpandableListView categoryView, currencyView;
     ExpandableListAdapter adapterCategory, adapterCurrency;
-    ArrayList<Group> categories = new ArrayList();
-    ArrayList<Group> currency = new ArrayList();
+    ArrayList<Parent> categories = new ArrayList();
+    ArrayList<Parent> currency = new ArrayList();
     ExpandableListView splitView;
     ExpandableListAdapter adapter;
-    ArrayList<Friend> friends = new ArrayList();
-    ArrayList<String> friendsToString = new ArrayList();
-    ArrayList<Group> options = new ArrayList();
+    ArrayList<at.ac.univie.SplitDAO.Group> groups = new ArrayList();
+    ArrayList<Child> friendsToString = new ArrayList();
+    ArrayList<Parent> options = new ArrayList();
+    ArrayList<Child> splitOptions = new ArrayList();
+    FriendManager frienddao;
+    GroupManager groupdao;
     Button button;
-    Expense newexpense;
+    int groupindex;
+    ArrayList<Friend> participants = new ArrayList<>();
+    ArrayList<Friend> members;
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -47,19 +49,19 @@ public class AddExpenseActivity extends AppCompatActivity {
         setContentView(R.layout.content_add_expense);
         getSupportActionBar().setTitle("Add Expense");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
+        //getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
 
         location = (CheckedTextView) findViewById(R.id.textLocation);
         categoryView = (ExpandableListView) findViewById(R.id.textCategory);
         currencyView = (ExpandableListView) findViewById(R.id.viewCurrency);
         splitView = (ExpandableListView) findViewById(R.id.viewSplitOptions);
 
-        FriendManager frienddao = new FriendManager();
-        GroupManager groupdao = new GroupManager();
+        Intent intent = getIntent();
+        groupindex = intent.getIntExtra("groupindex", 0);
 
+        groupdao = new GroupManager();
 
         try {
-            frienddao.loadFriendData(getApplicationContext(), "Friends");
             groupdao.loadGroupData(getApplicationContext(), "Groups");
         } catch (IOException e) {
             e.printStackTrace();
@@ -67,16 +69,26 @@ public class AddExpenseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        friends =  frienddao.getFriendList();
+        groups =  groupdao.getGroupList();
+        at.ac.univie.SplitDAO.Group thisGroup = groups.get(groupindex);
 
-        for (Friend temp : friends)
-            friendsToString.add(temp.getName() + " " + temp.getSurname());
+        members = (ArrayList<Friend>) thisGroup.getMembers();
+        for (Friend temp : members) {
+            friendsToString.add(new Child(temp.getName() + " " + temp.getSurname()));
+        }
 
-        Group groupFriends = new Group("Who participated?", friendsToString);
-        Group groupPayer = new Group("Who paid?", friendsToString);
+        splitOptions.add(new Child("Split equally"));
+        splitOptions.add(new Child("Split manually"));
+        splitOptions.add(new Child("Split in %"));
+        splitOptions.add(new Child("Split in parts"));
 
-        options.add(groupFriends);
-        options.add(groupPayer);
+        Parent parentFriends = new Parent("Who participated?", friendsToString);
+        Parent parentPayer = new Parent("Who paid?", friendsToString);
+        Parent parentOption = new Parent("How to split?", splitOptions);
+
+        options.add(parentFriends);
+        options.add(parentPayer);
+        options.add(parentOption);
 
         adapter = new FancyExpandableListAdapter(this, options);
         button = (Button) findViewById(R.id.button);
@@ -88,54 +100,102 @@ public class AddExpenseActivity extends AppCompatActivity {
         splitView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             View currentView;
-            boolean childClicked = false;
-            boolean nope = false;
+            boolean turn = true;
 
+
+            //Who participated? Multiple checks possible.
             @Override
             public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
+/*
+                if (groupPosition == 1) {
+                    splitView.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
+
+                    view.setSelected(true);
+                    if (currentView != null) {
+                        currentView.setBackgroundColor(Color.TRANSPARENT);
+                    }
+                    currentView = view;
+                    currentView.setBackgroundColor(Color.parseColor("#676767"));
+
+                    return false;
+                }
+  */
 
 
-                //TODO deselect doesn't work yet :(
-                    if (!view.isSelected()) {
-                        Toast.makeText(getApplicationContext(), "checked = " + childClicked, Toast.LENGTH_SHORT).show();
-                        view.setBackgroundColor(Color.parseColor("#79d2a6"));
-                        view.setSelected(true);
-                        nope = true;
-                        currentView = view;
+                ExpandableListAdapter itemAdapter = parent.getExpandableListAdapter();
+                Child child = (Child) itemAdapter.getChild(groupPosition, childPosition);
+                turn = true;
+
+                if (groupPosition == 0) {
+
+                    if (!child.isSelected()) {
+                        child.setSelected(true);
+                        view.setBackgroundColor(Color.parseColor("#7ecece"));
+                        turn = false;
+
+                        if (!participants.contains(members.get(childPosition))) {
+                            participants.add(members.get(childPosition));
+                        }
                     }
 
-                    else {
-                        Toast.makeText(getApplicationContext(), "hi" + childClicked, Toast.LENGTH_SHORT).show();
+                    if (child.isSelected() && turn == true) {
+                        child.setSelected(false);
                         view.setBackgroundColor(Color.TRANSPARENT);
-                        view.setSelected(true);
-                        childClicked = true;
-                        currentView = view;
+
+                        if (participants.contains(members.get(childPosition))) {
+                            participants.remove(members.get(childPosition));
+                        }
+                    }
+                    return false;
+                } else {
+
+                    //TODO change to only single item checked
+                    if (!child.isSelected()) {
+                        child.setSelected(true);
+                        view.setBackgroundColor(Color.parseColor("#7ecece"));
+                        turn = false;
+
+                        if (!participants.contains(members.get(childPosition))) {
+                            participants.add(members.get(childPosition));
+                        }
                     }
 
-                return true;
+                    if (child.isSelected() && turn == true) {
+                        child.setSelected(false);
+                        view.setBackgroundColor(Color.TRANSPARENT);
+
+                        if (participants.contains(members.get(childPosition))) {
+                            participants.remove(members.get(childPosition));
+                        }
+                    }
+                    return false;
+
+                }
+
             }
+
         });
 
         button = (Button) findViewById(R.id.forward);
 
-        ArrayList<String> listCategory = new ArrayList();
-        ArrayList<String> listCurrency = new ArrayList();
+        ArrayList<Child> listCategory = new ArrayList();
+        ArrayList<Child> listCurrency = new ArrayList();
 
-        listCategory.add("Transport");
-        listCategory.add("Food");
-        listCategory.add("Culture");
+        listCategory.add(new Child("Transport"));
+        listCategory.add(new Child("Food"));
+        listCategory.add(new Child("Culture"));
 
-        listCurrency.add("€");
-        listCurrency.add("$");
-        listCurrency.add("§");
+        listCurrency.add(new Child("€"));
+        listCurrency.add(new Child("$"));
+        listCurrency.add(new Child("§"));
 
         String defaultCurrency = "€"; // dynamically from (?) shared preferences
 
-        Group groupCategory = new Group("Category", listCategory);
-        Group groupCurrency = new Group("Amount in " + defaultCurrency, listCurrency);
+        Parent parentCategory = new Parent("Category", listCategory);
+        Parent parentCurrency = new Parent("Amount in " + defaultCurrency, listCurrency);
 
-        categories.add(groupCategory);
-        currency.add(groupCurrency);
+        categories.add(parentCategory);
+        currency.add(parentCurrency);
 
         adapterCategory = new FancyExpandableListAdapter(this, categories);
 
@@ -145,13 +205,16 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         currencyView.setAdapter(adapterCurrency);
 
+
         categoryView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
                 ExpandableListAdapter itemAdapter = parent.getExpandableListAdapter();
-                String selectedItem = (String) itemAdapter.getChild(groupPosition, childPosition);
-                Group group = (Group) itemAdapter.getGroup(groupPosition);
+                Child child = (Child) itemAdapter.getChild(groupPosition, childPosition);
+                String selectedItem = child.getName();
+                Parent group = (Parent) itemAdapter.getGroup(groupPosition);
                 group.setName(selectedItem);
                 if (parent.isGroupExpanded(groupPosition)) {
                     parent.collapseGroup(groupPosition);
@@ -167,8 +230,9 @@ public class AddExpenseActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 ExpandableListAdapter itemAdapter = parent.getExpandableListAdapter();
-                String selectedItem = (String) itemAdapter.getChild(groupPosition, childPosition);
-                Group group = (Group) itemAdapter.getGroup(groupPosition);
+                Child child = (Child) itemAdapter.getChild(groupPosition, childPosition);
+                String selectedItem = child.getName();
+                Parent group = (Parent) itemAdapter.getGroup(groupPosition);
                 group.setName("Amount in " + selectedItem);
                 if (parent.isGroupExpanded(groupPosition)) {
                     parent.collapseGroup(groupPosition);
@@ -197,7 +261,8 @@ public class AddExpenseActivity extends AppCompatActivity {
 
             @Override
             public void onClick (View view) {
-                Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitOptionActivity.class);
+                //Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitOptionActivity.class);
+                Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
                 startActivity(goToSplitOptions);
             }
         });

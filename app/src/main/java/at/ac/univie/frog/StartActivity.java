@@ -47,9 +47,6 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         sharedPreferences = getApplicationContext().getSharedPreferences("Log", 0);
-
-        new CurrencyChanger(StartActivity.this).execute();
-
         sharedPreferences = getSharedPreferences("Log", Context.MODE_PRIVATE);
 
         /*
@@ -139,6 +136,8 @@ public class StartActivity extends AppCompatActivity {
 
     public void createDAO(SharedPreferences sharedPreferences) {
 
+        new CurrencyChanger(StartActivity.this).execute();
+
         //Add Friends & Groups Hardcoded and save them
         FriendManager frienddao =  new FriendManager();
 
@@ -207,7 +206,7 @@ public class StartActivity extends AppCompatActivity {
 
         g1.addExpense(firstexpense);
 
-        firstexpense = new SplitParts(f1 , f3 , 34, "Eis essen Hotel-Restaurant");
+        firstexpense = new SplitParts(f1 , f3 , 34, "Eis essen");
         firstexpense.addparticipant(f3);
         firstexpense.addparticipant(f6);
         firstexpense.setitem(f3, 4);

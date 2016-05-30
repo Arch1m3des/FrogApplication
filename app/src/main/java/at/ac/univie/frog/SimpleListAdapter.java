@@ -40,7 +40,6 @@ public class SimpleListAdapter extends ArrayAdapter<String> {
         }
 
         TextView textView = (TextView) simpleView.findViewById(R.id.simpleText);
-        EditText editText = (EditText) simpleView.findViewById(R.id.simpleEdit);
 
         textView.setTextColor(Color.BLACK);
         textView.setText(list.get(position));

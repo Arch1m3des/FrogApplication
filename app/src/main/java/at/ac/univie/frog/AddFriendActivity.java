@@ -27,6 +27,8 @@ public class AddFriendActivity extends AppCompatActivity {
     ArrayAdapter adapter;
     ArrayList<String> friends = new ArrayList();
     ArrayList<String> sign = new ArrayList();
+    ArrayList<String> date = new ArrayList();
+    ArrayList<String> amount = new ArrayList();
     ArrayList<String> color = new ArrayList();
 
     @Override
@@ -48,15 +50,19 @@ public class AddFriendActivity extends AppCompatActivity {
         group.setTextColor(Color.parseColor("#000000"));
 
         searchView = (ListView) findViewById(R.id.searchView);
-        adapter = new FancyListAdapter(this, R.layout.fancy_list, friends, sign, color);
+        adapter = new FancyListAdapter(this, R.layout.fancy_list, friends, sign, amount, date, color);
 
         searchView.setAdapter(adapter);
 
         friends.add("Add Dummy");
         sign.add("+");
+        amount.add("");
+        date.add("");
         color.add("#6E6E6E");
         friends.add("Add Friend by QR-Code");
         sign.add("+");
+        amount.add("");
+        date.add("");
         color.add("#6E6E6E");
 
         searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -1,14 +1,13 @@
 package at.ac.univie.frog;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,20 +15,21 @@ import java.util.ArrayList;
 /**
  * Created by tamara on 28.05.16.
  */
+
 public class FancyExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private ArrayList<Group> groups = null;
+    private ArrayList<Parent> parents = null;
 
-    public FancyExpandableListAdapter(Context context, ArrayList<Group> groups) {
+    public FancyExpandableListAdapter(Context context, ArrayList<Parent> parents) {
         this.context = context;
-        this.groups = groups;
+        this.parents = parents;
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
-        ArrayList<String> chList = groups.get(groupPosition).getItems();
-        return chList.get(childPosition);
+    public Child getChild(int groupPosition, int childPosition) {
+        ArrayList<Child> childList = parents.get(groupPosition).getItems();
+        return childList.get(childPosition);
     }
 
     @Override
@@ -38,41 +38,36 @@ public class FancyExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-        String child = (String) getChild(groupPosition, childPosition);
+        Child child = getChild(groupPosition, childPosition);
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) context
-                    .getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.fancy_category, null);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.fancy_category, null);
         }
+
         TextView textView = (TextView) convertView.findViewById(R.id.fancyChild);
-        //ImageView iv = (ImageView) convertView.findViewById(R.id.);
 
-        textView.setText(child);
-
-        //textView.setTextColor(Color.BLACK);
-        //textView.setBackgroundColor(Color.WHITE);
-        //iv.setImageResource(child.getImage());
+        textView.setText(child.getName());
 
         return convertView;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        ArrayList<String> chList = groups.get(groupPosition).getItems();
-        return chList.size();
+        ArrayList<Child> childList = parents.get(groupPosition).getItems();
+        return childList.size();
     }
+
 
     @Override
     public Object getGroup(int groupPosition) {
-        return groups.get(groupPosition);
+        return parents.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return groups.size();
+        return parents.size();
     }
 
     @Override
@@ -81,13 +76,13 @@ public class FancyExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
-        Group group = (Group) getGroup(groupPosition);
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        Parent group = (Parent) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.fancy_category, null);
         }
+
         TextView textView = (TextView) convertView.findViewById(R.id.fancyCategory);
         textView.setText(group.getName());
         return convertView;

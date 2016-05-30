@@ -33,9 +33,14 @@ public class GroupActivity extends AppCompatActivity {
     ListView groupView;
     ArrayAdapter adapter;
     ArrayList<Group> groups = new ArrayList();
+    Friend me;
     ArrayList<String> groupsToString = new ArrayList();
     ArrayList<String> iconColors = new ArrayList();
     ArrayList<String> text = new ArrayList();
+    ArrayList<String> date = new ArrayList();
+    ArrayList<String> amount = new ArrayList();
+    GroupManager groupdao;
+    FriendManager frienddao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +57,11 @@ public class GroupActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.getStringExtra("check") != null)
             Toast.makeText(getApplicationContext(), "Your expense has been saved", Toast.LENGTH_SHORT).show();
-        // get from extra //groups =   (ArrayList<Group>)intent.getSerializableExtra("Groups");
+        // get from extra //parents =   (ArrayList<Parent>)intent.getSerializableExtra("Groups");
 
-        GroupManager groupdao = new GroupManager();
-        FriendManager frienddao =  new FriendManager();
+        groupdao = new GroupManager();
+        frienddao =  new FriendManager();
+
         try {
             groupdao.loadGroupData(getApplicationContext(), "Groups");
             frienddao.loadFriendData(getApplicationContext(), "Friends");
@@ -64,26 +70,29 @@ public class GroupActivity extends AppCompatActivity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        Friend me = frienddao.getFriendList().get(0);
+
+        // Friend me = frienddao.getFriendList().get(0);
         groups = groupdao.getGroupList();
-
-
-
+        me = frienddao.getFriendList().get(0);
 
         groupsToString.add("New Group");
         text.add("+");
         iconColors.add("#6E6E6E");
+        date.add("");
+        amount.add("");
 
 
         for (Group temp : groups) {
                 //TODO Balance in green or red depending on + or - and smaller
-                groupsToString.add(temp.getName() + " " + temp.getsumexpenses() + "€");
+                groupsToString.add(temp.getName());
+                amount.add(temp.getsumexpenses() + "€");
+                date.add("");
                 iconColors.add(temp.getIconColor());
                 text.add("");
         }
 
         groupView = (ListView) findViewById(R.id.groupView);
-        adapter = new FancyListAdapter(this, R.layout.fancy_list, groupsToString, text, iconColors);
+        adapter = new FancyListAdapter(this, R.layout.fancy_list, groupsToString, text, amount, date, iconColors);
 
         groupView.setAdapter(adapter);
 
@@ -98,7 +107,7 @@ public class GroupActivity extends AppCompatActivity {
                 }
                 else {
                     Intent detailGroup = new Intent(GroupActivity.this, GroupDetailActivity.class);
-                    detailGroup.putExtra("GroupPosition", position-1);
+                    detailGroup.putExtra("GroupPosition", position-1);  //-1 because of AddGroup
                     startActivity(detailGroup);
                 }
 

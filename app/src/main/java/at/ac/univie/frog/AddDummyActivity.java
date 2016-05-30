@@ -58,7 +58,7 @@ public class AddDummyActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please enter a surname.", Toast.LENGTH_LONG).show();
 
                 else {
-                    String[] parts=new String[3];
+                    String[] parts = new String[3];
                     parts[0]=surnameToString;
                     parts[1]=nameToString;
                     parts[2]=emailToString;

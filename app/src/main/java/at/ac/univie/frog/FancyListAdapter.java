@@ -26,14 +26,18 @@ public class FancyListAdapter extends ArrayAdapter<String> {
     private int layoutResourceId;
     private ArrayList<String> list = null;
     private ArrayList<String> initials = null;
+    private ArrayList<String> amount = null;
+    private ArrayList<String> date = null;
     private ArrayList<String> colors = null;
 
-    public FancyListAdapter(Context context, int layoutResourceId, ArrayList<String> list, ArrayList<String> initials, ArrayList<String> colors) {
+    public FancyListAdapter(Context context, int layoutResourceId, ArrayList<String> list, ArrayList<String> initials, ArrayList<String> amount, ArrayList<String> date, ArrayList<String> colors) {
         super(context, layoutResourceId, list);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.list = list;
         this.initials = initials;
+        this.amount = amount;
+        this.date = date;
         this.colors = colors;
     }
 
@@ -49,12 +53,21 @@ public class FancyListAdapter extends ArrayAdapter<String> {
 
         TextView textView = (TextView) fancyView.findViewById(R.id.textView);
         TextView initialsView = (TextView) fancyView.findViewById(R.id.listInitials);
+        TextView amountView = (TextView) fancyView.findViewById(R.id.textAmount);
+        TextView dateView = (TextView) fancyView.findViewById(R.id.date);
+
+        dateView.setText(date.get(position));
+        dateView.setBackgroundColor(Color.WHITE);
+
+        amountView.setTextColor(Color.BLACK);
+        amountView.setText(amount.get(position));
+        amountView.setBackgroundColor(Color.WHITE);
 
         textView.setTextColor(Color.BLACK);
         textView.setText(list.get(position));
         textView.setBackgroundColor(Color.WHITE);
 
-        if (position == 0 || !initials.get(position).equals("")) {
+        if (initials.get(position).equals("+") || initials.get(position).equals("$") || !initials.get(position).equals("")) {
             initialsView.setText(initials.get(position));
             initialsView.setBackgroundResource(R.drawable.circle);
         }

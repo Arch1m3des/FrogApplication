@@ -28,6 +28,8 @@ public class FriendActivity extends AppCompatActivity {
     ArrayList<Friend> friends = new ArrayList();
     ArrayList<String> friendsToString = new ArrayList();
     ArrayList<String> friendsInitials = new ArrayList();
+    ArrayList<String> amount = new ArrayList();
+    ArrayList<String> date = new ArrayList();
     ArrayList<String> iconColors = new ArrayList();
 
     @Override
@@ -44,6 +46,11 @@ public class FriendActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        if(intent.getStringArrayExtra("values") != null) {
+            String[] parts = intent.getStringArrayExtra("values");
+            Toast.makeText(getApplicationContext(), "Dummy \"" + parts[1] + " " + parts[0] + "\" added", Toast.LENGTH_SHORT).show();
+        }
+
         FriendManager frienddao = new FriendManager();
         try {
             frienddao.loadFriendData(getApplicationContext(), "Friends");
@@ -52,6 +59,9 @@ public class FriendActivity extends AppCompatActivity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        Friend me = frienddao.getFriendList().get(0);
+
         friends =  frienddao.getFriendList();
         /*
         friends.add(new Friend(1, "Weinbahn", "Andy", "ich@du.com"));
@@ -68,7 +78,7 @@ public class FriendActivity extends AppCompatActivity {
 
 
         //Wenn der intent ein StringArrayExtra mit dem Namen values hat wird dieser ausgelesen
-        //Bevor der Intent ausgelesen werden kann, muss zuerst die Liste der Freunde geladen werden0
+        //Bevor der Intent ausgelesen werden kann, muss zuerst die Liste der Freunde geladen werden
         if(intent.getStringArrayExtra("values")!=null){
             String[] newFriend = intent.getStringArrayExtra("values");
 
@@ -78,16 +88,22 @@ public class FriendActivity extends AppCompatActivity {
 
         friendsToString.add("Add Friend");
         friendsInitials.add("+");
+        amount.add("");
+        date.add("");
         iconColors.add("#6E6E6E");
 
         for (Friend temp : friends) {
-            friendsToString.add(temp.getName() + " " + temp.getSurname());
-            friendsInitials.add(temp.getInitials());
-            iconColors.add(temp.getIconColor());
+            if (temp != me) { // in order to not see yourself as a friend
+                friendsToString.add(temp.getName() + " " + temp.getSurname());
+                amount.add("");
+                date.add("");
+                friendsInitials.add(temp.getInitials());
+                iconColors.add(temp.getIconColor());
+            }
         }
 
         friendsView = (ListView) findViewById(R.id.friendsView);
-        adapter = new FancyListAdapter(this, R.layout.fancy_list, friendsToString, friendsInitials, iconColors);
+        adapter = new FancyListAdapter(this, R.layout.fancy_list, friendsToString, friendsInitials, amount, date, iconColors);
 
         friendsView.setAdapter(adapter);
 
@@ -102,6 +118,8 @@ public class FriendActivity extends AppCompatActivity {
                 }
                 else {
                     Intent detailFriend = new Intent(FriendActivity.this, FriendDetailActivity.class);
+                    detailFriend.putExtra("name", friendsToString.get(position));
+                    detailFriend.putExtra("friendposition", position);
                     startActivity(detailFriend);
                 }
 

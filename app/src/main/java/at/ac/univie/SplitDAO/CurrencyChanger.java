@@ -114,7 +114,7 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
         try{
             JSONObject rateResult=result.getJSONObject("rates");
 
-            for(String currency:currencies) {
+            for(String currency : currencies) {
                 rate = rateResult.getDouble(currency);
                 editor.putString(currency,""+rate);
             }

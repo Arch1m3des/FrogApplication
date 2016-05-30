@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by Andy on 25.05.16.
  */
-public class GroupManager implements Serializable{
+public class GroupManager implements Serializable {
 
     public ArrayList<Group> groupList;
     String filename;

@@ -3,26 +3,32 @@ package at.ac.univie.frog;
 /**
  * Created by tamara on 28.05.16.
  */
-/*
+
 public class Child {
 
-    private String Name;
-    private int Image;
+    private String name;
+    private boolean selected;
+
+    public Child(String name) {
+        this.name = name;
+        selected = false;
+    }
 
     public String getName() {
-        return Name;
+        return this.name;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getImage() {
-        return Image;
+    public boolean isSelected() {
+        return this.selected;
     }
 
-    public void setImage(int Image) {
-        this.Image = Image;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
+
+
 }
-*/

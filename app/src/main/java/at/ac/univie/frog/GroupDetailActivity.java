@@ -28,26 +28,35 @@ public class GroupDetailActivity extends AppCompatActivity {
     ArrayList<Friend> expense = new ArrayList();
     ArrayList<String> expenseToString = new ArrayList();
     ArrayList<String> expenseInitials = new ArrayList();
+    ArrayList<String> date = new ArrayList();
+    ArrayList<String> amount = new ArrayList();
     ArrayList<String> iconColors = new ArrayList();
+    int groupindex = 0;
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_group_detail);
 
         setContentView(R.layout.content_expense);
         getSupportActionBar().setTitle("Expenses");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // getSupportActionBar().setHomeAsUpIndicator(R.drawable.katze); // if different icon is desired
 
-        /*
-        TextView group=(TextView) findViewById(R.id.imageFriendsWithText);
-        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_friends_clicked,0,0);
+
+        TextView group=(TextView) findViewById(R.id.imageGroupsWithText);
+        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
         group.setTextColor(Color.parseColor("#000000"));
 
-        */
+
 
         Intent intent = getIntent();
-        int position = intent.getIntExtra("GroupPosition", 1);
+        groupindex = intent.getIntExtra("GroupPosition", 1);
         GroupManager groupdao = new GroupManager();
         try {
             groupdao.loadGroupData(getApplicationContext(), "Groups");
@@ -57,7 +66,7 @@ public class GroupDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        ArrayList<Expense> expense = (ArrayList<Expense>) groupdao.getGroupList().get(position).getExpenses();
+        ArrayList<Expense> expense = (ArrayList<Expense>) groupdao.getGroupList().get(groupindex).getExpenses();
 
 
 
@@ -74,19 +83,22 @@ public class GroupDetailActivity extends AppCompatActivity {
 
         expenseToString.add("Add Expense");
         expenseInitials.add("+");
+        amount.add("");
+        date.add("");
         iconColors.add("#6E6E6E");
 
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH.mm", Locale.GERMAN);
 
         for (Expense temp : expense) {
-            //TODO Datum kleiner machen
-            expenseToString.add(temp.getDescription() + " " + -temp.getAmount() + " " + df.format(temp.getDate()));
+            expenseToString.add(temp.getDescription());
+            amount.add(temp.getAmount() + "€");
+            date.add(df.format(temp.getDate()));
             expenseInitials.add("$");
             iconColors.add("#00CC7A");
         }
 
         expenseView = (ListView) findViewById(R.id.expenseView);
-        adapter = new FancyListAdapter(this, R.layout.fancy_list, expenseToString, expenseInitials, iconColors);
+        adapter = new FancyListAdapter(this, R.layout.fancy_list, expenseToString, expenseInitials, amount, date, iconColors);
 
         expenseView.setAdapter(adapter);
 
@@ -96,12 +108,14 @@ public class GroupDetailActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
 
                 if (position == 0) {
-                   Intent addFriend = new Intent(GroupDetailActivity.this, AddExpenseActivity.class);
-                   startActivity(addFriend);
+                   Intent addExpense = new Intent(GroupDetailActivity.this, AddExpenseActivity.class);
+                   addExpense.putExtra("groupindex",groupindex);
+                   startActivity(addExpense);
                 }
                 else {
-                    //change frienddetailac to expensedetailactivity
-                    Intent detailExpense = new Intent(GroupDetailActivity.this, FriendDetailActivity.class);
+                    Intent detailExpense = new Intent(GroupDetailActivity.this, ExpenseDetailActivity.class);
+                    detailExpense.putExtra("groupindex",groupindex);
+                    detailExpense.putExtra("expenseindex",position-1); //-1 because of addExpense
                     startActivity(detailExpense);
                 }
 

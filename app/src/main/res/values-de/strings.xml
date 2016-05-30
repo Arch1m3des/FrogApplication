@@ -9,6 +9,6 @@
     <string name="navbar_me">Ich</string>
     <string name="scan"></string>
     <string name="navbar_settings">Einstellungen</string>
-    <string name="start_one">Hol das Meiste aus deine Urlaub raus</string>
-    <string name="start_two">Lass uns dir helfen deine Kosten zu teilen</string>
+    <string name="start_one">Hol das Meiste aus \ndeinem Urlaub heraus</string>
+    <string name="start_two">Wir helfen dir, \ndeine Kosten zu teilen</string>
 </resources>
