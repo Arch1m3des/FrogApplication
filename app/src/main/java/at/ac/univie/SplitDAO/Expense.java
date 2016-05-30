@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * gadsfjlksdlfk
@@ -150,6 +151,15 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         }
     }
 
+    public int getParticipantIndex(Friend friend) {
+        for (int i=0; i<participants.size(); i++) {
+            if (participants.get(i).getFriendID() == friend.getFriendID()) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
     public double getSpendinginHomeCurrencybyIndex(int index)  {
         try {
             return spendingInHomeCurrency.get(index);
@@ -159,7 +169,14 @@ public abstract class Expense implements IExpensecalculations, Serializable {
     }
 
     public boolean isparticipant(Friend friend) {
-        return this.participants.contains(friend);
+        boolean participated = false;
+        for (Friend temp : this.participants) {
+            if (temp.getFriendID() == friend.getFriendID()) {
+                participated = true;
+                break;
+            }
+        }
+        return participated;
     }
 
     public String getDescription() {

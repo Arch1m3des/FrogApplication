@@ -35,6 +35,8 @@ public class FriendDetailActivity extends AppCompatActivity {
     ArrayList<String> text = new ArrayList();
     ArrayList<String> date = new ArrayList();
     ArrayList<String> amount = new ArrayList();
+    Friend me;
+    Friend owingfriend;
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -48,7 +50,7 @@ public class FriendDetailActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_friend_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Friend Detail");
+        getSupportActionBar().setTitle("Friend Details");
 
         TextView group=(TextView) findViewById(R.id.imageFriendsWithText);
         group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_friends_clicked,0,0);
@@ -59,8 +61,6 @@ public class FriendDetailActivity extends AppCompatActivity {
         name = (TextView) findViewById(R.id.name);
 
         Intent intent = getIntent();
-        String nameString = intent.getStringExtra("name");
-        name.setText(nameString);
         int friendposition = intent.getIntExtra("friendposition",0);
 
 
@@ -73,9 +73,13 @@ public class FriendDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Friend me = frienddao.getFriendList().get(0);  //TODO 0 is always me
-        Friend owingfriend = frienddao.getFriendList().get(friendposition);
+        me = frienddao.getFriendList().get(0);  //TODO 0 is always me
+        owingfriend = frienddao.getFriendList().get(friendposition);
         groups = groupdao.getGroupList();
+
+        String nameString = owingfriend.getName() + " " + owingfriend.getSurname(); //intent.getStringExtra("name");
+        name.setText(nameString);
+
 
         DecimalFormat doubleform = new DecimalFormat("#.##");
         SimpleDateFormat dateform = new SimpleDateFormat("dd.MM.", Locale.GERMAN);
@@ -83,11 +87,29 @@ public class FriendDetailActivity extends AppCompatActivity {
 
         for (Group temp : groups) {
             //TODO Balance in green or red depending on + or - and smaller
-            groupsToString.add(temp.getName());
-            amount.add(doubleform.format(temp.calculateowes(me, owingfriend))+ "€");
-            date.add("last expense: " + dateform.format(today));
-            iconColors.add(temp.getIconColor());
-            text.add("");
+            //show only groups where owingfriend is a member
+
+            ArrayList<Friend> members = (ArrayList<Friend>) temp.getMembers();
+            boolean contains = false;
+            for (Friend friend : members) {
+                if(friend.getFriendID() == owingfriend.getFriendID()) {
+                    contains = true;
+                    break;
+                }
+            }
+
+            if(contains) {
+                double owes = temp.calculateowes(me, owingfriend);
+                if(owes==0) continue;
+                else {
+                    groupsToString.add(temp.getName());
+                    amount.add(doubleform.format(owes) + "€");
+                    date.add("last expense: " + dateform.format(today));
+                    iconColors.add(temp.getIconColor());
+                    text.add("");
+                }
+            }
+
         }
 
         groupView = (ListView) findViewById(R.id.groupView);

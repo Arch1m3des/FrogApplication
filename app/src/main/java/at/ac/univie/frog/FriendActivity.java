@@ -46,10 +46,13 @@ public class FriendActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        //maybe needed, maybe not TODO delete later
+        /*
         if(intent.getStringArrayExtra("values") != null) {
             String[] parts = intent.getStringArrayExtra("values");
             Toast.makeText(getApplicationContext(), "Dummy \"" + parts[1] + " " + parts[0] + "\" added", Toast.LENGTH_SHORT).show();
         }
+        */
 
         FriendManager frienddao = new FriendManager();
         try {
@@ -63,20 +66,10 @@ public class FriendActivity extends AppCompatActivity {
         Friend me = frienddao.getFriendList().get(0);
 
         friends =  frienddao.getFriendList();
+
+
+        //TODO delete because shared prefs friends are not needed any longer
         /*
-        friends.add(new Friend(1, "Weinbahn", "Andy", "ich@du.com"));
-        friends.add(new Friend(2, "Bader", "Markus",  "ich@du.com"));
-        friends.add(new Friend(3, "Bubla", "Daniel",  "ich@du.com"));
-        friends.add(new Friend(4, "Eins", "Freund",  "ich@du.com"));
-        friends.add(new Friend(5, "Zwei", "Freund",  "ich@du.com"));
-        friends.add(new Friend(6, "Drei", "Freund",  "ich@du.com"));
-        friends.add(new Friend(7, "Vier", "Freund",  "ich@du.com"));
-        friends.add(new Friend(8, "Fuenf", "Freund",  "ich@du.com"));
-        friends.add(new Friend(9, "Sechs", "Freund",  "ich@du.com"));
-        friends.add(new Friend(10, "Sieben", "Freund",  "ich@du.com"));
-        */
-
-
         //Wenn der intent ein StringArrayExtra mit dem Namen values hat wird dieser ausgelesen
         //Bevor der Intent ausgelesen werden kann, muss zuerst die Liste der Freunde geladen werden
         if(intent.getStringArrayExtra("values")!=null){
@@ -85,6 +78,7 @@ public class FriendActivity extends AppCompatActivity {
             //Einen neuen Freund der Liste hinzufuegen, die Nummer wird durch die Anzahl der Elemente in der Liste +1 festgelegt.
             friends.add(new Friend(friends.size()+1,newFriend[0],newFriend[1],newFriend[2]));
         }
+        */
 
         friendsToString.add("Add Friend");
         friendsInitials.add("+");

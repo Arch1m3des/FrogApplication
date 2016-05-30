@@ -131,10 +131,10 @@ public class Group implements Serializable {
             if (expense.isparticipant(me) && expense.isparticipant(friend)) {
                 int indexpayer;
                 int indexdebtor;
-                if (expense.getPayer() == me) {
-                    owes += expense.getSpendingbyIndex(expense.participants.indexOf(friend));
-                } if(expense.getPayer() == friend) {
-                    owes -= expense.getSpendingbyIndex(expense.participants.indexOf(me));
+                if (expense.getPayer().getFriendID() == me.getFriendID()) {
+                    owes += expense.getSpendingbyIndex(expense.getParticipantIndex(me));
+                } if(expense.getPayer().getFriendID() == friend.getFriendID()) {
+                    owes -= expense.getSpendingbyIndex(expense.getParticipantIndex(me));
                 }
             }
         }
