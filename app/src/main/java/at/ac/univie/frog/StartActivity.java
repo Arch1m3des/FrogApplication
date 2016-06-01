@@ -79,6 +79,8 @@ public class StartActivity extends AppCompatActivity {
 
         */
 
+        //new CurrencyChanger(this).execute();
+
 
 
         if (sharedPreferences.contains("Name")) {
