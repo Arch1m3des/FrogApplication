@@ -113,17 +113,7 @@
         android:fontFamily="sans-serif-light"
         android:singleLine="true"
         android:layout_above="@+id/amount"
-        android:layout_alignStart="@+id/forward"
         android:layout_alignEnd="@+id/amount"
         android:inputType="text" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Finish"
-        android:fontFamily="sans-serif-light"
-        android:id="@+id/forward"
-        android:layout_below="@+id/viewSplitOptions"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

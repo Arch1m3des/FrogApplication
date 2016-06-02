@@ -4,11 +4,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +27,6 @@ import at.ac.univie.SplitDAO.FriendManager;
 
 public class AddDummyActivity extends AppCompatActivity {
     EditText email, surname, name;
-    Button button;
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -31,28 +35,21 @@ public class AddDummyActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_friend_menu, menu);
+        return true;
+    }
 
-        setContentView(R.layout.activity_add_dummy);
-        getSupportActionBar().setTitle("Add Friend");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_menu_qr:
+                //Starting QR Scan Intent. Greift auf die Klassen von zxing zu, welche das scannen des QR Codes uebernehmen.
+                IntentIntegrator scanIntegrator = new IntentIntegrator(AddDummyActivity.this);
+                scanIntegrator.initiateScan();
+                return true;
+            case R.id.action_menu_done:
 
-        TextView group=(TextView) findViewById(R.id.imageFriendsWithText);
-        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_friends_clicked,0,0);
-        group.setTextColor(Color.parseColor("#000000"));
-
-        button = (Button) findViewById(R.id.addFriend);
-        email = (EditText) findViewById(R.id.editEmail);
-        email.setHint(email.getHint().toString() + " (optional)");
-        name = (EditText) findViewById(R.id.editName);
-        surname = (EditText) findViewById(R.id.editSurname);
-
-        button.setTransformationMethod(null); // to decapitalize the button text
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 final String emailToString = (email.getText().toString().length()==0) ? "@mailto" : email.getText().toString();
                 final String nameToString = name.getText().toString();
                 final String surnameToString = surname.getText().toString();
@@ -88,14 +85,78 @@ public class AddDummyActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Intent addQR = new Intent(AddDummyActivity.this, FriendActivity.class);
+                    Intent goToFriends = new Intent(AddDummyActivity.this, FriendActivity.class);
                     //addQR.putExtra("values",parts);
-                    startActivity(addQR);
+                    startActivity(goToFriends);
                 }
 
-            }
+                return true;
+            default: return  false;
+        }
+    }
 
-        });
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_add_dummy);
+        getSupportActionBar().setTitle("Add Friend");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView group=(TextView) findViewById(R.id.imageFriendsWithText);
+        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_friends_clicked,0,0);
+        group.setTextColor(Color.parseColor("#000000"));
+
+        email = (EditText) findViewById(R.id.editEmail);
+        email.setHint(email.getHint().toString() + " (optional)");
+        name = (EditText) findViewById(R.id.editName);
+        surname = (EditText) findViewById(R.id.editSurname);
+    }
+
+    // add friend via QRCode? (name, surname & email address)
+    // Auslesen und Verwerten des Ergebnis.
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //TODO chatching Crash when going back from scan-app
+        if(intent==null){
+           return;
+        }
+
+        //retrieve scan result
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+
+        //Ueberpruefen ob gescannt werden konnte
+        if (scanningResult != null) {
+            //we have a result
+            String scanContent = scanningResult.getContents();
+            String scanFormat = scanningResult.getFormatName();
+
+            //Ueberpruefen ob Scan ein QR Code war
+            if(scanFormat.equals("QR_CODE")){
+                String parts[]=scanContent.split(";");
+
+                //Ueberpruefen ob der QR Code aus 3 Teilen besteht
+                if(parts.length==3){
+                    //Besteht der Content aus 3 Teilen, nehmen wir an das einer von unseren QR Codes gescannt wurde
+                    //Nun wird ein neuer Intent angelegt, die Daten mitgegeben und danach wird FriendActivity gestartet
+                    Intent addQR = new Intent(this, FriendActivity.class);
+                    addQR.putExtra("values",parts);
+                    startActivity(addQR);
+                }else{
+                    //Sollte der gescannte Content nicht aus 3 Teilen bestehen, handelt es sich nicht um einen QR Code von uns
+                    Toast toast = Toast.makeText(getApplicationContext(),"Scant QR Code wasn´t our!", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }else{
+                //Sollte es sich bei dem gescannten Objekt nicht um einen QR Code handeln, wird ein Fehler ausgegeben
+                Toast toast = Toast.makeText(getApplicationContext(),"Scan wasn´t a QR Code!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "No scan data received!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
     }
 
     public void gotToFriendsActivity(View v){

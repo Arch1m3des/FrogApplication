@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,36 +43,15 @@ public class AddGroupActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.done, menu);
+        return true;
+    }
 
-        setContentView(R.layout.content_add_group);
-        getSupportActionBar().setTitle("Add Group");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        final TextView group=(TextView) findViewById(R.id.imageGroupsWithText);
-        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
-        group.setTextColor(Color.parseColor("#000000"));
-
-        groupName = (EditText) findViewById(R.id.groupName);
-        btnAddGroup = (Button) findViewById(R.id.addGroup);
-
-        groupdao = new GroupManager();
-        frienddao =  new FriendManager();
-        friendpos = new ArrayList<>();
-
-        try {
-            groupdao.loadGroupData(getApplicationContext(), "Groups");
-            frienddao.loadFriendData(getApplicationContext(), "Friends");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        btnAddGroup.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO check and add friendpos
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_menu_done:
 
                 if (groupName.getText().length() == 0)
                     Toast.makeText(getApplicationContext(), "Please add a group name.", Toast.LENGTH_LONG).show();
@@ -93,10 +74,38 @@ public class AddGroupActivity extends AppCompatActivity {
                     Intent goToGroup=new Intent(AddGroupActivity.this,GroupActivity.class);
                     startActivity(goToGroup);
                 }
-            }
-        });
 
+                return true;
+            default: return  false;
+        }
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.content_add_group);
+        getSupportActionBar().setTitle("Add Group");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final TextView group=(TextView) findViewById(R.id.imageGroupsWithText);
+        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
+        group.setTextColor(Color.parseColor("#000000"));
+
+        groupName = (EditText) findViewById(R.id.groupName);
+
+        groupdao = new GroupManager();
+        frienddao =  new FriendManager();
+        friendpos = new ArrayList<>();
+
+        try {
+            groupdao.loadGroupData(getApplicationContext(), "Groups");
+            frienddao.loadFriendData(getApplicationContext(), "Friends");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         listView = (ExpandableListView) findViewById(R.id.listView);
 

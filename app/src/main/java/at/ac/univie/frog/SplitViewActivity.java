@@ -1,7 +1,10 @@
 package at.ac.univie.frog;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Adapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -23,6 +26,26 @@ public class SplitViewActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp(){
         finish();
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.done, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_menu_done:
+                //Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitOptionActivity.class);
+                Intent goToGroupDetail = new Intent(SplitViewActivity.this, GroupDetailActivity.class);
+
+                finish();
+                startActivity(goToGroupDetail);
+                return true;
+            default: return  false;
+        }
     }
 
     @Override

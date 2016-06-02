@@ -2,8 +2,11 @@ package at.ac.univie.frog;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
@@ -43,12 +46,33 @@ public class AddExpenseActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.done, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_menu_done:
+                //Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitOptionActivity.class);
+                Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
+
+                finish();
+                startActivity(goToSplitOptions);
+                return true;
+            default: return  false;
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.content_add_expense);
+
         getSupportActionBar().setTitle("Add Expense");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         //getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
 
         location = (CheckedTextView) findViewById(R.id.textLocation);
@@ -176,8 +200,6 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         });
 
-        button = (Button) findViewById(R.id.forward);
-
         ArrayList<Child> listCategory = new ArrayList();
         ArrayList<Child> listCurrency = new ArrayList();
 
@@ -256,17 +278,6 @@ public class AddExpenseActivity extends AppCompatActivity {
 
             }
         });
-
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick (View view) {
-                //Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitOptionActivity.class);
-                Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
-                startActivity(goToSplitOptions);
-            }
-        });
-
     }
 
 

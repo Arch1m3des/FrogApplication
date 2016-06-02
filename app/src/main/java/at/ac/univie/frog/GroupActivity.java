@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,6 +45,23 @@ public class GroupActivity extends AppCompatActivity {
     FriendManager frienddao;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_menu_add:
+                Intent addGroup = new Intent(GroupActivity.this, AddGroupActivity.class);
+                startActivity(addGroup);
+                return true;
+            default: return  false;
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -75,12 +94,6 @@ public class GroupActivity extends AppCompatActivity {
         groups = groupdao.getGroupList();
         me = frienddao.getFriendList().get(0);
 
-        groupsToString.add("New Group");
-        text.add("+");
-        iconColors.add("#6E6E6E");
-        date.add("");
-        amount.add("");
-
 
         for (Group temp : groups) {
                 //TODO Balance in green or red depending on + or - and smaller
@@ -100,17 +113,9 @@ public class GroupActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
-
-                if (position == 0) {
-                    Intent addGroup = new Intent(GroupActivity.this, AddGroupActivity.class);
-                    startActivity(addGroup);
-                }
-                else {
-                    Intent detailGroup = new Intent(GroupActivity.this, GroupDetailActivity.class);
-                    detailGroup.putExtra("GroupPosition", position-1);  //-1 because of AddGroup
-                    startActivity(detailGroup);
-                }
-
+                Intent detailGroup = new Intent(GroupActivity.this, GroupDetailActivity.class);
+                detailGroup.putExtra("GroupPosition", position);
+                startActivity(detailGroup);
             }
 
         });
