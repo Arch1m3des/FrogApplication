@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,6 +33,23 @@ public class FriendActivity extends AppCompatActivity {
     ArrayList<String> amount = new ArrayList();
     ArrayList<String> date = new ArrayList();
     ArrayList<String> iconColors = new ArrayList();
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_menu_add:
+                Intent addFriend = new Intent(FriendActivity.this, AddDummyActivity.class);
+                startActivity(addFriend);
+                return true;
+            default: return  false;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,12 +100,6 @@ public class FriendActivity extends AppCompatActivity {
         }
         */
 
-        friendsToString.add("Add Friend");
-        friendsInitials.add("+");
-        amount.add("");
-        date.add("");
-        iconColors.add("#6E6E6E");
-
         for (Friend temp : friends) {
             if (temp != me) { // in order to not see yourself as a friend
                 friendsToString.add(temp.getName() + " " + temp.getSurname());
@@ -106,18 +119,10 @@ public class FriendActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
-
-                if (position == 0) {
-                    Intent addFriend = new Intent(FriendActivity.this, AddFriendActivity.class);
-                    startActivity(addFriend);
-                }
-                else {
-                    Intent detailFriend = new Intent(FriendActivity.this, FriendDetailActivity.class);
-                    detailFriend.putExtra("name", friendsToString.get(position));
-                    detailFriend.putExtra("friendposition", position);
-                    startActivity(detailFriend);
-                }
-
+                Intent detailFriend = new Intent(FriendActivity.this, FriendDetailActivity.class);
+                detailFriend.putExtra("name", friendsToString.get(position));
+                detailFriend.putExtra("friendposition", position);
+                startActivity(detailFriend);
             }
 
         });

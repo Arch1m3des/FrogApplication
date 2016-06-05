@@ -16,7 +16,7 @@
         android:ems="10"
         android:fontFamily="sans-serif-light"
         android:id="@+id/editEmail"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="80dp"
         android:layout_below="@+id/text"
         android:layout_alignStart="@+id/editSurname" />
 
@@ -41,20 +41,6 @@
         android:id="@+id/editName"
         android:layout_below="@+id/editEmail"
         android:layout_alignStart="@+id/editEmail" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorDarkGrey"
-        android:textColor="@color/colorWhite"
-        android:ems="10"
-        android:text="@string/add_friend"
-        android:id="@+id/addFriend"
-        android:textSize="18sp"
-        android:fontFamily="sans-serif-light"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/editSurname"
-        android:layout_marginBottom="147dp" />
 
     <include layout="@layout/navbar_bottom" />
 </RelativeLayout>

@@ -1,6 +1,6 @@
 package at.ac.univie.frog;
 
-import at.ac.univie.SplitDAO.MapMarker;
+import at.ac.univie.SplitDAO.*;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,11 @@ import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +32,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MapView extends AppCompatActivity implements OnMapReadyCallback{
@@ -54,6 +59,22 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     }
 **/
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_menu_search:
+                Intent addGroup = new Intent(MapView.this, SearchActivity.class);
+                startActivity(addGroup);
+                return true;
+            default: return  false;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

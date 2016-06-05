@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +39,25 @@ public class GroupDetailActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp(){
         finish();
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_menu_add:
+                Intent addExpense = new Intent(GroupDetailActivity.this, AddExpenseActivity.class);
+                addExpense.putExtra("groupindex",groupindex);
+                finish();
+                startActivity(addExpense);
+                return true;
+            default: return  false;
+        }
     }
 
     @Override
@@ -82,12 +103,6 @@ public class GroupDetailActivity extends AppCompatActivity {
         }
 */
 
-        expenseToString.add("Add Expense");
-        expenseInitials.add("+");
-        amount.add("");
-        date.add("");
-        iconColors.add("#6E6E6E");
-
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH.mm", Locale.GERMAN);
 
         for (Expense temp : expense) {
@@ -107,19 +122,10 @@ public class GroupDetailActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
-
-                if (position == 0) {
-                   Intent addExpense = new Intent(GroupDetailActivity.this, AddExpenseActivity.class);
-                   addExpense.putExtra("groupindex",groupindex);
-                   startActivity(addExpense);
-                }
-                else {
-                    Intent detailExpense = new Intent(GroupDetailActivity.this, ExpenseDetailActivity.class);
-                    detailExpense.putExtra("groupindex",groupindex);
-                    detailExpense.putExtra("expenseindex",position-1); //-1 because of addExpense
-                    startActivity(detailExpense);
-                }
-
+                Intent detailExpense = new Intent(GroupDetailActivity.this, ExpenseDetailActivity.class);
+                detailExpense.putExtra("groupindex",groupindex);
+                detailExpense.putExtra("expenseindex",position);
+                startActivity(detailExpense);
             }
 
         });
@@ -127,7 +133,8 @@ public class GroupDetailActivity extends AppCompatActivity {
     }
 
     public void gotToFriendsActivity(View v){
-        //Do Nothing
+        Intent goToFriends=new Intent(GroupDetailActivity.this,FriendActivity.class);
+        startActivity(goToFriends);
     }
 
     public void goToGroupActivity(View v){

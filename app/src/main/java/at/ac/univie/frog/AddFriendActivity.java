@@ -95,6 +95,7 @@ public class AddFriendActivity extends AppCompatActivity {
     // add friend via QRCode? (name, surname & email address)
     // Auslesen und Verwerten des Ergebnis.
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //TODO chatching Crash when going back from scan-app
         //retrieve scan result
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
