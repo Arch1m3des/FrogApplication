@@ -38,6 +38,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_expense_detail);
         getSupportActionBar().setTitle("Expense Detail");
+        getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView group=(TextView) findViewById(R.id.imageGroupsWithText);

@@ -46,6 +46,7 @@ public class AddGroupActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_add_group);
         getSupportActionBar().setTitle("Add Group");
+        getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final TextView group=(TextView) findViewById(R.id.imageGroupsWithText);

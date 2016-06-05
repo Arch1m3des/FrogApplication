@@ -32,9 +32,10 @@ public class SplitViewActivity extends AppCompatActivity {
         setContentView(R.layout.content_split_view);
 
         String splitOption = getIntent().getStringExtra("option");
+
         getSupportActionBar().setTitle("Split" + splitOption);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
+        getSupportActionBar().setElevation(0);
 
         listView = (ListView) findViewById(R.id.splitListView);
 

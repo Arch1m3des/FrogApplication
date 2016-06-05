@@ -29,7 +29,6 @@ public class AddExpenseActivity extends AppCompatActivity {
     ArrayList<Child> friendsToString = new ArrayList();
     ArrayList<Parent> options = new ArrayList();
     ArrayList<Child> splitOptions = new ArrayList();
-    FriendManager frienddao;
     GroupManager groupdao;
     Button button;
     int groupindex;
@@ -48,6 +47,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_add_expense);
         getSupportActionBar().setTitle("Add Expense");
+        getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
 
@@ -95,19 +95,52 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         splitView.setAdapter(adapter);
 
-
+        int i = 0;
+        for (Parent group : options) {
+            for (Child child : group.getItems()) {
+                child.setId(i++);
+            }
+        }
 
         splitView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
-            View currentView;
             boolean turn = true;
-
+            View currentView;
 
             //Who participated? Multiple checks possible.
             @Override
             public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
-/*
+
+               if (groupPosition == 0) {
+
+                // check that childs have ids zero to size of list
+                    turn = true;
+                    ExpandableListAdapter participationAdapter = parent.getExpandableListAdapter();
+                    Child child = (Child) participationAdapter.getChild(groupPosition, childPosition);
+
+                    if (!child.isSelected()) {
+                        child.setSelected(true);
+                        view.setBackgroundColor(Color.parseColor("#7ecece"));
+                        turn = false;
+
+                        if (!participants.contains(members.get(childPosition))) {
+                            participants.add(members.get(childPosition));
+                        }
+                    }
+
+                    if (child.isSelected() && turn == true) {
+                        child.setSelected(false);
+                        view.setBackgroundColor(Color.TRANSPARENT);
+
+                        if (participants.contains(members.get(childPosition))) {
+                            participants.remove(members.get(childPosition));
+                        }
+                    }
+                    return false;
+                }
+
                 if (groupPosition == 1) {
+
                     splitView.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
 
                     view.setSelected(true);
@@ -116,17 +149,14 @@ public class AddExpenseActivity extends AppCompatActivity {
                     }
                     currentView = view;
                     currentView.setBackgroundColor(Color.parseColor("#676767"));
-
                     return false;
+
                 }
-  */
 
-
-                ExpandableListAdapter itemAdapter = parent.getExpandableListAdapter();
-                Child child = (Child) itemAdapter.getChild(groupPosition, childPosition);
-                turn = true;
-
-                if (groupPosition == 0) {
+                if (groupPosition == 3) {
+                    turn = true;
+                    ExpandableListAdapter splitAdapter = parent.getExpandableListAdapter();
+                    Child child = (Child) splitAdapter.getChild(groupPosition, childPosition);
 
                     if (!child.isSelected()) {
                         child.setSelected(true);
@@ -146,32 +176,9 @@ public class AddExpenseActivity extends AppCompatActivity {
                             participants.remove(members.get(childPosition));
                         }
                     }
-                    return false;
-                } else {
-
-                    //TODO change to only single item checked
-                    if (!child.isSelected()) {
-                        child.setSelected(true);
-                        view.setBackgroundColor(Color.parseColor("#7ecece"));
-                        turn = false;
-
-                        if (!participants.contains(members.get(childPosition))) {
-                            participants.add(members.get(childPosition));
-                        }
-                    }
-
-                    if (child.isSelected() && turn == true) {
-                        child.setSelected(false);
-                        view.setBackgroundColor(Color.TRANSPARENT);
-
-                        if (participants.contains(members.get(childPosition))) {
-                            participants.remove(members.get(childPosition));
-                        }
-                    }
-                    return false;
 
                 }
-
+                return false;
             }
 
         });

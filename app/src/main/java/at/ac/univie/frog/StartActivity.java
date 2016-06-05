@@ -49,38 +49,6 @@ public class StartActivity extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("Log", 0);
         sharedPreferences = getSharedPreferences("Log", Context.MODE_PRIVATE);
 
-        /*
-        String me_name = "";
-        String me_surname = "";
-        String me_email = "";
-        if (sharedPreferences.contains("Name")) {
-            me_name = sharedPreferences.getString("Name", "");
-        }
-
-        if (sharedPreferences.contains("Surname")) {
-            me_surname = sharedPreferences.getString("Surname", "");
-        }
-
-        if (sharedPreferences.contains("Email")) {
-            me_email = sharedPreferences.getString("Email", "");
-        }*/
-
-
-        /*
-
-        CurrencyManager crm =  new CurrencyManager();
-        try {
-            crm.loadCurrencyData(StartActivity.this, "Currency");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        */
-
-
-
         if (sharedPreferences.contains("Name")) {
             Intent goToOverview = new Intent(StartActivity.this, GroupActivity.class);
             startActivity(goToOverview);
@@ -88,6 +56,7 @@ public class StartActivity extends AppCompatActivity {
 
             setContentView(R.layout.content_start);
             getSupportActionBar().setTitle("Join us");
+            getSupportActionBar().setElevation(0);
 
             button = (Button) findViewById(R.id.toOverview);
             email = (EditText) findViewById(R.id.editEmail);

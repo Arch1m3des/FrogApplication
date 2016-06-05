@@ -38,6 +38,7 @@ public class FriendActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_friend);
         getSupportActionBar().setTitle("Friends");
+        getSupportActionBar().setElevation(0);
         // getSupportActionBar().setHomeAsUpIndicator(R.drawable.katze); // if different icon is desired
 
         TextView group=(TextView) findViewById(R.id.imageFriendsWithText);

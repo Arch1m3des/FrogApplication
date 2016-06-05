@@ -36,6 +36,7 @@ public class AddDummyActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_add_dummy);
         getSupportActionBar().setTitle("Add Friend");
+        getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView group=(TextView) findViewById(R.id.imageFriendsWithText);

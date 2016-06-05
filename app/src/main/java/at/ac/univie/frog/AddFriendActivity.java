@@ -43,6 +43,7 @@ public class AddFriendActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_add_friend);
         getSupportActionBar().setTitle("Add Friend");
+        getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView group=(TextView) findViewById(R.id.imageFriendsWithText);

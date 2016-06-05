@@ -22,7 +22,10 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.content_setting);
+        getSupportActionBar().setTitle("Settings");
+        getSupportActionBar().setElevation(0);
 
         TextView settings = (TextView) findViewById(R.id.imageSettingsWithText);
         settings.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_settings_clicked,0,0);

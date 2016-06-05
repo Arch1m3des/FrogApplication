@@ -10,10 +10,12 @@ public class Parent {
 
     private String name;
     private ArrayList<Child> items;
+    int size;
 
     public Parent(String name, ArrayList<Child> items) {
         this.name = name;
         this.items = items;
+        this.size = items.size();
     }
 
     public String getName() {
@@ -23,6 +25,14 @@ public class Parent {
     public void setName(String name) {
             this.name = name;
         }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 
     public ArrayList<Child> getItems() {
         return items;

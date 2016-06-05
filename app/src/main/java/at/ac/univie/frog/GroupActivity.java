@@ -2,8 +2,10 @@ package at.ac.univie.frog;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -49,6 +51,7 @@ public class GroupActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_group);
         getSupportActionBar().setTitle("Groups");
+        getSupportActionBar().setElevation(0);
 
         TextView group=(TextView) findViewById(R.id.imageGroupsWithText);
         group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);

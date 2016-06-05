@@ -22,8 +22,10 @@ public class MeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_me);
         getSupportActionBar().setTitle("Me");
+        getSupportActionBar().setElevation(0);
 
         TextView group=(TextView) findViewById(R.id.imageMeWithText);
         group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_me_clicked,0,0);

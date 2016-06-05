@@ -58,8 +58,10 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_map_view);
         getSupportActionBar().setTitle("Map");
+        getSupportActionBar().setElevation(0);
 
         TextView settings = (TextView) findViewById(R.id.imageMapWithText);
         settings.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_map_clicked,0,0);

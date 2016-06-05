@@ -45,6 +45,7 @@ public class GroupDetailActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_expense);
         getSupportActionBar().setTitle("Expenses");
+        getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // getSupportActionBar().setHomeAsUpIndicator(R.drawable.katze); // if different icon is desired
 

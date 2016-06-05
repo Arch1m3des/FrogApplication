@@ -8,6 +8,7 @@ public class Child {
 
     private String name;
     private boolean selected;
+    private int id;
 
     public Child(String name) {
         this.name = name;
@@ -20,6 +21,14 @@ public class Child {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isSelected() {

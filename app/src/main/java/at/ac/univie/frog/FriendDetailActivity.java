@@ -51,6 +51,7 @@ public class FriendDetailActivity extends AppCompatActivity {
         setContentView(R.layout.content_friend_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Friend Details");
+        getSupportActionBar().setElevation(0);
 
         TextView group=(TextView) findViewById(R.id.imageFriendsWithText);
         group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_friends_clicked,0,0);
