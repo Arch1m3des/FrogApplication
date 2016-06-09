@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import at.ac.univie.frog.R;
-import at.ac.univie.frog.StartActivity;
+import at.ac.univie.StartActivity;
 import at.ac.univie.qr.QRGenerate;
 
 public class MeActivity extends AppCompatActivity {

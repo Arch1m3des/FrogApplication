@@ -5,10 +5,16 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -20,6 +26,7 @@ import at.ac.univie.frog.R;
 public class SettingActivity extends AppCompatActivity {
 
     Switch controlGPS;
+    boolean canGetLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,60 +47,13 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (isChecked) {
+                Toast.makeText(getApplicationContext(), "yey", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 
-                    String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-
-                    if (!provider.contains("gps")) { //if gps is disabled
-                        final Intent poke = new Intent();
-                        poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
-                        poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-                        poke.setData(Uri.parse("3"));
-                        sendBroadcast(poke);
-                    }
-                    if (canToggleGPS()) {
-                        Toast.makeText(getApplicationContext(), "WORKS", Toast.LENGTH_LONG).show();
-                    }
-
-                } else {
-
-                    String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-
-                    if (provider.contains("gps")) { //if gps is enabled
-                        final Intent poke = new Intent();
-                        poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
-                        poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-                        poke.setData(Uri.parse("3"));
-                        sendBroadcast(poke);
-                    }
-                }
             }
 
         });
     }
-
-    private boolean canToggleGPS() {
-        PackageManager pacman = getPackageManager();
-        PackageInfo pacInfo = null;
-
-        try {
-            pacInfo = pacman.getPackageInfo("com.android.settings", PackageManager.GET_RECEIVERS);
-        } catch (PackageManager.NameNotFoundException e) {
-            return false; //package not found
-        }
-
-        if(pacInfo != null){
-            for(ActivityInfo actInfo : pacInfo.receivers){
-                //test if recevier is exported. if so, we can toggle GPS.
-                if(actInfo.name.equals("com.android.settings.widget.SettingsAppWidgetProvider") && actInfo.exported){
-                    return true;
-                }
-            }
-        }
-
-        return false; //default
-    }
-
 
     public void gotToFriendsActivity(View v){
         Intent goToFriends = new Intent(SettingActivity.this, FriendActivity.class);

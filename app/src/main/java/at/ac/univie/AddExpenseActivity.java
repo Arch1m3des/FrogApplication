@@ -2,17 +2,23 @@ package at.ac.univie;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,9 +29,10 @@ import at.ac.univie.adapter.FancyExpandableListAdapter;
 import at.ac.univie.adapter.Parent;
 import at.ac.univie.frog.R;
 
-public class AddExpenseActivity extends AppCompatActivity {
+public class AddExpenseActivity extends AppCompatActivity implements LocationListener {
 
-    CheckedTextView location;
+    CheckedTextView locationView;
+    EditText amount;
     TextView description;
     ExpandableListView categoryView, currencyView, splitView, friendsView, payerView;
     ExpandableListAdapter adapterCategory, adapterCurrency, optionAdapter, friendsAdapter, payerAdapter;
@@ -38,10 +45,13 @@ public class AddExpenseActivity extends AppCompatActivity {
     ArrayList<Parent> friends = new ArrayList();
     ArrayList<Child> splitOptions = new ArrayList();
     GroupManager groupDAO;
+    at.ac.univie.SplitDAO.Group thisGroup;
     Button button;
     int groupindex;
     ArrayList<Friend> participants = new ArrayList<>();
     ArrayList<Friend> members;
+    Location location;
+    boolean canGetLocation;
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -59,13 +69,34 @@ public class AddExpenseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_menu_done:
+                int amountInt = Integer.parseInt(amount.getText().toString());
                 Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
-
+                goToSplitOptions.putExtra("option", 1);
+                Expense expense = new SplitManual(members.get(0), members.get(0), amountInt, "Test", "Food", null, 1);
+                thisGroup.addExpense(expense);
+                System.out.println("just added expense: " + expense);
+                goToSplitOptions.putExtra("amount", amountInt);
                 finish();
                 startActivity(goToSplitOptions);
                 return true;
             default: return  false;
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 
     @Override
@@ -79,13 +110,14 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         //getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
 
-        location = (CheckedTextView) findViewById(R.id.textLocation);
+        locationView = (CheckedTextView) findViewById(R.id.textLocation);
         description = (TextView) findViewById(R.id.viewDescription);
         categoryView = (ExpandableListView) findViewById(R.id.textCategory);
         currencyView = (ExpandableListView) findViewById(R.id.viewCurrency);
         splitView = (ExpandableListView) findViewById(R.id.viewSplitOptions);
         friendsView = (ExpandableListView) findViewById(R.id.viewFriends);
         payerView = (ExpandableListView) findViewById(R.id.viewPayer);
+        amount = (EditText) findViewById(R.id.amount);
 
         Intent intent = getIntent();
         groupindex = intent.getIntExtra("groupindex", 0);
@@ -101,7 +133,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         }
 
         groups =  groupDAO.getGroupList();
-        at.ac.univie.SplitDAO.Group thisGroup = groups.get(groupindex);
+        thisGroup = groups.get(groupindex);
 
         members = (ArrayList<Friend>) thisGroup.getMembers();
         for (Friend temp : members) {
@@ -130,15 +162,6 @@ public class AddExpenseActivity extends AppCompatActivity {
         friendsView.setAdapter(friendsAdapter);
         payerView.setAdapter(payerAdapter);
 
-
-
-        int i = 0;
-        for (Parent group : options) {
-            for (Child child : group.getItems()) {
-                child.setId(i++);
-                System.out.println("Child with id = " + child.getId() + " is " + child.getName());
-            }
-        }
 
         splitView.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
 
@@ -291,17 +314,80 @@ public class AddExpenseActivity extends AppCompatActivity {
 
 
 
-        location.setOnClickListener(new View.OnClickListener() {
+        locationView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (location.isChecked())
-                    location.setChecked(false);
-                else
-                    location.setChecked(true);
+                if (locationView.isChecked())
+                    locationView.setChecked(false);
+                else {
+                    locationView.setChecked(true);
+                    getLocation();
+                    if (getLocation() != null) {
+                        Toast.makeText(getApplicationContext(), "location is " + getLocation(), Toast.LENGTH_LONG).show();
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(), "Your location could not be determined. Please make sure you enabled GPS for this app in your settings.", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
+    }
+
+    public Location getLocation() {
+
+        location = null;
+        final float minDistance = 10;
+        final long minTime = 35000;
+
+        try {
+            LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+
+            // getting GPS status
+            boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+            // getting network status
+            boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            if (!isGPSEnabled && !isNetworkEnabled) {
+                // no network provider is enabled
+            } else {
+                this.canGetLocation = true;
+                if (isNetworkEnabled) {
+                    try {
+                        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, this);
+                        if (locationManager != null) {
+
+                            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                        }
+                    }
+                    catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                }
+                // if GPS Enabled get lat/long using GPS Services
+                if (isGPSEnabled) {
+                    if (location == null) {
+                        try {
+                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, this);
+                            if (locationManager != null) {
+                                location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                if (location != null) {
+
+                                }
+                            }
+                        } catch (SecurityException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return location;
     }
 
 

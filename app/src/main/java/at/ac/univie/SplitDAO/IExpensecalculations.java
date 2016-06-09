@@ -7,5 +7,5 @@ import java.util.List;
  */
 public interface IExpensecalculations {
 
-    public boolean calculatedebt() throws Exception;
+    public boolean calculateDebt() throws Exception;
 }

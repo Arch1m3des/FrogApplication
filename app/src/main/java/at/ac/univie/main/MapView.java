@@ -2,7 +2,7 @@ package at.ac.univie.main;
 
 import at.ac.univie.SplitDAO.*;
 import at.ac.univie.frog.R;
-import at.ac.univie.frog.SearchActivity;
+import at.ac.univie.SearchActivity;
 
 import android.content.Intent;
 import android.graphics.Color;

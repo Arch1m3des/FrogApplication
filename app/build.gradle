@@ -22,6 +22,9 @@ android {
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://s3.amazonaws.com/repo.commonsware.com"
+    }
 }
 
 dependencies {
@@ -33,6 +36,7 @@ dependencies {
     //compile 'com.jakewharton:butterknife:6.0.0'
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services:8.4.0'
+    compile 'com.commonsware.cwac:merge:1.1.+'
 }
 
 

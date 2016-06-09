@@ -1,5 +1,6 @@
 package at.ac.univie.SplitDAO;
 
+import android.location.Location;
 import android.util.Log;
 
 import java.io.Serializable;
@@ -14,21 +15,21 @@ import java.util.ListIterator;
  */
 
 public class SplitEqual extends Expense implements Serializable {
-    public SplitEqual(Friend creator, Friend payer, double amount, String description) {
-        super(creator, payer, amount, description);
+    public SplitEqual(Friend creator, Friend payer, double amount, String description, String category, int splitOption) {
+        super(creator, payer, amount, description, category,splitOption);
     }
 
     @Override
-    public boolean addparticipant(Friend friend) {
-        super.addparticipant(friend);
-        return calculatedebt();
+    public boolean addParticipant(Friend friend) {
+        super.addParticipant(friend);
+        return calculateDebt();
     }
 
     @Override
-    public boolean setparticipants(List<Friend> participants) {
-        super.setparticipants(participants);
-        inputfields.clear();
-        return calculatedebt();
+    public boolean setParticipants(List<Friend> participants) {
+        super.setParticipants(participants);
+        inputFields.clear();
+        return calculateDebt();
     }
 
     @Override
@@ -53,7 +54,7 @@ public class SplitEqual extends Expense implements Serializable {
 
 
     @Override
-    public boolean calculatedebt() {
+    public boolean calculateDebt() {
         ArrayList<Double> debts = new ArrayList<Double>();
 
         try {

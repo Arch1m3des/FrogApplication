@@ -1,5 +1,7 @@
 package at.ac.univie.SplitDAO;
 
+import android.location.Location;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,15 +14,15 @@ import java.util.Objects;
  */
 public class SplitManual extends Expense implements Serializable{
 
-    public SplitManual(Friend creator, Friend payer, double amount, String description) {
-        super(creator, payer, amount, description);
-        inputfields.put(payer, (double) 0);
+    public SplitManual(Friend creator, Friend payer, double amount, String description, String category, int splitOption) {
+        super(creator, payer, amount, description, category, splitOption);
+        inputFields.put(payer, (double) 0);
     }
 
     public boolean setitem(Friend friend, double manual) {
-        if (inputfields.containsKey(friend) && manual<=sumitems() && sumitems()<amount)  {
-            inputfields.put(friend, manual);
-            calculatedebt();
+        if (inputFields.containsKey(friend) && manual<=sumitems() && sumitems()<amount)  {
+            inputFields.put(friend, manual);
+            calculateDebt();
             return true;
         }
         else return false;
@@ -31,8 +33,8 @@ public class SplitManual extends Expense implements Serializable{
         int zeroes = 0;
         if(!participants.isEmpty()) {
             for (Friend friend : participants) {
-                if (inputfields.get(friend) != 0) {
-                    sum += inputfields.get(friend);
+                if (inputFields.get(friend) != 0) {
+                    sum += inputFields.get(friend);
                 } else zeroes++;
             }
         }
@@ -41,20 +43,20 @@ public class SplitManual extends Expense implements Serializable{
     }
 
     public void optimizeinputs() {
-        if(sumitems()<amount && inputfields.containsValue((double) 0)) {
-            inputfields.put(getFriendfromKey((double) 0), amount-sumitems());
+        if(sumitems()<amount && inputFields.containsValue((double) 0)) {
+            inputFields.put(getFriendfromKey((double) 0), amount-sumitems());
         }
         else if(sumitems()>amount) {
             //convert to relative
             double rel = (((sumitems()-amount))/participants.size());
             for (Friend friend: participants) {
-                double relamnt = inputfields.get(friend);
+                double relamnt = inputFields.get(friend);
                 if(relamnt < rel) {
-                    inputfields.put(friend, 0.0);
+                    inputFields.put(friend, 0.0);
                     relamnt = 0;
                 }
                 if(relamnt == 0) continue;
-                inputfields.put(friend, (relamnt-rel));
+                inputFields.put(friend, (relamnt-rel));
             }
 
         }
@@ -62,11 +64,11 @@ public class SplitManual extends Expense implements Serializable{
     }
 
     public HashMap<Friend, Double> getinput() {
-        return inputfields;
+        return inputFields;
     }
 
     private Friend getFriendfromKey(Double value) {
-        for (Map.Entry<Friend, Double> entry : inputfields.entrySet()) {
+        for (Map.Entry<Friend, Double> entry : inputFields.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
                 return entry.getKey();
             }
@@ -76,12 +78,12 @@ public class SplitManual extends Expense implements Serializable{
 
 
     @Override
-    public boolean setparticipants(List<Friend> participants) {
-        if(super.setparticipants(participants)) {
+    public boolean setParticipants(List<Friend> participants) {
+        if(super.setParticipants(participants)) {
             //TODO change get old manualspending and update it with size
-            inputfields.clear();
+            inputFields.clear();
             for (Friend friend : participants) {
-                inputfields.put(friend, 0.0);
+                inputFields.put(friend, 0.0);
             }
             return true;
         }
@@ -89,21 +91,21 @@ public class SplitManual extends Expense implements Serializable{
     }
 
     @Override
-    public boolean addparticipant(Friend friend) {
-        if(super.addparticipant(friend)) {
-            inputfields.put(friend, 0.0);
+    public boolean addParticipant(Friend friend) {
+        if(super.addParticipant(friend)) {
+            inputFields.put(friend, 0.0);
             return true;
         }
         else return false;
     }
 
 
-    public boolean calculatedebt() {
+    public boolean calculateDebt() {
         try {
-            ArrayList<Double> debts = new ArrayList<Double>();
+            ArrayList<Double> debts = new ArrayList();
 
-            for (Friend friend :participants) {
-                debts.add(inputfields.get(friend)*amount/100.0);
+            for (Friend friend : participants) {
+                debts.add(inputFields.get(friend)*amount/100.0);
             }
 
             setSpending(debts);

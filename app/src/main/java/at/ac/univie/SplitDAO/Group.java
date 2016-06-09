@@ -114,9 +114,9 @@ public class Group implements Serializable {
         double debt;
         for (Expense expense: expenses) {
 
-            if(expense.isparticipant(me)) {
+            if(expense.isParticipant(me)) {
                 debt = 0;
-                debt = expense.getSpendingbyIndex(expense.participants.indexOf(me));
+                debt = expense.getSpendingByIndex(expense.participants.indexOf(me));
                 balance += debt;
             }
 
@@ -128,13 +128,13 @@ public class Group implements Serializable {
         double owes = 0;
 
         for (Expense expense: expenses) {
-            if (expense.isparticipant(me) && expense.isparticipant(friend)) {
+            if (expense.isParticipant(me) && expense.isParticipant(friend)) {
                 int indexpayer;
                 int indexdebtor;
                 if (expense.getPayer().getFriendID() == me.getFriendID()) {
-                    owes += expense.getSpendingbyIndex(expense.getParticipantIndex(me));
+                    owes += expense.getSpendingByIndex(expense.getParticipantIndex(me));
                 } if(expense.getPayer().getFriendID() == friend.getFriendID()) {
-                    owes -= expense.getSpendingbyIndex(expense.getParticipantIndex(me));
+                    owes -= expense.getSpendingByIndex(expense.getParticipantIndex(me));
                 }
             }
         }
@@ -146,7 +146,7 @@ public class Group implements Serializable {
         double owes = 0;
 
         for (Expense expense: expenses) {
-            if (expense.isparticipant(me) && expense.isparticipant(friend)) {
+            if (expense.isParticipant(me) && expense.isParticipant(friend)) {
                 int indexpayer;
                 int indexdebtor;
                 if (expense.getPayer() == me) {

@@ -36,15 +36,18 @@ public class SimpleListAdapter extends ArrayAdapter<String> {
 
         View simpleView = view;
 
-        if(simpleView == null) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (simpleView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             simpleView = inflater.inflate(layoutResourceId, null);
         }
 
         TextView textView = (TextView) simpleView.findViewById(R.id.simpleText);
+        EditText editText = (EditText) simpleView.findViewById(R.id.simpleEdit);
 
         textView.setTextColor(Color.BLACK);
         textView.setText(list.get(position));
+
+
         //textView.setBackgroundColor(Color.WHITE);
 
         return simpleView;

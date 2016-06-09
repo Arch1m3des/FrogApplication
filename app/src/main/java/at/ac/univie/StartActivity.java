@@ -198,21 +198,21 @@ public class StartActivity extends AppCompatActivity {
         g4.addMember(f2);
 
         //add expenses
-        Expense firstexpense = new SplitEqual(g1.getMembers().get(0) ,g1.getMembers().get(0), 350, "Straßenessen");
-        firstexpense.addparticipant(f1);
-        firstexpense.addparticipant(f2);
-        firstexpense.addparticipant(f3);
-        firstexpense.addparticipant(f4);
+        Expense firstexpense = new SplitEqual(g1.getMembers().get(0) ,g1.getMembers().get(0), 350, "Straßenessen", "Food", 0);
+        firstexpense.addParticipant(f1);
+        firstexpense.addParticipant(f2);
+        firstexpense.addParticipant(f3);
+        firstexpense.addParticipant(f4);
 
         g1.addExpense(firstexpense);
 
-        firstexpense = new SplitParts(f1 , f3 , 34, "Eis essen");
-        firstexpense.addparticipant(f3);
-        firstexpense.addparticipant(f6);
+        firstexpense = new SplitParts(f1 , f3 , 34, "Eis essen", "Food", 1);
+        firstexpense.addParticipant(f3);
+        firstexpense.addParticipant(f6);
         firstexpense.setitem(f3, 4);
         firstexpense.setitem(f6, 1);
         try {
-            firstexpense.calculatedebt();
+            firstexpense.calculateDebt();
             //firstexpense.calculateDebtInHomeSpendings();
         } catch (Exception e) {
             e.printStackTrace();
@@ -220,16 +220,16 @@ public class StartActivity extends AppCompatActivity {
 
         g2.addExpense(firstexpense);
 
-        firstexpense = new SplitEqual( f3, f3 , 28.50, "Eintritt Therme");
+        firstexpense = new SplitEqual( f3, f3 , 28.50, "Eintritt Therme", "Culture", 0);
         g3.addExpense(firstexpense);
-        firstexpense = new SplitEqual( f3, f6 , 30.50, "Eintritt Therme");
+        firstexpense = new SplitEqual( f3, f6 , 30.50, "Eintritt Therme", "Culture", 0);
         g3.addExpense(firstexpense);
 
 
-        firstexpense = new SplitParts(f3 , f3 , 340, "Safari");
-        firstexpense.addparticipant(f2);
+        firstexpense = new SplitParts(f3 , f3 , 340, "Safari", "Culture", 1);
+        firstexpense.addParticipant(f2);
         try {
-            firstexpense.calculatedebt();
+            firstexpense.calculateDebt();
             //firstexpense.calculateDebtInHomeSpendings();
         } catch (Exception e) {
             e.printStackTrace();

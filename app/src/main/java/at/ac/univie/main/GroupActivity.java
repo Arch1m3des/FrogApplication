@@ -21,8 +21,8 @@ import at.ac.univie.SplitDAO.FriendManager;
 import at.ac.univie.SplitDAO.Group;
 import at.ac.univie.SplitDAO.GroupManager;
 import at.ac.univie.adapter.FancyListAdapter;
-import at.ac.univie.frog.AddGroupActivity;
-import at.ac.univie.frog.GroupDetailActivity;
+import at.ac.univie.AddGroupActivity;
+import at.ac.univie.GroupDetailActivity;
 import at.ac.univie.frog.R;
 
 /**

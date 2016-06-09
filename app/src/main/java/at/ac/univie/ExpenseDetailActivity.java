@@ -73,7 +73,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         List<Expense> list = groupList.get(groupindex).getExpenses();
         Expense thisexpense = list.get(expenseindex);
         try {
-            thisexpense.calculatedebt();
+            thisexpense.calculateDebt();
         } catch (Exception e) {
             e.printStackTrace();
         }

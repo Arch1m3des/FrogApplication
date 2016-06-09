@@ -174,7 +174,7 @@ public class Overview extends AppCompatActivity {
 
         Expense first = new SplitEqual(max, max, (double) 30, "Kai ist gut");
         try {
-            first.addparticipant(andy);
+            first.addParticipant(andy);
         } catch (Exception e) {
             e.printStackTrace();
         }

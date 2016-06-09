@@ -1,19 +1,14 @@
 package at.ac.univie.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import at.ac.univie.frog.Child;
-import at.ac.univie.frog.Parent;
 import at.ac.univie.frog.R;
 
 /**

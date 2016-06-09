@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
 import at.ac.univie.adapter.FancyListAdapter;
-import at.ac.univie.frog.AddDummyActivity;
-import at.ac.univie.frog.FriendDetailActivity;
+import at.ac.univie.AddDummyActivity;
+import at.ac.univie.FriendDetailActivity;
 import at.ac.univie.frog.R;
 
 /**

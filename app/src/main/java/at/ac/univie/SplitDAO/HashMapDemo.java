@@ -10,7 +10,7 @@ public class HashMapDemo {
         HashMap<Friend, Double> newmap = new HashMap();
 
 
-    public boolean addparticipant(Friend friend) {
+    public boolean addParticipant(Friend friend) {
         // populate hash map
         newmap.put(friend, (double) 0);
         return true;

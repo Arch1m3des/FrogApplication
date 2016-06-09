@@ -50,11 +50,11 @@ public class ExampleUnitTest {
         thailand.addMember(max3);
 
 
-        Expense firstexpense = new SplitEqual(max ,max, 26, "Erstes Essen nach dem Krankenhaus");
-        firstexpense.addparticipant(andy);
+        Expense firstexpense = new SplitEqual(max ,max, 26, "Erstes Essen nach dem Krankenhaus", "Food", 0);
+        firstexpense.addParticipant(andy);
 
-        Expense menu = new SplitParts(max, max, 30, "Eis essen bei Tichy");
-        menu.addparticipant(andy);
+        Expense menu = new SplitParts(max, max, 30, "Eis essen bei Tichy", "Food", 1);
+        menu.addParticipant(andy);
         menu.setitem(andy, 3);
 
 
@@ -70,11 +70,11 @@ public class ExampleUnitTest {
 
 
         System.out.println("Adding first expense");
-        System.out.println(firstexpense.isparticipant(andy));
+        System.out.println(firstexpense.isParticipant(andy));
 
         List<Double> debt;
 
-       if (firstexpense.calculatedebt()) {
+       if (firstexpense.calculateDebt()) {
            debt = firstexpense.getSpending();
 
            int index= 0;
@@ -88,13 +88,13 @@ public class ExampleUnitTest {
 
       /*
         Expense secondexpense = new SplitPercent(max ,max, 111, "Zweites Essen nach dem Krankenhaus");
-        secondexpense.addparticipant(andy);
-        secondexpense.addparticipant(max2);
+        secondexpense.addParticipant(andy);
+        secondexpense.addParticipant(max2);
 
         for (Friend friend: secondexpense.getParticipants()) {
             secondexpense.setitem(friend, 100.0/4.0);
         }
-        secondexpense.addparticipant(max3);
+        secondexpense.addParticipant(max3);
 
         System.out.print("Percent:  ");
         System.out.println(secondexpense.sumitems() + "%");
@@ -107,7 +107,7 @@ public class ExampleUnitTest {
         secondexpense.setitem(max3, 1.0);
         System.out.println("vorher:" + secondexpense.sumitems() + "%");
 
-        if (secondexpense.calculatedebt()) {
+        if (secondexpense.calculateDebt()) {
             debt = secondexpense.getSpending();
 
             Iterator it = secondexpense.getinput().values().iterator();
@@ -125,7 +125,7 @@ public class ExampleUnitTest {
         System.out.println("nachher:  " + secondexpense.sumitems() + "%");
 
 
-        if (secondexpense.calculatedebt()) {
+        if (secondexpense.calculateDebt()) {
             debt = secondexpense.getSpending();
 
             Iterator it = secondexpense.getinput().values().iterator();
@@ -144,8 +144,8 @@ public class ExampleUnitTest {
 /*
 
         HashMapDemo bla =  new HashMapDemo();
-        bla.addparticipant(max);
-        bla.addparticipant(max2);
+        bla.addParticipant(max);
+        bla.addParticipant(max2);
         bla.setspending(max, 2343.434);
         System.out.print(bla.getspending(max));
 */
@@ -155,10 +155,10 @@ public class ExampleUnitTest {
         System.out.println("\n\nDritte Ausgabe: ");
 
         Expense thirdexpense = new SplitParts(max ,max, 111.56, "Drittes Essen nach dem Krankenhaus");
-        thirdexpense.addparticipant(andy);
-        thirdexpense.addparticipant(max2);
+        thirdexpense.addParticipant(andy);
+        thirdexpense.addParticipant(max2);
 
-        thirdexpense.addparticipant(max3);
+        thirdexpense.addParticipant(max3);
 
         System.out.print("Total Parts:  ");
         System.out.println(thirdexpense.sumitems() + "Parts");
@@ -173,7 +173,7 @@ public class ExampleUnitTest {
         thirdexpense.optimizeinputs();
         System.out.println("Anzahl: :" + thirdexpense.sumitems() + "Parts");
 
-        if (thirdexpense.calculatedebt()) {
+        if (thirdexpense.calculateDebt()) {
             debt = thirdexpense.getSpending();
 
             Iterator it = thirdexpense.getinput().values().iterator();

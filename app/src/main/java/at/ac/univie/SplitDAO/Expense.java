@@ -1,7 +1,7 @@
 package at.ac.univie.SplitDAO;
 
 import android.content.Context;
-import android.util.Log;
+import android.location.Location;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,25 +12,25 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * gadsfjlksdlfk
+ *
  * Created by Andy on 12.05.16.
  */
+
 public abstract class Expense implements IExpensecalculations, Serializable {
-    Date curr_date;
+
+    Date date;
     Friend creator;
     double amount;
-    double amountinHomeCurrency;
+    double amountInHomeCurrency;
     String description;
     Context context;
-
-    enum Category { travelling, food, drinks, fun, moneytransfer, medical , misc } //maybe more
-    Category category;
-
+    Location location;
+    String category;
     String currency="USD";
-    //TODO location missing
+    int splitOption;
 
-    HashMap<Friend, Double> inputfields = new HashMap();
-    List<Friend> participants = new ArrayList<>();
+    HashMap<Friend, Double> inputFields = new HashMap();
+    List<Friend> participants = new ArrayList();
     List<Double> spending = new ArrayList<>();
     List<Double> spendingInHomeCurrency = new ArrayList<>();
     Friend payer;
@@ -39,30 +39,38 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         this.context=context;
     }
 
-    public Expense (Friend creator, Friend payer, double amount, String description) {
+    public Expense (Friend creator, Friend payer, double amount, String description, String category, int splitOption) {
         this.creator = creator;
-        curr_date = new Date();
-        setpayer(payer);
-        setamount(amount);
-        setdescription(description);
-        //setcategory(category);
-
+        date = new Date();
+        setPayer(payer);
+        setAmount(amount);
+        setDescription(description);
+        this.category = category;
+        this.splitOption = splitOption;
         participants.add(payer);
     }
 
-    public void setpayer(Friend payer) {
+    public void setPayer(Friend payer) {
         this.payer = payer;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Location getLocation() {
+        return this.location;
     }
 
     public void setSpending(List<Double> spending) {
         this.spending = spending;
     }
 
-    public void setamount(double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public void setdescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -70,11 +78,7 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         return spending;
     }
 
-    public void setcategory(Category category) {
-        this.category = category;
-    }
-
-    public boolean addparticipant(Friend friend) {
+    public boolean addParticipant(Friend friend) {
         if (friend!=null && participants.isEmpty()) {
             participants.add(friend);
             return true;
@@ -86,7 +90,7 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         else return false;
     }
 
-    public boolean setparticipants(List<Friend> participants) {
+    public boolean setParticipants(List<Friend> participants) {
         try {
             this.participants = participants;
             return true;
@@ -117,7 +121,7 @@ public abstract class Expense implements IExpensecalculations, Serializable {
 
     abstract public HashMap<Friend, Double> getinput();
 
-    public boolean modifyparticipants(List<Friend> participants) {
+    public boolean modifyParticipants(List<Friend> participants) {
 
         //update();
         if (this.participants.isEmpty()) {
@@ -143,7 +147,7 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         }
     }
 
-    public double getSpendingbyIndex(int index)  {
+    public double getSpendingByIndex(int index)  {
         try {
             return spending.get(index);
         } catch (IndexOutOfBoundsException e) {
@@ -168,7 +172,7 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         }
     }
 
-    public boolean isparticipant(Friend friend) {
+    public boolean isParticipant(Friend friend) {
         boolean participated = false;
         for (Friend temp : this.participants) {
             if (temp.getFriendID() == friend.getFriendID()) {
@@ -184,11 +188,11 @@ public abstract class Expense implements IExpensecalculations, Serializable {
     }
 
     public Date getDate() {
-        return curr_date;
+        return date;
     }
 
     public void setAmountinHomeCurrency(double amountinhomecurr){
-        this.amountinHomeCurrency = amountinhomecurr;
+        this.amountInHomeCurrency = amountinhomecurr;
     }
 
 
@@ -198,7 +202,7 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         CurrencyManager cm=new CurrencyManager(context);
 
         spendingInHomeCurrency=cm.getSpendingInHomeCurrency(spending,currency);
-        amountinHomeCurrency = cm.getAmountinHomeCurrency(amount, currency);
+        amountInHomeCurrency = cm.getAmountinHomeCurrency(amount, currency);
         return true;
     }
 
