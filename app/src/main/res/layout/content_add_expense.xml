@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,7 +27,8 @@
         android:layout_below="@+id/viewDescription"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:nestedScrollingEnabled="true"/>
 
     <ExpandableListView
         android:layout_width="wrap_content"
@@ -37,7 +40,8 @@
         android:layout_below="@+id/viewCurrency"
         android:layout_marginStart="20dp"
         android:layout_alignParentStart="true"
-        android:clickable="true"/>
+        android:clickable="true"
+        android:nestedScrollingEnabled="true"/>
 
     <CheckedTextView
         android:layout_width="wrap_content"
@@ -62,37 +66,40 @@
     <ExpandableListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/viewSplitOptions"
+        android:id="@+id/viewFriends"
         android:textSize="20sp"
         android:fontFamily="sans-serif-light"
         android:clickable="true"
         android:layout_below="@+id/textLocation"
         android:layout_marginStart="20dp"
-        android:layout_alignParentStart="true" />
-<!--
-    <TextView
+        android:layout_alignParentStart="true"
+        android:nestedScrollingEnabled="true"/>
+
+    <ExpandableListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Note"
+        android:id="@+id/viewPayer"
         android:textSize="20sp"
         android:fontFamily="sans-serif-light"
-        android:id="@+id/textNote"
-        android:layout_marginLeft="5dp"
-        android:layout_below="@+id/viewSplitOptions"
-        android:layout_marginTop="15dp"
+        android:clickable="true"
+        android:layout_below="@+id/viewFriends"
         android:layout_marginStart="20dp"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:nestedScrollingEnabled="true"/>
 
-    <EditText
-        android:layout_width="400dp"
-        android:layout_height="100dp"
-        android:id="@+id/editText"
+
+    <ExpandableListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewSplitOptions"
+        android:textSize="20sp"
         android:fontFamily="sans-serif-light"
-        android:layout_marginEnd="20dp"
-        android:layout_alignStart="@+id/textNote"
-        android:background="@drawable/frame"
-        android:layout_below="@+id/textNote" />
--->
+        android:clickable="true"
+        android:layout_below="@+id/viewPayer"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true"
+        android:nestedScrollingEnabled="true"/>
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,6 +1,8 @@
-package at.ac.univie.frog;
+package at.ac.univie.adapter;
 
 import java.util.ArrayList;
+
+import at.ac.univie.adapter.Child;
 
 /**
  * Created by tamara on 28.05.16.

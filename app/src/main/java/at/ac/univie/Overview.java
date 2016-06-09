@@ -1,13 +1,8 @@
-package at.ac.univie.frog;
+package at.ac.univie;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.media.Image;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,20 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import at.ac.univie.SplitDAO.Expense;
-import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
-import at.ac.univie.SplitDAO.Group;
-import at.ac.univie.SplitDAO.GroupManager;
-import at.ac.univie.SplitDAO.SplitEqual;
-
-import com.google.zxing.*;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.encoder.QRCode;
+import at.ac.univie.frog.R;
+import at.ac.univie.main.FriendActivity;
+import at.ac.univie.main.GroupActivity;
+import at.ac.univie.qr.QRGenerate;
 
 import java.io.IOException;
-import java.util.List;
 
 
 public class Overview extends AppCompatActivity {

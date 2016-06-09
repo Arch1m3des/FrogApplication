@@ -1,10 +1,9 @@
-package at.ac.univie.frog;
+package at.ac.univie.main;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import at.ac.univie.frog.R;
+import at.ac.univie.frog.StartActivity;
+import at.ac.univie.qr.QRGenerate;
 
 public class MeActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;

@@ -1,4 +1,4 @@
-package at.ac.univie.frog;
+package at.ac.univie;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,11 +15,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import at.ac.univie.SplitDAO.*;
 import at.ac.univie.SplitDAO.Group;
+import at.ac.univie.adapter.Child;
+import at.ac.univie.adapter.FancyExpandableListAdapter;
+import at.ac.univie.adapter.Parent;
+import at.ac.univie.frog.R;
+import at.ac.univie.main.FriendActivity;
+import at.ac.univie.main.GroupActivity;
+import at.ac.univie.main.MapView;
+import at.ac.univie.main.MeActivity;
+import at.ac.univie.main.SettingActivity;
 
 public class AddGroupActivity extends AppCompatActivity {
 

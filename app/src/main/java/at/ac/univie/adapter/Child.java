@@ -1,4 +1,4 @@
-package at.ac.univie.frog;
+package at.ac.univie.adapter;
 
 /**
  * Created by tamara on 28.05.16.

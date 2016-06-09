@@ -1,11 +1,10 @@
-package at.ac.univie.frog;
+package at.ac.univie;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Adapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -14,6 +13,8 @@ import java.util.ArrayList;
 
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
+import at.ac.univie.adapter.SimpleListAdapter;
+import at.ac.univie.frog.R;
 
 public class SplitViewActivity extends AppCompatActivity {
 

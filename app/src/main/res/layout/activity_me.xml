@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MeActivity">
+    tools:context="at.ac.univie.main.MeActivity">
 
     <include layout="@layout/content_me" />
 </RelativeLayout>

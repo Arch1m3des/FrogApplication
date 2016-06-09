@@ -1,4 +1,4 @@
-package at.ac.univie.frog;
+package at.ac.univie;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,9 +19,14 @@ import java.util.Locale;
 
 import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
-import at.ac.univie.SplitDAO.FriendManager;
-import at.ac.univie.SplitDAO.Group;
 import at.ac.univie.SplitDAO.GroupManager;
+import at.ac.univie.adapter.FancyListAdapter;
+import at.ac.univie.frog.R;
+import at.ac.univie.main.FriendActivity;
+import at.ac.univie.main.GroupActivity;
+import at.ac.univie.main.MapView;
+import at.ac.univie.main.MeActivity;
+import at.ac.univie.main.SettingActivity;
 
 public class GroupDetailActivity extends AppCompatActivity {
 

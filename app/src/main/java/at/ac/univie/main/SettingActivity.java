@@ -1,4 +1,4 @@
-package at.ac.univie.frog;
+package at.ac.univie.main;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -14,6 +14,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import at.ac.univie.frog.R;
 
 public class SettingActivity extends AppCompatActivity {
 

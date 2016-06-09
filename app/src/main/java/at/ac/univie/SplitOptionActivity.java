@@ -1,4 +1,4 @@
-package at.ac.univie.frog;
+package at.ac.univie;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+
+import at.ac.univie.adapter.SimpleListAdapter;
+import at.ac.univie.frog.R;
+import at.ac.univie.main.GroupActivity;
 
 public class SplitOptionActivity extends AppCompatActivity {
 

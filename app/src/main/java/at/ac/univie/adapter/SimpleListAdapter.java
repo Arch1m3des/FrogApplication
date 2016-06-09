@@ -1,4 +1,4 @@
-package at.ac.univie.frog;
+package at.ac.univie.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import at.ac.univie.frog.R;
 
 /**
  * Created by Tamara on 13.05.16.

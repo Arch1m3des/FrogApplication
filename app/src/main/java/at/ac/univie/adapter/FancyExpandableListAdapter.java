@@ -1,4 +1,4 @@
-package at.ac.univie.frog;
+package at.ac.univie.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,10 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import at.ac.univie.frog.Child;
+import at.ac.univie.frog.Parent;
+import at.ac.univie.frog.R;
 
 /**
  * Created by tamara on 28.05.16.
@@ -92,6 +96,7 @@ public class FancyExpandableListAdapter extends BaseExpandableListAdapter {
     public boolean hasStableIds() {
         return true;
     }
+
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {

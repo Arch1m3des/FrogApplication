@@ -1,4 +1,4 @@
-package at.ac.univie.frog;
+package at.ac.univie.qr;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -1,14 +1,12 @@
-package at.ac.univie.frog;
+package at.ac.univie;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -17,9 +15,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.SimpleFormatter;
 
 import at.ac.univie.SplitDAO.*;
+import at.ac.univie.adapter.Child;
+import at.ac.univie.adapter.FancyExpandableListAdapter;
+import at.ac.univie.adapter.Parent;
+import at.ac.univie.frog.R;
+import at.ac.univie.main.FriendActivity;
+import at.ac.univie.main.GroupActivity;
+import at.ac.univie.main.MapView;
+import at.ac.univie.main.MeActivity;
+import at.ac.univie.main.SettingActivity;
 
 public class ExpenseDetailActivity extends AppCompatActivity {
 

@@ -1,38 +1,43 @@
-package at.ac.univie.frog;
+package at.ac.univie;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import at.ac.univie.SplitDAO.*;
+import at.ac.univie.adapter.Child;
+import at.ac.univie.adapter.FancyExpandableListAdapter;
+import at.ac.univie.adapter.Parent;
+import at.ac.univie.frog.R;
 
 public class AddExpenseActivity extends AppCompatActivity {
 
     CheckedTextView location;
-    ExpandableListView categoryView, currencyView;
-    ExpandableListAdapter adapterCategory, adapterCurrency;
+    TextView description;
+    ExpandableListView categoryView, currencyView, splitView, friendsView, payerView;
+    ExpandableListAdapter adapterCategory, adapterCurrency, optionAdapter, friendsAdapter, payerAdapter;
     ArrayList<Parent> categories = new ArrayList();
     ArrayList<Parent> currency = new ArrayList();
-    ExpandableListView splitView;
-    ExpandableListAdapter adapter;
     ArrayList<at.ac.univie.SplitDAO.Group> groups = new ArrayList();
     ArrayList<Child> friendsToString = new ArrayList();
     ArrayList<Parent> options = new ArrayList();
+    ArrayList<Parent> payer = new ArrayList();
+    ArrayList<Parent> friends = new ArrayList();
     ArrayList<Child> splitOptions = new ArrayList();
-    GroupManager groupdao;
+    GroupManager groupDAO;
     Button button;
     int groupindex;
     ArrayList<Friend> participants = new ArrayList<>();
@@ -54,7 +59,6 @@ public class AddExpenseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_menu_done:
-                //Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitOptionActivity.class);
                 Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
 
                 finish();
@@ -76,24 +80,27 @@ public class AddExpenseActivity extends AppCompatActivity {
         //getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
 
         location = (CheckedTextView) findViewById(R.id.textLocation);
+        description = (TextView) findViewById(R.id.viewDescription);
         categoryView = (ExpandableListView) findViewById(R.id.textCategory);
         currencyView = (ExpandableListView) findViewById(R.id.viewCurrency);
         splitView = (ExpandableListView) findViewById(R.id.viewSplitOptions);
+        friendsView = (ExpandableListView) findViewById(R.id.viewFriends);
+        payerView = (ExpandableListView) findViewById(R.id.viewPayer);
 
         Intent intent = getIntent();
         groupindex = intent.getIntExtra("groupindex", 0);
 
-        groupdao = new GroupManager();
+        groupDAO = new GroupManager();
 
         try {
-            groupdao.loadGroupData(getApplicationContext(), "Groups");
+            groupDAO.loadGroupData(getApplicationContext(), "Groups");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        groups =  groupdao.getGroupList();
+        groups =  groupDAO.getGroupList();
         at.ac.univie.SplitDAO.Group thisGroup = groups.get(groupindex);
 
         members = (ArrayList<Friend>) thisGroup.getMembers();
@@ -110,102 +117,112 @@ public class AddExpenseActivity extends AppCompatActivity {
         Parent parentPayer = new Parent("Who paid?", friendsToString);
         Parent parentOption = new Parent("How to split?", splitOptions);
 
-        options.add(parentFriends);
-        options.add(parentPayer);
+        friends.add(parentFriends);
+        payer.add(parentPayer);
         options.add(parentOption);
 
-        adapter = new FancyExpandableListAdapter(this, options);
+        optionAdapter = new FancyExpandableListAdapter(this, options);
+        friendsAdapter = new FancyExpandableListAdapter(this, friends);
+        payerAdapter = new FancyExpandableListAdapter(this, payer);
         button = (Button) findViewById(R.id.button);
 
-        splitView.setAdapter(adapter);
+        splitView.setAdapter(optionAdapter);
+        friendsView.setAdapter(friendsAdapter);
+        payerView.setAdapter(payerAdapter);
+
+
 
         int i = 0;
         for (Parent group : options) {
             for (Child child : group.getItems()) {
                 child.setId(i++);
+                System.out.println("Child with id = " + child.getId() + " is " + child.getName());
             }
         }
 
+        splitView.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
+
         splitView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
-            boolean turn = true;
             View currentView;
 
-            //Who participated? Multiple checks possible.
             @Override
             public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
 
-               if (groupPosition == 0) {
+                view.setSelected(true);
+                if (currentView != null) {
+                    currentView.setBackgroundColor(Color.TRANSPARENT);
+                }
+                currentView = view;
+                currentView.setBackgroundColor(Color.parseColor("#7ecece"));
 
-                // check that childs have ids zero to size of list
-                    turn = true;
-                    ExpandableListAdapter participationAdapter = parent.getExpandableListAdapter();
-                    Child child = (Child) participationAdapter.getChild(groupPosition, childPosition);
+                return false;
+            }
+        });
 
-                    if (!child.isSelected()) {
-                        child.setSelected(true);
-                        view.setBackgroundColor(Color.parseColor("#7ecece"));
-                        turn = false;
+        friendsView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
-                        if (!participants.contains(members.get(childPosition))) {
-                            participants.add(members.get(childPosition));
-                        }
+            boolean turn = true;
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
+
+                ExpandableListAdapter participationAdapter = parent.getExpandableListAdapter();
+                Child child = (Child) participationAdapter.getChild(groupPosition, childPosition);
+
+                turn = true;
+
+                System.out.println("Child id clicked is " + child.getId() + " and group position is " + groupPosition);
+
+                if (!child.isSelected()) {
+                    child.setSelected(true);
+                    parent.getExpandableListAdapter().getChildView(groupPosition, childPosition, false, view, (ViewGroup) view.getParent()).setBackgroundColor(Color.parseColor("#7ecece"));
+                    if (view.isSelected()) {
+                        System.out.println("view 0 is selected");
                     }
+                    else
+                        view.setSelected(true);
+                    System.out.println("view 0 is " + view);
+                    System.out.println("setting background color of child " + child.getId() + " at group position " + groupPosition);
+                    turn = false;
 
-                    if (child.isSelected() && turn == true) {
-                        child.setSelected(false);
-                        view.setBackgroundColor(Color.TRANSPARENT);
-
-                        if (participants.contains(members.get(childPosition))) {
-                            participants.remove(members.get(childPosition));
-                        }
+                    if (!participants.contains(members.get(childPosition))) {
+                        participants.add(members.get(childPosition));
                     }
-                    return false;
                 }
 
-                if (groupPosition == 1) {
+                if (child.isSelected() && turn) {
+                    child.setSelected(false);
+                    parent.getExpandableListAdapter().getChildView(groupPosition, childPosition, false, view, (ViewGroup) view.getParent()).setBackgroundColor(Color.TRANSPARENT);
 
-                    splitView.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
-
-                    view.setSelected(true);
-                    if (currentView != null) {
-                        currentView.setBackgroundColor(Color.TRANSPARENT);
+                    if (participants.contains(members.get(childPosition))) {
+                        participants.remove(members.get(childPosition));
                     }
-                    currentView = view;
-                    currentView.setBackgroundColor(Color.parseColor("#676767"));
-                    return false;
-
-                }
-
-                if (groupPosition == 3) {
-                    turn = true;
-                    ExpandableListAdapter splitAdapter = parent.getExpandableListAdapter();
-                    Child child = (Child) splitAdapter.getChild(groupPosition, childPosition);
-
-                    if (!child.isSelected()) {
-                        child.setSelected(true);
-                        view.setBackgroundColor(Color.parseColor("#7ecece"));
-                        turn = false;
-
-                        if (!participants.contains(members.get(childPosition))) {
-                            participants.add(members.get(childPosition));
-                        }
-                    }
-
-                    if (child.isSelected() && turn == true) {
-                        child.setSelected(false);
-                        view.setBackgroundColor(Color.TRANSPARENT);
-
-                        if (participants.contains(members.get(childPosition))) {
-                            participants.remove(members.get(childPosition));
-                        }
-                    }
-
                 }
                 return false;
             }
-
         });
+
+        payerView.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
+
+        payerView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            View currentView;
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
+
+                view.setSelected(true);
+                if (currentView != null) {
+                    currentView.setBackgroundColor(Color.TRANSPARENT);
+                }
+                currentView = view;
+                currentView.setBackgroundColor(Color.parseColor("#7ecece"));
+
+                return false;
+            }
+        });
+
 
         ArrayList<Child> listCategory = new ArrayList();
         ArrayList<Child> listCurrency = new ArrayList();
@@ -294,6 +311,8 @@ public class AddExpenseActivity extends AppCompatActivity {
         categoryView.setIndicatorBoundsRelative(categoryView.getRight()-200, categoryView.getWidth());
         currencyView.setIndicatorBoundsRelative(currencyView.getRight()-500, currencyView.getWidth());
         splitView.setIndicatorBoundsRelative(splitView.getRight()-200, splitView.getWidth());
+        friendsView.setIndicatorBoundsRelative(splitView.getRight()-200, splitView.getWidth());
+        payerView.setIndicatorBoundsRelative(splitView.getRight()-200, splitView.getWidth());
 
     }
 

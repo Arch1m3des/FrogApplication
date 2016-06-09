@@ -1,4 +1,4 @@
-package at.ac.univie.frog;
+package at.ac.univie;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -19,6 +18,13 @@ import java.util.Locale;
 
 import at.ac.univie.SplitDAO.*;
 import at.ac.univie.SplitDAO.Group;
+import at.ac.univie.adapter.FancyListAdapter;
+import at.ac.univie.frog.R;
+import at.ac.univie.main.FriendActivity;
+import at.ac.univie.main.GroupActivity;
+import at.ac.univie.main.MapView;
+import at.ac.univie.main.MeActivity;
+import at.ac.univie.main.SettingActivity;
 
 /**
  * Created by Tamara on 13.05.16.

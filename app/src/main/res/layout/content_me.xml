@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/relativeLayout"
-    tools:context=".MeActivity"
+    tools:context="at.ac.univie.main.MeActivity"
     tools:showIn="@layout/activity_me">
 
     <include layout="@layout/navbar_bottom" />

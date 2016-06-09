@@ -1,12 +1,9 @@
-package at.ac.univie.frog;
+package at.ac.univie.main;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,16 +13,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
 import at.ac.univie.SplitDAO.Group;
 import at.ac.univie.SplitDAO.GroupManager;
+import at.ac.univie.adapter.FancyListAdapter;
+import at.ac.univie.frog.AddGroupActivity;
+import at.ac.univie.frog.GroupDetailActivity;
+import at.ac.univie.frog.R;
 
 /**
  * Created by Tamara on 13.05.16.

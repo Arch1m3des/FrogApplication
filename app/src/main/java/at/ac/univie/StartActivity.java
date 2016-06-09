@@ -1,4 +1,4 @@
-package at.ac.univie.frog;
+package at.ac.univie;
 
 /**
  * Created by Tamara on 15.05.16.
@@ -14,14 +14,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import at.ac.univie.SplitDAO.CurrencyChanger;
-import at.ac.univie.SplitDAO.CurrencyManager;
 import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
@@ -29,6 +26,8 @@ import at.ac.univie.SplitDAO.Group;
 import at.ac.univie.SplitDAO.GroupManager;
 import at.ac.univie.SplitDAO.SplitEqual;
 import at.ac.univie.SplitDAO.SplitParts;
+import at.ac.univie.frog.R;
+import at.ac.univie.main.GroupActivity;
 
 public class StartActivity extends AppCompatActivity {
 

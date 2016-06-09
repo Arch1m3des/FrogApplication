@@ -1,4 +1,4 @@
-package at.ac.univie.frog;
+package at.ac.univie.main;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,13 +11,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
+import at.ac.univie.adapter.FancyListAdapter;
+import at.ac.univie.frog.AddDummyActivity;
+import at.ac.univie.frog.FriendDetailActivity;
+import at.ac.univie.frog.R;
 
 /**
  * Created by Tamara on 13.05.16.

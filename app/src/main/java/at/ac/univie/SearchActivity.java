@@ -1,4 +1,4 @@
-package at.ac.univie.frog;
+package at.ac.univie;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import at.ac.univie.SplitDAO.*;
 import at.ac.univie.SplitDAO.Group;
+import at.ac.univie.frog.R;
 
 public class SearchActivity extends AppCompatActivity {
     ArrayAdapter myAdapter;
