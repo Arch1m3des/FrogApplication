@@ -48,7 +48,7 @@ public class GroupDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.add, menu);
+        getMenuInflater().inflate(R.menu.group_menu, menu);
         return true;
     }
 
@@ -61,6 +61,9 @@ public class GroupDetailActivity extends AppCompatActivity {
                 finish();
                 startActivity(addExpense);
                 return true;
+            case R.id.action_menu_settings:
+                Intent goToSettings=new Intent(GroupDetailActivity.this, GroupSettingsActivity.class);
+                startActivity(goToSettings);
             default: return  false;
         }
     }
