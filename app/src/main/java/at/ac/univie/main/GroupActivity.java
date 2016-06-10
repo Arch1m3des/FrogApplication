@@ -46,7 +46,7 @@ public class GroupActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.add, menu);
+        getMenuInflater().inflate(R.menu.group_menu, menu);
         return true;
     }
 
@@ -56,6 +56,9 @@ public class GroupActivity extends AppCompatActivity {
             case R.id.action_menu_add:
                 Intent addGroup = new Intent(GroupActivity.this, AddGroupActivity.class);
                 startActivity(addGroup);
+                return true;
+            case R.id.action_menu_settings:
+                //TODO implement action
                 return true;
             default: return  false;
         }
