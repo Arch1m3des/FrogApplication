@@ -105,7 +105,7 @@ public class SplitManual extends Expense implements Serializable{
             ArrayList<Double> debts = new ArrayList();
 
             for (Friend friend : participants) {
-                debts.add(inputFields.get(friend)*amount/100.0);
+                debts.add(inputFields.get(friend));
             }
 
             setSpending(debts);

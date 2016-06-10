@@ -1,7 +1,9 @@
 package at.ac.univie;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -10,8 +12,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
@@ -21,13 +25,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import at.ac.univie.SplitDAO.*;
 import at.ac.univie.adapter.Child;
 import at.ac.univie.adapter.FancyExpandableListAdapter;
 import at.ac.univie.adapter.Parent;
 import at.ac.univie.frog.R;
+import at.ac.univie.main.GroupActivity;
 
 public class AddExpenseActivity extends AppCompatActivity implements LocationListener {
 
@@ -48,10 +56,18 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
     at.ac.univie.SplitDAO.Group thisGroup;
     Button button;
     int groupindex;
-    ArrayList<Friend> participants = new ArrayList<>();
     ArrayList<Friend> members;
     Location location;
     boolean canGetLocation;
+    //For Expense needed
+    Friend exPayer = null;
+    ArrayList<Friend> participants = new ArrayList<>();
+    int splitMode = -1;
+    String exCategory = "";
+    String exCurrency = "";
+    double exLong;
+    double exLat;
+
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -67,20 +83,155 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        DecimalFormat doubleform = new DecimalFormat("#.##");
+        double amountDbl = 0;
+        String exDescription = "";
+
+        //Format to 2 decimal places
+        try {
+            exDescription = description.getText().toString();
+
+        }
+        catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Please add a description", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (exDescription.length() == 0) {
+            Toast.makeText(getApplicationContext(), "This is a really short description", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        try {
+            //TODO limt to 2 decimal places
+            amountDbl = Double.parseDouble(amount.getText().toString());
+        }
+        catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Please insert an expense amount", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (amountDbl == 0) {
+            Toast.makeText(getApplicationContext(), "0 is not much for an expense", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (exCurrency.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Please select a currency", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (exPayer == null) {
+            Toast.makeText(getApplicationContext(), "Please select a payer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (splitMode == -1) {
+            Toast.makeText(getApplicationContext(), "Please select a split mode", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (exCategory.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Please select a category", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        Expense newExpense = null;
+        switch (splitMode) {
+            case 0:
+                newExpense = new SplitEqual(members.get(0), exPayer, amountDbl, exDescription, exCategory, splitMode);
+                try {
+                    newExpense.calculateDebt();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 1:
+                newExpense = new SplitManual(members.get(0), exPayer, amountDbl, exDescription, exCategory, splitMode);
+                break;
+            case 2:
+                newExpense = new SplitPercent(members.get(0), exPayer, amountDbl, exDescription, exCategory, splitMode);
+                break;
+            case 3:
+                newExpense = new SplitParts(members.get(0), exPayer, amountDbl, exDescription, exCategory, splitMode);
+                break;
+            default: return false;
+        }
+
+        if (newExpense != null) {
+            //add participants
+            for (Friend friend : participants) {
+                newExpense.addParticipant(friend);
+            }
+
+            //Expenseinfo for Debugging
+            //Toast.makeText(getApplicationContext(), "Expenseinfo " + splitMode + ";" + exPayer + ";" + amountDbl + ";" + exDescription + ";" + exCategory, Toast.LENGTH_SHORT).show();
+
+
+            //add location as last point
+            Location currLocation = getLocation();
+            if (currLocation != null) {
+                //Toast.makeText(getApplicationContext(), "Location is " + location1.getLatitude() + ";" + location1.getLongitude(), Toast.LENGTH_SHORT).show();
+                newExpense.setLatitude(currLocation.getLatitude());
+                newExpense.setLongitude(currLocation.getLongitude());
+            }
+
+            //store in DAO
+            thisGroup.addExpense(newExpense);
+            int expenseindex =thisGroup.getExpenses().indexOf(newExpense);
+
+            //check if it was added to groups
+
+            if (groups.get(groupindex).getExpenses().contains(newExpense)) {
+                groupDAO.setGroupList(groups);
+                try {
+                    groupDAO.saveGroupData(getApplicationContext() ,"Groups");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //TODO remove
+                //Toast.makeText(getApplicationContext(), "YEIIIII", Toast.LENGTH_SHORT).show();
+
+                //Switch Intent
+                if (splitMode == 0) {
+                    Intent goToGroupDetails=new Intent(AddExpenseActivity.this,GroupDetailActivity.class);
+                    finish();
+                    startActivity(goToGroupDetails);
+                }
+                else {
+                    Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
+                    goToSplitOptions.putExtra("option", splitMode);
+                    goToSplitOptions.putExtra("groupindex", groupindex);
+                    goToSplitOptions.putExtra("expenseindex", expenseindex);
+
+                    finish();
+                    startActivity(goToSplitOptions);
+                }
+                return true;
+
+            }
+        }
+
+
+
         switch (item.getItemId()) {
             case R.id.action_menu_done:
-                int amountInt = Integer.parseInt(amount.getText().toString());
+
+                /*
                 Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
                 goToSplitOptions.putExtra("option", 1);
-                Expense expense = new SplitManual(members.get(0), members.get(0), amountInt, "Test", "Food", null, 1);
+                Expense expense = new SplitManual(members.get(0), members.get(0), amountDbl, "Test", "Food", 1);
                 thisGroup.addExpense(expense);
                 System.out.println("just added expense: " + expense);
-                goToSplitOptions.putExtra("amount", amountInt);
+                goToSplitOptions.putExtra("amount", amountDbl);
                 finish();
                 startActivity(goToSplitOptions);
                 return true;
+                */
             default: return  false;
         }
+
     }
 
     @Override
@@ -111,7 +262,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         //getSupportActionBar().setHomeAsUpIndicator(R.mipmap.back_button);
 
         locationView = (CheckedTextView) findViewById(R.id.textLocation);
-        description = (TextView) findViewById(R.id.viewDescription);
+        description = (TextView) findViewById(R.id.description);
         categoryView = (ExpandableListView) findViewById(R.id.textCategory);
         currencyView = (ExpandableListView) findViewById(R.id.viewCurrency);
         splitView = (ExpandableListView) findViewById(R.id.viewSplitOptions);
@@ -165,6 +316,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
 
         splitView.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
 
+
         splitView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             View currentView;
@@ -178,6 +330,21 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                 }
                 currentView = view;
                 currentView.setBackgroundColor(Color.parseColor("#7ecece"));
+
+                ExpandableListAdapter itemAdapter = parent.getExpandableListAdapter();
+                Child child = (Child) itemAdapter.getChild(groupPosition, childPosition);
+                String selectedItem = child.getName();
+                Parent group = (Parent) itemAdapter.getGroup(groupPosition);
+                group.setName(selectedItem);
+
+                splitMode = childPosition;
+                //TODO remove toast
+                Toast.makeText(getApplicationContext(), "Mode is " + splitMode, Toast.LENGTH_SHORT).show();
+
+
+                if (parent.isGroupExpanded(groupPosition)) {
+                    parent.collapseGroup(groupPosition);
+                }
 
                 return false;
             }
@@ -222,6 +389,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                         participants.remove(members.get(childPosition));
                     }
                 }
+
                 return false;
             }
         });
@@ -242,6 +410,17 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                 currentView = view;
                 currentView.setBackgroundColor(Color.parseColor("#7ecece"));
 
+                exPayer = thisGroup.getMembers().get(childPosition);
+
+                ExpandableListAdapter itemAdapter = parent.getExpandableListAdapter();
+                Child child = (Child) itemAdapter.getChild(groupPosition, childPosition);
+                String selectedItem = child.getName();
+                Parent group = (Parent) itemAdapter.getGroup(groupPosition);
+                group.setName(selectedItem + " paid");
+                if (parent.isGroupExpanded(groupPosition)) {
+                    parent.collapseGroup(groupPosition);
+                }
+
                 return false;
             }
         });
@@ -250,17 +429,22 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         ArrayList<Child> listCategory = new ArrayList();
         ArrayList<Child> listCurrency = new ArrayList();
 
-        listCategory.add(new Child("Transport"));
-        listCategory.add(new Child("Food"));
-        listCategory.add(new Child("Culture"));
 
-        listCurrency.add(new Child("€"));
-        listCurrency.add(new Child("$"));
-        listCurrency.add(new Child("§"));
+        listCategory.add(new Child("Misc"));
+        listCategory.add(new Child("Food & Drinks"));
+        listCategory.add(new Child("Fun"));
+        listCategory.add(new Child("Medical"));
+        listCategory.add(new Child("Moneytransfer"));
 
-        String defaultCurrency = "€"; // dynamically from (?) shared preferences
 
-        Parent parentCategory = new Parent("Category", listCategory);
+        for (String currency : thisGroup.getCurrencies()) {
+            listCurrency.add(new Child(currency));
+        }
+
+        String defaultCurrency =  thisGroup.getCurrencies().get(0);
+        exCurrency = defaultCurrency;
+
+        Parent parentCategory = new Parent("Category: ", listCategory);
         Parent parentCurrency = new Parent("Amount in " + defaultCurrency, listCurrency);
 
         categories.add(parentCategory);
@@ -284,7 +468,10 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                 Child child = (Child) itemAdapter.getChild(groupPosition, childPosition);
                 String selectedItem = child.getName();
                 Parent group = (Parent) itemAdapter.getGroup(groupPosition);
-                group.setName(selectedItem);
+                group.setName("Category: " + selectedItem);
+
+                exCategory = selectedItem;
+
                 if (parent.isGroupExpanded(groupPosition)) {
                     parent.collapseGroup(groupPosition);
                 }
@@ -302,6 +489,9 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                 Child child = (Child) itemAdapter.getChild(groupPosition, childPosition);
                 String selectedItem = child.getName();
                 Parent group = (Parent) itemAdapter.getGroup(groupPosition);
+
+                exCurrency = selectedItem;
+
                 group.setName("Amount in " + selectedItem);
                 if (parent.isGroupExpanded(groupPosition)) {
                     parent.collapseGroup(groupPosition);
@@ -399,7 +589,24 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         splitView.setIndicatorBoundsRelative(splitView.getRight()-200, splitView.getWidth());
         friendsView.setIndicatorBoundsRelative(splitView.getRight()-200, splitView.getWidth());
         payerView.setIndicatorBoundsRelative(splitView.getRight()-200, splitView.getWidth());
-
     }
 
+
+    /*only way to avoid keyboard pop up*/ //http://stackoverflow.com/questions/4828636/edittext-clear-focus-on-touch-outside/28939113#28939113
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
+    }
 }

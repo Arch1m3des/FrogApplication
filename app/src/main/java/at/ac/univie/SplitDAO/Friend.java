@@ -71,9 +71,7 @@ public class Friend implements Serializable {
                 "FriendID=" + FriendID +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", initials=" + initials + '\'' +
                 ", uniqueid=" + uniqueId + '\'' +
-                ", iconColorbitch=" + iconColor +
                 '}';
     }
 
@@ -96,4 +94,6 @@ public class Friend implements Serializable {
     public String getInitials() { return initials; }
 
     public String getIconColor()  { return iconColor; }
+
+    public String getMailaddress() {return mailaddress;  }
 }

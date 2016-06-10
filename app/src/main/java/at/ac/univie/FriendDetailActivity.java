@@ -2,12 +2,17 @@ package at.ac.univie;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -35,6 +40,7 @@ public class FriendDetailActivity extends AppCompatActivity {
     ListView groupView;
     ListAdapter adapter;
     TextView name;
+    Button btnExportList;
     ArrayList<Group> groups = new ArrayList();
     ArrayList<String> groupsToString = new ArrayList();
     ArrayList<String> iconColors = new ArrayList();
@@ -66,6 +72,7 @@ public class FriendDetailActivity extends AppCompatActivity {
         GroupManager groupdao = new GroupManager();
         FriendManager frienddao =  new FriendManager();
         name = (TextView) findViewById(R.id.name);
+        btnExportList = (Button) findViewById(R.id.export);
 
         Intent intent = getIntent();
         int friendposition = intent.getIntExtra("friendposition",0);
@@ -111,18 +118,41 @@ public class FriendDetailActivity extends AppCompatActivity {
                 else {
                     groupsToString.add(temp.getName());
                     amount.add(doubleform.format(owes) + "€");
-                    date.add("last expense: " + dateform.format(today));
+                    date.add("press to clear debt");
                     iconColors.add(temp.getIconColor());
                     text.add("");
                 }
             }
-
         }
 
         groupView = (ListView) findViewById(R.id.groupView);
         adapter = new FancyListAdapter(this, R.layout.fancy_list, groupsToString, text, amount, date, iconColors);
 
         groupView.setAdapter(adapter);
+
+        btnExportList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setData(Uri.parse("mailto:"));
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, owingfriend.getMailaddress());
+                emailIntent.setType("text/plain");
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Frog - Debt report for " + me.getName() + " to " + owingfriend.getName()+ "!");
+                emailIntent.putExtra(Intent.EXTRA_TEXT   , "Hi, " + owingfriend.getName() + "!\n" + "Attached a summary of our trip expenses.");
+
+
+                try {
+                    startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                    finish();
+                }
+                catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(FriendDetailActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
     }
 
     public void gotToFriendsActivity(View v){
