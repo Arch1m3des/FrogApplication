@@ -124,11 +124,6 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         startActivity(goToMaps);
     }
 
-    public void goToMeActivity(View v){
-        Intent goToMe=new Intent(ExpenseDetailActivity.this,MeActivity.class);
-        startActivity(goToMe);
-    }
-
     public void goToSettings(View v){
         Intent goToSettings=new Intent(ExpenseDetailActivity.this, SettingActivity.class);
         startActivity(goToSettings);

@@ -179,11 +179,6 @@ public class AddDummyActivity extends AppCompatActivity {
         startActivity(goToMaps);
     }
 
-    public void goToMeActivity(View v){
-        Intent goToMe=new Intent(AddDummyActivity.this,MeActivity.class);
-        startActivity(goToMe);
-    }
-
     public void goToSettings(View v){
         Intent goToSettings=new Intent(AddDummyActivity.this, SettingActivity.class);
         startActivity(goToSettings);

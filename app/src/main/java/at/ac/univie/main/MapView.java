@@ -186,11 +186,6 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
        //
     }
 
-    public void goToMeActivity(View v){
-        Intent goToMe=new Intent(MapView.this , MeActivity.class);
-        startActivity(goToMe);
-    }
-
     public void goToSettings(View v){
         Intent goToSettings=new Intent(MapView.this , SettingActivity.class);
         startActivity(goToSettings);

@@ -9,13 +9,48 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GPS"
+        android:text="GPS:     "
         android:id="@+id/gps"
         android:fontFamily="sans-serif-light"
         android:layout_marginTop="46dp"
         android:layout_marginStart="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/update"
+        android:id="@+id/qrCodeText"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="344dp"
+        android:layout_alignParentBottom="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/update"
+        android:id="@+id/qrCode"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/qrCodeText"
+        android:layout_marginBottom="150dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorDarkGrey"
+        android:textColor="@color/colorWhite"
+        android:onClick="changeUserData"
+        android:ems="10"
+        android:text="@string/update"
+        android:id="@+id/update"
+        android:textSize="18sp"
+        android:layout_below="@+id/gps"
+        android:fontFamily="sans-serif-light"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="40dp"/>
 
 
 </RelativeLayout>
