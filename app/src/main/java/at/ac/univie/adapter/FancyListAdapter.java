@@ -26,7 +26,7 @@ public class FancyListAdapter extends ArrayAdapter<String> {
 
     private Context context;
     private int layoutResourceId;
-    private ArrayList<String> list = null;
+    private ArrayList<String> list = null; // HashMap with Friend object and String object
     private ArrayList<String> initials = null;
     private ArrayList<String> amount = null;
     private ArrayList<String> date = null;
@@ -66,7 +66,7 @@ public class FancyListAdapter extends ArrayAdapter<String> {
         amountView.setBackgroundColor(Color.WHITE);
 
         textView.setTextColor(Color.BLACK);
-        textView.setText(list.get(position));
+        textView.setText(list.get(position)); // HashMap key or value (depends on which is String) at position
         textView.setBackgroundColor(Color.WHITE);
 
         if (initials.get(position).equals("+") || initials.get(position).equals("$") || !initials.get(position).equals("")) {

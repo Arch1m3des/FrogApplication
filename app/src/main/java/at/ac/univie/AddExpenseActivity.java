@@ -72,7 +72,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                 int amountInt = Integer.parseInt(amount.getText().toString());
                 Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
                 goToSplitOptions.putExtra("option", 1);
-                Expense expense = new SplitManual(members.get(0), members.get(0), amountInt, "Test", "Food", null, 1);
+                Expense expense = new SplitManual(members.get(0), members.get(0), amountInt, "Test", "Food", 1);
                 thisGroup.addExpense(expense);
                 System.out.println("just added expense: " + expense);
                 goToSplitOptions.putExtra("amount", amountInt);
@@ -162,7 +162,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         friendsView.setAdapter(friendsAdapter);
         payerView.setAdapter(payerAdapter);
 
-
+        /* Single-Choice fuer List */
         splitView.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
 
         splitView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
