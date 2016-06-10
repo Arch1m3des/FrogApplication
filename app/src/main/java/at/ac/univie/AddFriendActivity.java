@@ -156,11 +156,6 @@ public class AddFriendActivity extends AppCompatActivity {
         startActivity(goToMaps);
     }
 
-    public void goToMeActivity(View v){
-        Intent goToMe=new Intent(AddFriendActivity.this,MeActivity.class);
-        startActivity(goToMe);
-    }
-
     public void goToSettings(View v){
         Intent goToSettings=new Intent(AddFriendActivity.this, SettingActivity.class);
         startActivity(goToSettings);

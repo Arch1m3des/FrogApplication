@@ -170,11 +170,6 @@ public class FriendDetailActivity extends AppCompatActivity {
         startActivity(goToMaps);
     }
 
-    public void goToMeActivity(View v){
-        Intent goToMe=new Intent(FriendDetailActivity.this,MeActivity.class);
-        startActivity(goToMe);
-    }
-
     public void goToSettings(View v){
         Intent goToSettings=new Intent(FriendDetailActivity.this, SettingActivity.class);
         startActivity(goToSettings);

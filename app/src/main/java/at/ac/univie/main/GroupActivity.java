@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import at.ac.univie.GroupSettingsActivity;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
 import at.ac.univie.SplitDAO.Group;
@@ -58,7 +59,8 @@ public class GroupActivity extends AppCompatActivity {
                 startActivity(addGroup);
                 return true;
             case R.id.action_menu_settings:
-                //TODO implement action
+                Intent toGroupSettings = new Intent(GroupActivity.this, GroupSettingsActivity.class);
+                startActivity(toGroupSettings);
                 return true;
             default: return  false;
         }
@@ -141,11 +143,6 @@ public class GroupActivity extends AppCompatActivity {
     public void goToMap(View v){
         Intent goToMaps = new Intent(GroupActivity.this, MapView.class);
         startActivity(goToMaps);
-    }
-
-    public void goToMeActivity(View v){
-        Intent goToMe=new Intent(GroupActivity.this,MeActivity.class);
-        startActivity(goToMe);
     }
 
     public void goToSettings(View v){

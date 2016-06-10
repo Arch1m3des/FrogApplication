@@ -152,11 +152,6 @@ public class GroupDetailActivity extends AppCompatActivity {
         startActivity(goToMaps);
     }
 
-    public void goToMeActivity(View v){
-        Intent goToMe=new Intent(GroupDetailActivity.this,MeActivity.class);
-        startActivity(goToMe);
-    }
-
     public void goToSettings(View v){
         Intent goToSettings=new Intent(GroupDetailActivity.this, SettingActivity.class);
         startActivity(goToSettings);
