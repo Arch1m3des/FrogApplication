@@ -10,13 +10,17 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
+import at.ac.univie.SplitDAO.GroupManager;
 import at.ac.univie.adapter.SimpleListAdapter;
 import at.ac.univie.frog.R;
 
@@ -26,6 +30,14 @@ public class SplitViewActivity extends AppCompatActivity {
     SimpleListAdapter adapter;
     ArrayList<Friend> friends = new ArrayList();
     ArrayList<String> friendsToString = new ArrayList();
+    GroupManager groupDAO;
+    ArrayList<at.ac.univie.SplitDAO.Group> groups = new ArrayList();
+    at.ac.univie.SplitDAO.Group thisGroup;
+    Expense thisExpense;
+    TextView totalAmt;
+
+
+
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -45,19 +57,38 @@ public class SplitViewActivity extends AppCompatActivity {
             case R.id.action_menu_done:
                 //Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitOptionActivity.class);
                 Intent goToGroupDetail = new Intent(SplitViewActivity.this, GroupDetailActivity.class);
+                //Splitmanual
                 double sum = 0;
 
                 for (int i = 0; i < listView.getAdapter().getCount(); i++) {
                     View view = listView.getChildAt(i);
                     EditText editText = (EditText) view.findViewById(R.id.simpleEdit);
                     System.out.println(editText.getText().toString());
+                    thisExpense.setitem(thisExpense.getParticipants().get(i), Double.parseDouble(editText.getText().toString()));
                     sum += Double.parseDouble(editText.getText().toString());
                 }
 
-                if (sum != getIntent().getIntExtra("amount", 0))
-                    Toast.makeText(getApplicationContext(), "Your sum does not add up to " + getIntent().getIntExtra("amount", 0) + ". Please change that.", Toast.LENGTH_LONG).show();
+                boolean optimize = true;
+                if (optimize) {
+                    //need to calc the sum again
+                    sum = 0;
+                    thisExpense.optimizeinputs();
+                    for (int i = 0; i < listView.getAdapter().getCount(); i++) {
+                        View view = listView.getChildAt(i);
+                        EditText editText = (EditText) view.findViewById(R.id.simpleEdit);
+                        sum += Double.parseDouble(editText.getText().toString());
+                    }
+                    System.out.print(sum);
+                }
+
+                DecimalFormat doubleform = new DecimalFormat("#.##");
+                totalAmt.setText("Total: " + doubleform.format(sum) + "/" + thisExpense.getAmount());
+
+                if (!(sum+1 > thisExpense.getAmount()) && !(sum-1 < thisExpense.getAmount()))
+                    Toast.makeText(getApplicationContext(), "Your sum (" + sum + ") does not add up to " + thisExpense.getAmount() + ". Please change that.", Toast.LENGTH_LONG).show();
                 else {
                     finish();
+
                     startActivity(goToGroupDetail);
                     return true;
                 }
@@ -70,8 +101,12 @@ public class SplitViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.content_split_view);
+        totalAmt = (TextView) findViewById(R.id.totalAmt);
 
-        int splitOption = getIntent().getIntExtra("option", 0);
+
+        int groupindex = getIntent().getIntExtra("groupindex", 0);
+        int expenseindex = getIntent().getIntExtra("expenseindex", 0);
+        int splitOption = getIntent().getIntExtra("option", -1);
         String option;
 
         System.out.println(splitOption);
@@ -90,19 +125,25 @@ public class SplitViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setElevation(0);
 
-        listView = (ListView) findViewById(R.id.splitListView);
-
-        FriendManager frienddao = new FriendManager();
+        //getGroupInfo
+        groupDAO = new GroupManager();
 
         try {
-            frienddao.loadFriendData(getApplicationContext(), "Friends");
+            groupDAO.loadGroupData(getApplicationContext(), "Groups");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        friends =  frienddao.getFriendList();
+        groups =  groupDAO.getGroupList();
+        thisGroup = groups.get(groupindex);
+        thisExpense = thisGroup.getExpenses().get(expenseindex);
+
+
+        listView = (ListView) findViewById(R.id.splitListView);
+
+        friends = (ArrayList<Friend>) thisExpense.getParticipants();
 
         for (Friend temp : friends)
             friendsToString.add(temp.getName() + " " + temp.getSurname());
@@ -110,7 +151,6 @@ public class SplitViewActivity extends AppCompatActivity {
         adapter = new SimpleListAdapter(this, R.layout.simple_edit_list, friendsToString);
 
         listView.setAdapter(adapter);
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

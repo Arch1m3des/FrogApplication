@@ -16,6 +16,13 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import at.ac.univie.SplitDAO.*;
 import at.ac.univie.SplitDAO.Group;
@@ -43,6 +50,7 @@ public class AddGroupActivity extends AppCompatActivity {
     GroupManager groupdao;
     FriendManager frienddao;
     ArrayList<Friend> friendpos;
+    ArrayList<String> groupCurrencies;
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -68,9 +76,11 @@ public class AddGroupActivity extends AppCompatActivity {
                 else {
 
                     at.ac.univie.SplitDAO.Group newgroup = new Group(groups.size(), groupName.getText().toString());
+                    newgroup.setCurrencies(groupCurrencies);
                     for (Friend friend : friendpos) {
                         newgroup.addMember(friend);
                     }
+
                     groups.add(newgroup);
                     groupdao.setGroupList(groups);
                     try {
@@ -105,6 +115,7 @@ public class AddGroupActivity extends AppCompatActivity {
         groupdao = new GroupManager();
         frienddao =  new FriendManager();
         friendpos = new ArrayList<>();
+        groupCurrencies = new ArrayList<>();
 
         try {
             groupdao.loadGroupData(getApplicationContext(), "Groups");
@@ -117,11 +128,13 @@ public class AddGroupActivity extends AppCompatActivity {
 
         listView = (ExpandableListView) findViewById(R.id.listView);
 
-        currency.add(new Child("€"));
-        currency.add(new Child("$"));
-        currency.add(new Child("¥"));
-        currency.add(new Child("£"));
-        currency.add(new Child("Fr"));
+        Currencies curr = new Currencies();
+        HashMap<String, String> currmap = curr.getCurrencies();
+        Iterator it = currmap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry valuepair = (Map.Entry)it.next();
+            currency.add(new Child((String) valuepair.getKey() + "  " + valuepair.getValue()));
+        }
 
         Friend me = frienddao.getFriendList().get(0);
         friends =  frienddao.getFriendList();
@@ -131,7 +144,7 @@ public class AddGroupActivity extends AppCompatActivity {
             friendsToString.add(new Child(temp.getName() + " " + temp.getSurname()));
         }
 
-        Parent parentCurrency = new Parent("Default Currency", currency);
+        Parent parentCurrency = new Parent("Select Currencies", currency);
         Parent parentFriends = new Parent("Add Friends", friendsToString);
 
         parents.add(parentCurrency);
@@ -190,24 +203,51 @@ public class AddGroupActivity extends AppCompatActivity {
                 Child child = (Child) itemAdapter.getChild(groupPosition, childPosition);
                 turn = true;
 
-                if (!child.isSelected()) {
-                    child.setSelected(true);
-                    view.setBackgroundColor(Color.parseColor("#7ecece"));
-                    turn = false;
+                if(groupPosition == 0) {  //currency
+                    if (!child.isSelected()) {
+                        child.setSelected(true);
+                        view.setBackgroundColor(Color.parseColor("#7ecece"));
+                        turn = false;
 
-                    if (!friendpos.contains(friends.get(childPosition))) {
-                        friendpos.add(friends.get(childPosition));
+                        if (!groupCurrencies.contains(currency.get(childPosition))) {
+                            groupCurrencies.add(currency.get(childPosition).getName());
+                        }
                     }
+
+                    if (child.isSelected() && turn == true) {
+                        child.setSelected(false);
+                        view.setBackgroundColor(Color.TRANSPARENT);
+
+                        if (groupCurrencies.contains(currency.get(childPosition).toString())) {
+                            groupCurrencies.remove(currency.get(childPosition).toString());
+                        }
+                    }
+
                 }
 
-                if (child.isSelected() && turn == true) {
-                    child.setSelected(false);
-                    view.setBackgroundColor(Color.TRANSPARENT);
+                if(groupPosition == 1) {  //participants
+                    if (!child.isSelected()) {
+                        child.setSelected(true);
+                        view.setBackgroundColor(Color.parseColor("#7ecece"));
+                        turn = false;
 
-                    if (friendpos.contains(friends.get(childPosition))) {
-                        friendpos.remove(friends.get(childPosition));
+                        if (!friendpos.contains(friends.get(childPosition))) {
+                            friendpos.add(friends.get(childPosition));
+                        }
                     }
+
+                    if (child.isSelected() && turn == true) {
+                        child.setSelected(false);
+                        view.setBackgroundColor(Color.TRANSPARENT);
+
+                        if (friendpos.contains(friends.get(childPosition))) {
+                            friendpos.remove(friends.get(childPosition));
+                        }
+                    }
+
                 }
+
+
 
 
                 return false;

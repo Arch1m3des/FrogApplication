@@ -24,7 +24,8 @@ public abstract class Expense implements IExpensecalculations, Serializable {
     double amountInHomeCurrency;
     String description;
     Context context;
-    Location location;
+    double longitude;
+    double latitude;
     String category;
     String currency="USD";
     int splitOption;
@@ -54,13 +55,22 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         this.payer = payer;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    public Location getLocation() {
-        return this.location;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
+
+    public double getLongitude() {
+        return this.longitude;
+    }
+
+    public double getLatitude() {
+        return this.latitude;
+    }
+
 
     public void setSpending(List<Double> spending) {
         this.spending = spending;
@@ -196,6 +206,9 @@ public abstract class Expense implements IExpensecalculations, Serializable {
     }
 
 
+    public String getCategory() {
+        return category;
+    }
 
     //Function calculates the spendings in the home currency
     public boolean calculateDebtInHomeSpendings(){

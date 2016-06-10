@@ -19,12 +19,14 @@ public class Group implements Serializable {
     GregorianCalendar startDate;
     List<Friend> members;
     List<Expense> expenses;
+    List<String> currencies;
 
     public Group(long id, String name) {
         this.id = id;
         this.name = name;
         this.members = new ArrayList();
         this.expenses = new ArrayList();
+        this.currencies = new ArrayList<>();
         this.iconColor = generateIconColor();
     }
 
@@ -55,6 +57,14 @@ public class Group implements Serializable {
             default : return "#FF0000";
         }
         //return rand.nextInt(10)+1;
+    }
+
+    public void setCurrencies(List<String> currencies) {
+        this.currencies = currencies;
+    }
+
+    public List<String> getCurrencies() {
+        return this.currencies;
     }
 
     public String getIconColor() {
@@ -89,8 +99,7 @@ public class Group implements Serializable {
     public double getsumexpenses() {
         double sum = 0;
         if (expenses.isEmpty()) return 0;
-        for (Expense ex :
-                expenses) {
+        for (Expense ex : expenses) {
             sum += ex.getAmount();
         }
         return sum;

@@ -21,19 +21,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-thin"
-        android:text="Clear Dept"
-        android:id="@+id/dept"
-        android:layout_below="@+id/name"
-        android:layout_alignStart="@+id/name" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-thin"
         android:text="Export List"
         android:id="@+id/export"
         android:layout_below="@+id/name"
-        android:layout_alignEnd="@+id/name" />
+        android:layout_centerHorizontal="true" />
 
     <ListView
         android:fontFamily="sans-serif-thin"

@@ -13,12 +13,12 @@ public class Currencies {
     private static HashMap<String, String> currencies;
 
     //TODO maybe no constructor needed
-    public Currencies(HashMap<String, String> currencies) {
+    public Currencies() {
         currencies = new HashMap();
 
         currencies.put("EUR","€");
         currencies.put("AUD","$");
-        currencies.put("BRL","R$");
+        currencies.put("BRL","R$ ");
         currencies.put("CAD","R$");
         currencies.put("CHF","CHF");
         currencies.put("CNY","¥");

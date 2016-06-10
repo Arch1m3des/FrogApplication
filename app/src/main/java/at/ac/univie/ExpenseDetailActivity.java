@@ -79,16 +79,18 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         }
 
         DecimalFormat doubleform = new DecimalFormat("#.##");
-        SimpleDateFormat dateform = new SimpleDateFormat("dd.MM.yyyy HH.mm", Locale.GERMAN);
+        SimpleDateFormat dateform = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMAN);
 
 
+        TextView txt_desc = (TextView) findViewById(R.id.textDescription);
         TextView txt_amt = (TextView) findViewById(R.id.textAmount);
         TextView txt_date = (TextView) findViewById(R.id.textDate);
         TextView txt_cat = (TextView) findViewById(R.id.textCategory);
         txt_amt.setText(txt_amt.getText().toString() + "  " + doubleform.format(thisexpense.getAmount()));
         txt_date.setText(txt_date.getText().toString() + "  " + dateform.format(thisexpense.getDate()));
-        txt_cat.setText(txt_cat.getText().toString() + "  " + "Misc");
+        txt_cat.setText(txt_cat.getText().toString() + "  " + thisexpense.getCategory());
 
+        txt_desc.setText(txt_desc.getText().toString() + " " + thisexpense.getDescription());
 
         if (thisexpense.getSpending().size() == thisexpense.getParticipants().size()) {
             for (int i= 0; i<thisexpense.getParticipants().size(); i++) {
@@ -98,12 +100,6 @@ public class ExpenseDetailActivity extends AppCompatActivity {
             }
         }
 
-
-/*
-        members.add(new Child("Markus Bader"));
-        members.add(new Child("Andy Weinbahn"));
-        members.add(new Child("Daniel Bubla"));
-*/
         Parent parent = new Parent("Members", members);
 
         groups.add(parent);

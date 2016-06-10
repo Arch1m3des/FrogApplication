@@ -38,8 +38,6 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     ArrayList<MapMarker> places = new ArrayList<MapMarker>();
     ArrayList<LatLng> points = new ArrayList<LatLng>();
 
-
-
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -53,7 +51,7 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
         this.Lattitude = Lattitude;
         this.Description = Description;
     }
-**/
+    **/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
