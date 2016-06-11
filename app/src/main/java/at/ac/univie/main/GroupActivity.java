@@ -117,6 +117,8 @@ public class GroupActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
                 Intent detailGroup = new Intent(GroupActivity.this, GroupDetailActivity.class);
                 detailGroup.putExtra("GroupPosition", position);
+                detailGroup.putExtra("groupIndex", position);
+
                 startActivity(detailGroup);
             }
 

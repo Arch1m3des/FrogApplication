@@ -25,8 +25,25 @@
         android:textSize="20sp"
         android:fontFamily="sans-serif-light"
         android:paddingRight="10dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="40dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"/>
+        android:hint="0"
+        android:textAlignment="textEnd"
+        android:layout_alignEnd="@+id/simpleText"
+        android:layout_marginEnd="59dp"
+        android:selectAllOnFocus="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/splitSymbol"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="115dp"
+        android:layout_alignStart="@+id/simpleEdit"
+        android:fontFamily="sans-serif-light"
+        android:textSize="20sp"
+        android:layout_alignEnd="@+id/simpleText" />
+
 
 </RelativeLayout>

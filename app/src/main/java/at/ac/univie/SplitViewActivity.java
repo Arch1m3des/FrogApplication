@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import at.ac.univie.SplitDAO.Currencies;
 import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
@@ -35,6 +36,8 @@ public class SplitViewActivity extends AppCompatActivity {
     at.ac.univie.SplitDAO.Group thisGroup;
     Expense thisExpense;
     TextView totalAmt;
+    String splitSign;
+    int splitOption;
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -57,6 +60,9 @@ public class SplitViewActivity extends AppCompatActivity {
                 Intent goToGroupDetail = new Intent(SplitViewActivity.this, GroupDetailActivity.class);
                 goToGroupDetail.putExtra("GroupPosition", position);
 
+                if (splitOption == 1) {
+
+                }
                 //Splitmanual
                 double sum = 0;
 
@@ -84,7 +90,7 @@ public class SplitViewActivity extends AppCompatActivity {
                 DecimalFormat doubleform = new DecimalFormat("#.##");
                 totalAmt.setText("Total: " + doubleform.format(sum) + "/" + thisExpense.getAmount());
 
-                if (!(sum+1 > thisExpense.getAmount()) && !(sum-1 < thisExpense.getAmount()))
+                if (!((sum+1 > thisExpense.getAmount()) && (sum-1 < thisExpense.getAmount())))
                     Toast.makeText(getApplicationContext(), "Your sum (" + sum + ") does not add up to " + thisExpense.getAmount() + ". Please change that.", Toast.LENGTH_LONG).show();
                 else {
                     finish();
@@ -103,27 +109,10 @@ public class SplitViewActivity extends AppCompatActivity {
         setContentView(R.layout.content_split_view);
         totalAmt = (TextView) findViewById(R.id.totalAmt);
 
-
-        int groupindex = getIntent().getIntExtra("groupindex", 0);
+        int groupindex = getIntent().getIntExtra("groupIndex", 0);
         int expenseindex = getIntent().getIntExtra("expenseindex", 0);
-        int splitOption = getIntent().getIntExtra("option", -1);
+        splitOption = getIntent().getIntExtra("option", -1);
         String option;
-
-        System.out.println(splitOption);
-
-        switch(splitOption) {
-            case 1 : option = " manually";
-                break;
-            case 2 : option = " in parts";
-                break;
-            case 3 : option = " in percent";
-                break;
-            default : option = "";
-        }
-
-        getSupportActionBar().setTitle("Split" + option);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setElevation(0);
 
         //getGroupInfo
         groupDAO = new GroupManager();
@@ -140,6 +129,26 @@ public class SplitViewActivity extends AppCompatActivity {
         thisGroup = groups.get(groupindex);
         thisExpense = thisGroup.getExpenses().get(expenseindex);
 
+        System.out.println(splitOption);
+
+        Currencies currList = new Currencies();
+
+        switch(splitOption) {
+            case 1 : option = " manually";
+                splitSign = currList.getCurrencies().get(thisExpense.getCurrency());
+                break;
+            case 2 : option = " in parts";
+                splitSign = "Pts.";
+                break;
+            case 3 : option = " in percent";
+                splitSign = "%";
+                break;
+            default : option = "";
+        }
+
+        getSupportActionBar().setTitle("Split" + option);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setElevation(0);
 
         listView = (ListView) findViewById(R.id.splitListView);
 
@@ -148,7 +157,9 @@ public class SplitViewActivity extends AppCompatActivity {
         for (Friend temp : friends)
             friendsToString.add(temp.getName() + " " + temp.getSurname());
 
-        adapter = new SimpleListAdapter(this, R.layout.simple_edit_list, friendsToString);
+
+
+        adapter = new SimpleListAdapter(this, R.layout.simple_edit_list, friendsToString, splitSign);
 
         listView.setAdapter(adapter);
 

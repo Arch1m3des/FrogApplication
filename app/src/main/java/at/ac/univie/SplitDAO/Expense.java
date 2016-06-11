@@ -71,6 +71,9 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         return this.latitude;
     }
 
+    public void setCurrency(String currency) { this.currency = currency; }
+
+    public String getCurrency() { return this.currency; }
 
     public void setSpending(List<Double> spending) {
         this.spending = spending;
@@ -204,7 +207,6 @@ public abstract class Expense implements IExpensecalculations, Serializable {
     public void setAmountinHomeCurrency(double amountinhomecurr){
         this.amountInHomeCurrency = amountinhomecurr;
     }
-
 
     public String getCategory() {
         return category;

@@ -19,6 +19,7 @@ public class SplitOptionActivity extends AppCompatActivity {
     ListView splitView;
     ListAdapter adapter;
     ArrayList<String> options = new ArrayList();
+    String simpleString = "";
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -42,7 +43,7 @@ public class SplitOptionActivity extends AppCompatActivity {
         options.add("Split in %");
         options.add("Split in parts");
 
-        adapter = new SimpleListAdapter(this, R.layout.simple_list, options);
+        adapter = new SimpleListAdapter(this, R.layout.simple_list, options, simpleString);
 
         splitView.setAdapter(adapter);
 

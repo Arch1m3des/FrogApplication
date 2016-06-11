@@ -84,7 +84,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         double amountDbl = 0;
         String exDescription = "";
 
-        //Format to 2 decimal places
+        //TODO Format to 2 decimal places; didn't work for me
         try {
             exDescription = description.getText().toString();
 
@@ -164,6 +164,8 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
             //Expenseinfo for Debugging
             //Toast.makeText(getApplicationContext(), "Expenseinfo " + splitMode + ";" + exPayer + ";" + amountDbl + ";" + exDescription + ";" + exCategory, Toast.LENGTH_SHORT).show();
 
+            //add currency;
+            newExpense.setCurrency(exCurrency);
 
             //add location as last point
             Location currLocation = getLocation();
@@ -596,6 +598,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
 
 
     /*only way to avoid keyboard pop up*/ //http://stackoverflow.com/questions/4828636/edittext-clear-focus-on-touch-outside/28939113#28939113
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -612,4 +615,5 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         }
         return super.dispatchTouchEvent( event );
     }
+
 }
