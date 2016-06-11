@@ -1,25 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/linearLayout"
-    tools:context="at.ac.univie.main.FriendActivity"
-    tools:showIn="@layout/activity_friend">
+    android:id="@+id/relativeLayout"
+    tools:context="at.ac.univie.SearchActivity"
+    tools:showIn="@layout/activity_search">
+
+    <include layout="@layout/navbar_bottom" />
+
+    <EditText
+        android:fontFamily="sans-serif-light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchGroup"
+        android:hint="Search for a group"
+        android:textSize="20sp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
     <ListView
         android:fontFamily="sans-serif-thin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="62dp"
+        android:layout_marginBottom="22dp"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
         android:id="@+id/groupView"
+        android:layout_below="@+id/searchGroup"
         android:layout_alignParentEnd="true"
         android:clickable="true"/>
 
-</LinearLayout>
+</RelativeLayout>

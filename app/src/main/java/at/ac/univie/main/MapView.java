@@ -40,6 +40,7 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     ArrayList<MapMarker> placesGroups = new ArrayList();
     ArrayList<LatLng> points = new ArrayList<LatLng>();
     GroupManager groupManager;
+    int groupindex = 0;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -78,7 +79,6 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_map_view);
-        getSupportActionBar().setTitle("Map");
         getSupportActionBar().setElevation(0);
 
         TextView settings = (TextView) findViewById(R.id.imageMapWithText);
@@ -95,18 +95,32 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
             e.printStackTrace();
         }
 
-        ArrayList<Group> groups =  groupManager.getGroupList();
-        for (Group group : groups) {
-            placesGroups.addAll(group.getPlaces());
-        }
+        ArrayList<Group> groups = groupManager.getGroupList();
 
+        Intent intent=getIntent();
+        if(intent.hasExtra("GroupPosition")){
+            groupindex = intent.getIntExtra("GroupPosition", 0);
+            String groupName=groupManager.getGroupList().get(groupindex).getName();
+            getSupportActionBar().setTitle(groupName);
+
+            for(Group group:groups){
+                if(group.getName().equals(groupName)){
+                    placesGroups.addAll(group.getPlaces());
+                }
+            }
+        }else {
+            getSupportActionBar().setTitle("Map");
+            for (Group group : groups) {
+                placesGroups.addAll(group.getPlaces());
+            }
+        }
 
         MapFragment mf = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mf.getMapAsync(this);
         //Hardcoded MapMarkers
         MapMarker perth = new MapMarker(-31.90, 115.86, "Snakes on the plane");
         MapMarker sydney = new MapMarker(-33.86, 151.20, "I met a guy pretending to be a banana");
-        MapMarker canberra = new MapMarker (-35.343784, 149.082977, "the food was amazing!");
+        MapMarker canberra = new MapMarker(-35.343784, 149.082977, "the food was amazing!");
         //places.add(perth);
         //places.add(sydney);
         //places.add(canberra);
@@ -118,6 +132,7 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
     }
 
 
