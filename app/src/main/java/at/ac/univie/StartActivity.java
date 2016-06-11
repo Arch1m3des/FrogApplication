@@ -32,6 +32,7 @@ import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
 import at.ac.univie.SplitDAO.Group;
 import at.ac.univie.SplitDAO.GroupManager;
+import at.ac.univie.SplitDAO.MapMarker;
 import at.ac.univie.SplitDAO.SplitEqual;
 import at.ac.univie.SplitDAO.SplitParts;
 import at.ac.univie.frog.R;
@@ -201,6 +202,7 @@ public class StartActivity extends AppCompatActivity {
         firstexpense.addParticipant(f4);
 
 
+
         /*
         Location randomlocation = new Location("dummyprovider");
         randomlocation.setLatitude(13.7134702);
@@ -208,6 +210,7 @@ public class StartActivity extends AppCompatActivity {
         firstexpense.setLocation(randomlocation);
         */
 
+        g1.addPlace(new MapMarker(13.7134702,100.5133035,"Straßenessen"));
         g1.addExpense(firstexpense);
 
         firstexpense = new SplitParts(f1, f3, 34, "Eis essen", "Food", 1);
@@ -227,6 +230,7 @@ public class StartActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        g2.addPlace(new MapMarker(51.5304439,-0.826729,"Eis essen"));
         g2.addExpense(firstexpense);
 
         firstexpense = new SplitEqual(f3, f3, 28.50, "Eintritt Therme", "Culture", 0);
@@ -238,6 +242,8 @@ public class StartActivity extends AppCompatActivity {
         //randomlocation.setLatitude(48.1265264);
         //randomlocation.setLongitude(16.3932835);
         //firstexpense.setLocation(//randomlocation);
+
+        g3.addPlace(new MapMarker(48.1265264,16.3932835,"Eintritt Therme"));
         g3.addExpense(firstexpense);
 
         //firstexpense.setLocation(randomlocation);
@@ -245,6 +251,8 @@ public class StartActivity extends AppCompatActivity {
         //randomlocation.setLatitude(48.1465264);
         //randomlocation.setLongitude(16.4032835);
         //firstexpense.setLocation(//randomlocation);
+
+        g3.addPlace(new MapMarker(48.1265264,16.4032835,"Eintritt Therme"));
         g3.addExpense(firstexpense);
 
 
@@ -260,6 +268,8 @@ public class StartActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        g4.addPlace(new MapMarker(-36.459652,-64.0360471,"Safari"));
         g4.addExpense(firstexpense);
 
         groupdao.addGroup(g1);
