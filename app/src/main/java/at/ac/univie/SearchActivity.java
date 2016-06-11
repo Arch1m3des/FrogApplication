@@ -1,28 +1,25 @@
 package at.ac.univie;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import at.ac.univie.SplitDAO.*;
 import at.ac.univie.SplitDAO.Group;
 import at.ac.univie.adapter.SearchListAdapter;
-import at.ac.univie.adapter.SimpleListAdapter;
 import at.ac.univie.frog.R;
 import at.ac.univie.main.FriendActivity;
 import at.ac.univie.main.GroupActivity;
@@ -31,7 +28,8 @@ import at.ac.univie.main.SettingActivity;
 
 public class SearchActivity extends AppCompatActivity {
     ListView groupView;
-    ArrayAdapter adapter;
+    EditText editsearch;
+    SearchListAdapter adapter;
     ArrayList<Group> groups = new ArrayList();
     ArrayList<String> groupsToString = new ArrayList();
     GroupManager groupdao;
@@ -71,19 +69,28 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         groupView = (ListView) findViewById(R.id.groupView);
-        adapter = new SearchListAdapter(this, R.layout.search_list, groupsToString);
+        adapter = new SearchListAdapter(this, groupsToString);
 
         groupView.setAdapter(adapter);
 
-        groupView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        editsearch=(EditText)findViewById(R.id.searchGroup);
 
+        editsearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
-                Intent mapGroup = new Intent(SearchActivity.this, MapView.class);
-                mapGroup.putExtra("GroupPosition", position);
-                startActivity(mapGroup);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = editsearch.getText().toString().toLowerCase(Locale.getDefault());
+                adapter.filter(text);
+            }
         });
     }
 
