@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -31,6 +32,9 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 
     ExpandableListView listView;
     ExpandableListAdapter adapter;
+    Button location;
+    double longitude;
+    double latitude;
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -56,24 +60,24 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         ArrayList<Child> members = new ArrayList();
 
         Intent intent = getIntent();
-        int groupindex = intent.getIntExtra("groupindex", 0);
-        int expenseindex = intent.getIntExtra("expenseindex", 0);
+        int groupIndex = intent.getIntExtra("groupindex", 0);
+        int expenseIndex = intent.getIntExtra("expenseindex", 0);
 
-        GroupManager groupdao = new GroupManager();
+        GroupManager groupDAO = new GroupManager();
         try {
-            groupdao.loadGroupData(getApplicationContext(), "Groups");
+            groupDAO.loadGroupData(getApplicationContext(), "Groups");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        ArrayList<at.ac.univie.SplitDAO.Group> groupList = groupdao.getGroupList();
+        ArrayList<at.ac.univie.SplitDAO.Group> groupList = groupDAO.getGroupList();
 
-        List<Expense> list = groupList.get(groupindex).getExpenses();
-        Expense thisexpense = list.get(expenseindex);
+        List<Expense> list = groupList.get(groupIndex).getExpenses();
+        Expense expense = list.get(expenseIndex);
         try {
-            thisexpense.calculateDebt();
+            expense.calculateDebt();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,21 +85,25 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         DecimalFormat doubleform = new DecimalFormat("#.##");
         SimpleDateFormat dateform = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMAN);
 
+        location = (Button) findViewById(R.id.location);
+
+        longitude = expense.getLongitude();
+        latitude = expense.getLatitude();
 
         TextView txt_desc = (TextView) findViewById(R.id.textDescription);
         TextView txt_amt = (TextView) findViewById(R.id.textAmount);
         TextView txt_date = (TextView) findViewById(R.id.textDate);
         TextView txt_cat = (TextView) findViewById(R.id.textCategory);
-        txt_amt.setText(txt_amt.getText().toString() + "  " + doubleform.format(thisexpense.getAmount()));
-        txt_date.setText(txt_date.getText().toString() + "  " + dateform.format(thisexpense.getDate()));
-        txt_cat.setText(txt_cat.getText().toString() + "  " + thisexpense.getCategory());
+        txt_amt.setText(txt_amt.getText().toString() + "  " + doubleform.format(expense.getAmount()));
+        txt_date.setText(txt_date.getText().toString() + "  " + dateform.format(expense.getDate()));
+        txt_cat.setText(txt_cat.getText().toString() + "  " + expense.getCategory());
 
-        txt_desc.setText(txt_desc.getText().toString() + " " + thisexpense.getDescription());
+        txt_desc.setText(txt_desc.getText().toString() + " " + expense.getDescription());
 
-        if (thisexpense.getSpending().size() == thisexpense.getParticipants().size()) {
-            for (int i= 0; i<thisexpense.getParticipants().size(); i++) {
-                String name = thisexpense.getParticipants().get(i).getName() + " " + thisexpense.getParticipants().get(i).getSurname();
-                double amount = thisexpense.getSpending().get(i);
+        if (expense.getSpending().size() == expense.getParticipants().size()) {
+            for (int i= 0; i<expense.getParticipants().size(); i++) {
+                String name = expense.getParticipants().get(i).getName() + " " + expense.getParticipants().get(i).getSurname();
+                double amount = expense.getSpending().get(i);
                 members.add(new Child(name + "    " + doubleform.format(amount)));
             }
         }
@@ -104,9 +112,24 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 
         groups.add(parent);
 
-        adapter = new FancyExpandableListAdapter(this, groups);
+        adapter = new FancyExpandableListAdapter(this, groups, false);
 
         listView.setAdapter(adapter);
+
+        location.setOnClickListener (new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                Intent goToMaps = new Intent(ExpenseDetailActivity.this, MapView.class);
+                goToMaps.putExtra("long", longitude);
+                goToMaps.putExtra("lat", latitude);
+                startActivity(goToMaps);
+
+            }
+
+        });
+
     }
 
     public void gotToFriendsActivity(View v){

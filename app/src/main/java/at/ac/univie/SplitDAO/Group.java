@@ -20,6 +20,7 @@ public class Group implements Serializable {
     List<Friend> members;
     List<Expense> expenses;
     List<String> currencies;
+    List<MapMarker> places = new ArrayList();
 
     public Group(long id, String name) {
         this.id = id;
@@ -83,6 +84,9 @@ public class Group implements Serializable {
         this.startDate = (GregorianCalendar) GregorianCalendar.getInstance();
     }
 
+    public List<MapMarker> getPlaces() {
+        return this.places;
+    }
 
     public String getName() {
         return name;
@@ -116,6 +120,10 @@ public class Group implements Serializable {
 
     public boolean addExpense(Expense newexpense) {
         return expenses.add(newexpense);
+    }
+
+    public boolean addPlace(MapMarker marker) {
+        return places.add(marker);
     }
 
     public double calculatebalance(Friend me) {

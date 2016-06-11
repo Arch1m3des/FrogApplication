@@ -1,9 +1,11 @@
 package at.ac.univie.SplitDAO;
 
+import java.io.Serializable;
+
 /**
  * Created by Markus on 27.05.16.
  */
-public class MapMarker {
+public class MapMarker implements Serializable {
 
     double lat;
     double lang;

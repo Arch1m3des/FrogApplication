@@ -1,6 +1,7 @@
 package at.ac.univie.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,12 @@ public class FancyExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private ArrayList<Parent> parents = null;
+    private boolean tricky;
 
-    public FancyExpandableListAdapter(Context context, ArrayList<Parent> parents) {
+    public FancyExpandableListAdapter(Context context, ArrayList<Parent> parents, boolean tricky) {
         this.context = context;
         this.parents = parents;
+        this.tricky = tricky;
     }
 
     @Override
@@ -48,6 +51,14 @@ public class FancyExpandableListAdapter extends BaseExpandableListAdapter {
         TextView textView = (TextView) convertView.findViewById(R.id.fancyChild);
 
         textView.setText(child.getName());
+
+        if (tricky == true) {
+            if (child.isSelected())
+                convertView.setBackgroundColor(Color.parseColor("#7ecece"));
+            else
+                convertView.setBackgroundColor(Color.TRANSPARENT);
+
+        }
 
         return convertView;
     }

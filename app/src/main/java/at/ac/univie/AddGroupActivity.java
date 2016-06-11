@@ -38,14 +38,14 @@ import at.ac.univie.main.SettingActivity;
 
 public class AddGroupActivity extends AppCompatActivity {
 
-    ExpandableListView listView;
-    ExpandableListAdapter adapter;
+    ExpandableListView currencyView, participantView;
+    ExpandableListAdapter currencyAdapter, participantAdapter;
     ArrayList<Friend> friends = new ArrayList<>();
     ArrayList<Group> groups;
     ArrayList<Child> friendsToString = new ArrayList<>();
     ArrayList<Child> currency = new ArrayList<>();
-    ArrayList<Parent> parents = new ArrayList<>();
-    Button btnAddGroup;
+    ArrayList<Parent> participantParent = new ArrayList<>();
+    ArrayList<Parent> currencyParent = new ArrayList();
     EditText groupName;
     GroupManager groupdao;
     FriendManager frienddao;
@@ -126,7 +126,8 @@ public class AddGroupActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        listView = (ExpandableListView) findViewById(R.id.listView);
+        currencyView = (ExpandableListView) findViewById(R.id.currencyView);
+        participantView = (ExpandableListView) findViewById(R.id.participantView);
 
         Currencies curr = new Currencies();
         HashMap<String, String> currmap = curr.getCurrencies();
@@ -147,53 +148,18 @@ public class AddGroupActivity extends AppCompatActivity {
         Parent parentCurrency = new Parent("Select Currencies", currency);
         Parent parentFriends = new Parent("Add Friends", friendsToString);
 
-        parents.add(parentCurrency);
-        parents.add(parentFriends);
+        currencyParent.add(parentCurrency);
+        participantParent.add(parentFriends);
 
-        adapter = new FancyExpandableListAdapter(this, parents);
+        currencyAdapter = new FancyExpandableListAdapter(this, currencyParent, true);
+        participantAdapter = new FancyExpandableListAdapter(this, participantParent, true);
 
-        listView.setAdapter(adapter);
-
-
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-
-
-            /*
-
-                   //Who participated? Multiple checks possible.
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
+        currencyView.setAdapter(currencyAdapter);
+        participantView.setAdapter(participantAdapter);
 
 
+        currencyView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
-            ExpandableListAdapter itemAdapter = parent.getExpandableListAdapter();
-            Child child = (Child) itemAdapter.getChild(groupPosition, childPosition);
-            turn = true;
-
-            if (!child.isSelected()) {
-                child.setSelected(true);
-                view.setBackgroundColor(Color.parseColor("#7ecece"));
-                turn = false;
-
-                if (!friendpos.contains(friends.get(childPosition))) {
-                    friendpos.add(friends.get(childPosition));
-                }
-            }
-
-            if (child.isSelected() && turn == true) {
-                child.setSelected(false);
-                view.setBackgroundColor(Color.TRANSPARENT);
-
-                if (friendpos.contains(friends.get(childPosition))) {
-                    friendpos.remove(friends.get(childPosition));
-                }
-            }
-            return false;
-        }
-    });
-             */
-
-            View currentView;
             boolean turn = true;
 
             @Override
@@ -203,53 +169,57 @@ public class AddGroupActivity extends AppCompatActivity {
                 Child child = (Child) itemAdapter.getChild(groupPosition, childPosition);
                 turn = true;
 
-                if(groupPosition == 0) {  //currency
-                    if (!child.isSelected()) {
-                        child.setSelected(true);
-                        view.setBackgroundColor(Color.parseColor("#7ecece"));
-                        turn = false;
+                if (!child.isSelected()) {
+                    child.setSelected(true);
+                    view.setBackgroundColor(Color.parseColor("#7ecece"));
+                    turn = false;
 
-                        if (!groupCurrencies.contains(currency.get(childPosition))) {
-                            groupCurrencies.add(currency.get(childPosition).getName());
-                        }
+                    if (!groupCurrencies.contains(currency.get(childPosition))) {
+                        groupCurrencies.add(currency.get(childPosition).getName());
                     }
-
-                    if (child.isSelected() && turn == true) {
-                        child.setSelected(false);
-                        view.setBackgroundColor(Color.TRANSPARENT);
-
-                        if (groupCurrencies.contains(currency.get(childPosition).toString())) {
-                            groupCurrencies.remove(currency.get(childPosition).toString());
-                        }
-                    }
-
                 }
 
-                if(groupPosition == 1) {  //participants
-                    if (!child.isSelected()) {
-                        child.setSelected(true);
-                        view.setBackgroundColor(Color.parseColor("#7ecece"));
-                        turn = false;
+                if (child.isSelected() && turn == true) {
+                    child.setSelected(false);
+                    view.setBackgroundColor(Color.TRANSPARENT);
 
-                        if (!friendpos.contains(friends.get(childPosition))) {
-                            friendpos.add(friends.get(childPosition));
-                        }
+                    if (groupCurrencies.contains(currency.get(childPosition).toString())) {
+                        groupCurrencies.remove(currency.get(childPosition).toString());
                     }
+                }
+                return false;
+            }
+        });
 
-                    if (child.isSelected() && turn == true) {
-                        child.setSelected(false);
-                        view.setBackgroundColor(Color.TRANSPARENT);
+        participantView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
-                        if (friendpos.contains(friends.get(childPosition))) {
-                            friendpos.remove(friends.get(childPosition));
-                        }
+            boolean turn = true;
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
+
+                ExpandableListAdapter itemAdapter = parent.getExpandableListAdapter();
+                Child child = (Child) itemAdapter.getChild(groupPosition, childPosition);
+                turn = true;
+
+                if (!child.isSelected()) {
+                    child.setSelected(true);
+                    view.setBackgroundColor(Color.parseColor("#7ecece"));
+                    turn = false;
+
+                    if (!friendpos.contains(friends.get(childPosition))) {
+                        friendpos.add(friends.get(childPosition));
                     }
-
                 }
 
+                if (child.isSelected() && turn == true) {
+                    child.setSelected(false);
+                    view.setBackgroundColor(Color.TRANSPARENT);
 
-
-
+                    if (friendpos.contains(friends.get(childPosition))) {
+                        friendpos.remove(friends.get(childPosition));
+                    }
+                }
                 return false;
             }
         });
@@ -257,7 +227,8 @@ public class AddGroupActivity extends AppCompatActivity {
 
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        listView.setIndicatorBoundsRelative(listView.getRight() - 200, listView.getWidth());
+        currencyView.setIndicatorBoundsRelative(currencyView.getRight() - 200, currencyView.getWidth());
+        participantView.setIndicatorBoundsRelative(participantView.getRight() - 200, participantView.getWidth());
     }
 
     public void gotToFriendsActivity(View v){

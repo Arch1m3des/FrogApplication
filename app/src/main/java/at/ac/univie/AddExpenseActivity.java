@@ -65,9 +65,6 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
     int splitMode = -1;
     String exCategory = "";
     String exCurrency = "";
-    double exLong;
-    double exLat;
-
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -174,11 +171,12 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                 //Toast.makeText(getApplicationContext(), "Location is " + location1.getLatitude() + ";" + location1.getLongitude(), Toast.LENGTH_SHORT).show();
                 newExpense.setLatitude(currLocation.getLatitude());
                 newExpense.setLongitude(currLocation.getLongitude());
+                thisGroup.addPlace(new MapMarker(newExpense.getLatitude(), newExpense.getLongitude(), newExpense.getDescription()));
             }
 
             //store in DAO
             thisGroup.addExpense(newExpense);
-            int expenseindex =thisGroup.getExpenses().indexOf(newExpense);
+            int expenseIndex =thisGroup.getExpenses().indexOf(newExpense);
 
             //check if it was added to groups
 
@@ -196,14 +194,15 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                 //Switch Intent
                 if (splitMode == 0) {
                     Intent goToGroupDetails=new Intent(AddExpenseActivity.this,GroupDetailActivity.class);
+                    goToGroupDetails.putExtra("GroupPosition", groupindex);
                     finish();
                     startActivity(goToGroupDetails);
                 }
                 else {
                     Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
                     goToSplitOptions.putExtra("option", splitMode);
-                    goToSplitOptions.putExtra("groupindex", groupindex);
-                    goToSplitOptions.putExtra("expenseindex", expenseindex);
+                    goToSplitOptions.putExtra("groupIndex", groupindex);
+                    goToSplitOptions.putExtra("expenseindex", expenseIndex);
 
                     finish();
                     startActivity(goToSplitOptions);
@@ -275,7 +274,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         amount = (EditText) findViewById(R.id.amount);
 
         Intent intent = getIntent();
-        groupindex = intent.getIntExtra("groupindex", 0);
+        groupindex = intent.getIntExtra("groupIndex", 0);
 
         groupDAO = new GroupManager();
 
@@ -308,9 +307,9 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         payer.add(parentPayer);
         options.add(parentOption);
 
-        optionAdapter = new FancyExpandableListAdapter(this, options);
-        friendsAdapter = new FancyExpandableListAdapter(this, friends);
-        payerAdapter = new FancyExpandableListAdapter(this, payer);
+        optionAdapter = new FancyExpandableListAdapter(this, options, false);
+        payerAdapter = new FancyExpandableListAdapter(this, payer, false);
+        friendsAdapter = new FancyExpandableListAdapter(this, friends, true);
         button = (Button) findViewById(R.id.button);
 
         splitView.setAdapter(optionAdapter);
@@ -454,11 +453,11 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         categories.add(parentCategory);
         currency.add(parentCurrency);
 
-        adapterCategory = new FancyExpandableListAdapter(this, categories);
+        adapterCategory = new FancyExpandableListAdapter(this, categories, false);
 
         categoryView.setAdapter(adapterCategory);
 
-        adapterCurrency = new FancyExpandableListAdapter(this, currency);
+        adapterCurrency = new FancyExpandableListAdapter(this, currency, false);
 
         currencyView.setAdapter(adapterCurrency);
 

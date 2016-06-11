@@ -29,14 +29,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     //MapMarker mapMarker;
     Marker marker;
     GoogleMap map;
-    ArrayList<MapMarker> places = new ArrayList<MapMarker>();
+    ArrayList<MapMarker> places = new ArrayList();
+    ArrayList<MapMarker> placesGroups = new ArrayList();
     ArrayList<LatLng> points = new ArrayList<LatLng>();
+    GroupManager groupManager;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -81,6 +84,22 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
         TextView settings = (TextView) findViewById(R.id.imageMapWithText);
         settings.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_map_clicked,0,0);
         settings.setTextColor(Color.parseColor("#000000"));
+
+        groupManager = new GroupManager();
+
+        try {
+            groupManager.loadGroupData(getApplicationContext(), "Groups");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<Group> groups =  groupManager.getGroupList();
+        for (Group group : groups) {
+            placesGroups.addAll(group.getPlaces());
+        }
+
 
         MapFragment mf = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mf.getMapAsync(this);
@@ -159,13 +178,28 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
 
             points.add(obj); //for the route
         }
+
+        for (MapMarker marker : placesGroups) {
+            obj = new LatLng(marker.getLat(), marker.getLang());
+            map.addMarker(new MarkerOptions().position(obj).title(marker.getDescription()));
+        }
+
         Polyline route = map.addPolyline(line);
         route.setPoints(points); //route
 
-
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        builder.include(new LatLng(places.get(0).getLat(),places.get(0).getLang()));
-        builder.include(new LatLng(places.get(places.size()-1).getLat(),places.get(places.size()-1).getLang()));
+
+        if (extras != null) {
+            builder.include(new LatLng(intent.getDoubleExtra("lat", 0), intent.getDoubleExtra("long", 0)));
+        }
+
+        else {
+            builder.include(new LatLng(places.get(0).getLat(), places.get(0).getLang()));
+            builder.include(new LatLng(places.get(places.size() - 1).getLat(), places.get(places.size() - 1).getLang()));
+        }
+
         LatLngBounds bounds = builder.build();
         CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 13);
         this.map.animateCamera(cu);

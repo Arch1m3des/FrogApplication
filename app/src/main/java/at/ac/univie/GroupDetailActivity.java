@@ -57,12 +57,13 @@ public class GroupDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_menu_add:
                 Intent addExpense = new Intent(GroupDetailActivity.this, AddExpenseActivity.class);
-                addExpense.putExtra("groupindex",groupindex);
+                addExpense.putExtra("groupIndex",groupindex);
                 finish();
                 startActivity(addExpense);
                 return true;
             case R.id.action_menu_settings:
                 Intent goToSettings=new Intent(GroupDetailActivity.this, GroupSettingsActivity.class);
+                goToSettings.putExtra("groupIndex", groupindex);
                 startActivity(goToSettings);
             default: return  false;
         }
@@ -86,7 +87,7 @@ public class GroupDetailActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        groupindex = intent.getIntExtra("GroupPosition", 1);
+        groupindex = intent.getIntExtra("GroupPosition", 0);
         GroupManager groupdao = new GroupManager();
         try {
             groupdao.loadGroupData(getApplicationContext(), "Groups");
@@ -111,7 +112,7 @@ public class GroupDetailActivity extends AppCompatActivity {
         }
 */
 
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH.mm", Locale.GERMAN);
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMAN);
 
         for (Expense temp : expense) {
             expenseToString.add(temp.getDescription());

@@ -123,7 +123,7 @@ public class FriendActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
                 Intent detailFriend = new Intent(FriendActivity.this, FriendDetailActivity.class);
-                detailFriend.putExtra("name", friendsToString.get(position+1));
+                detailFriend.putExtra("name", friendsToString.get(position));
                 detailFriend.putExtra("friendposition", position+1);
                 startActivity(detailFriend);
             }

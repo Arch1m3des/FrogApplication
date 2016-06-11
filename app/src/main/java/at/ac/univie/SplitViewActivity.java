@@ -36,9 +36,6 @@ public class SplitViewActivity extends AppCompatActivity {
     Expense thisExpense;
     TextView totalAmt;
 
-
-
-
     @Override
     public boolean onSupportNavigateUp(){
         finish();
@@ -55,8 +52,11 @@ public class SplitViewActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_menu_done:
-                //Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitOptionActivity.class);
+                int position = getIntent().getIntExtra("groupIndex", 0);
+                System.out.println("position: " + position);
                 Intent goToGroupDetail = new Intent(SplitViewActivity.this, GroupDetailActivity.class);
+                goToGroupDetail.putExtra("GroupPosition", position);
+
                 //Splitmanual
                 double sum = 0;
 
