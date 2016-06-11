@@ -33,7 +33,7 @@ public class CurrencyManager {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         double rate = 1;
         try {
-            Double.parseDouble(sharedPrefs.getString(currency,"").toString());
+            rate = Double.parseDouble(sharedPrefs.getString(currency,"").toString());
         } catch (NumberFormatException e) {
             rate = 1;
         }
@@ -49,8 +49,14 @@ public class CurrencyManager {
         double amountInHomeCurrency = 0;
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        double rate=Double.parseDouble(sharedPrefs.getString(currency,""));
+        double rate;
 
+
+        try {
+            rate = Double.parseDouble(sharedPrefs.getString(currency,""));
+        } catch (NumberFormatException e) {
+            rate = 1;
+        }
         amountInHomeCurrency = amount/rate;
 
 
