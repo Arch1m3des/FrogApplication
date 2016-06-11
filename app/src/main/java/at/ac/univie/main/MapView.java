@@ -40,7 +40,7 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     ArrayList<MapMarker> placesGroups = new ArrayList();
     ArrayList<LatLng> points = new ArrayList<LatLng>();
     GroupManager groupManager;
-    int groupindex = 0;
+    String groupname;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -99,12 +99,11 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
 
         Intent intent=getIntent();
         if(intent.hasExtra("GroupPosition")){
-            groupindex = intent.getIntExtra("GroupPosition", 0);
-            String groupName=groupManager.getGroupList().get(groupindex).getName();
-            getSupportActionBar().setTitle(groupName);
+            groupname = intent.getStringExtra("GroupPosition");
+            getSupportActionBar().setTitle(groupname);
 
             for(Group group:groups){
-                if(group.getName().equals(groupName)){
+                if(group.getName().equals(groupname)){
                     placesGroups.addAll(group.getPlaces());
                 }
             }
@@ -166,7 +165,9 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
 
     @Override
     public void onMapReady(GoogleMap Gmap) {
-
+        /*if(placesGroups.isEmpty()){
+            return;
+        }*/
 
         this.map = Gmap;
         //static final LatLng PERTH = new LatLng(-31.90, 115.86)
