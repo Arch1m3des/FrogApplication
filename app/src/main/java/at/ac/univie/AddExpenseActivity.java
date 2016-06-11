@@ -87,7 +87,6 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         double amountDbl = 0;
         String exDescription = "";
 
-        //TODO Format to 2 decimal places; didn't work for me
         try {
             exDescription = description.getText().toString();
 
@@ -181,13 +180,6 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
             //add currency;
             newExpense.setCurrency(exCurrency);
 
-            //calculate in homecurrency
-            CurrencyManager cm=new CurrencyManager(getApplicationContext());
-
-            //calculate in homecurrencies
-            newExpense.setSpendingInHomeCurrency(cm.getSpendingInHomeCurrency(newExpense.getSpending(),newExpense.getCurrency()));
-            newExpense.setAmountinHomeCurrency(cm.getAmountinHomeCurrency(newExpense.getAmount(), newExpense.getCurrency()));
-
             //add location as last point
             Location currLocation = getLocation();
             if (currLocation != null) {
@@ -197,32 +189,50 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                 thisGroup.addPlace(new MapMarker(newExpense.getLatitude(), newExpense.getLongitude(), newExpense.getDescription()));
             }
 
-            //if Splitequal store in DAO
-            thisGroup.addExpense(newExpense);
-            int expenseIndex =thisGroup.getExpenses().indexOf(newExpense);
+            //if Splitequal store in DAO and return to group intent
+            if (splitMode == 0) {
 
-            //check if it was added to groups
+                //calculate in homecurrency
+                CurrencyManager cm=new CurrencyManager(getApplicationContext());
 
-            if (groups.get(groupindex).getExpenses().contains(newExpense)) {
-                groupDAO.setGroupList(groups);
-                try {
-                    groupDAO.saveGroupData(getApplicationContext() ,"Groups");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                //calculate in homecurrencies
+                newExpense.setSpendingInHomeCurrency(cm.getSpendingInHomeCurrency(newExpense.getSpending(),newExpense.getCurrency()));
+                newExpense.setAmountinHomeCurrency(cm.getAmountinHomeCurrency(newExpense.getAmount(), newExpense.getCurrency()));
 
-                //Switch Intent
-                if (splitMode == 0) {
+                thisGroup.addExpense(newExpense);
+                int expenseIndex =thisGroup.getExpenses().indexOf(newExpense);
+
+                //check if it was added to groups
+                if (groups.get(groupindex).getExpenses().contains(newExpense)) {
+                    groupDAO.setGroupList(groups);
+                    try {
+                        groupDAO.saveGroupData(getApplicationContext() ,"Groups");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    //Switch Intent
                     Intent goToGroupDetails=new Intent(AddExpenseActivity.this,GroupDetailActivity.class);
                     goToGroupDetails.putExtra("GroupPosition", groupindex);
                     finish();
                     startActivity(goToGroupDetails);
                 }
                 else {
+                    Group newGroup = new Group(0,"DummyGroup");
+                    newGroup.addExpense(newExpense);
+                    ArrayList<Group>newgroups = new ArrayList<>();
+                    newgroups.add(newGroup);
+                    groupDAO.setGroupList(newgroups);
+                    try {
+                        groupDAO.saveGroupData(getApplicationContext() ,"newExpense");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
                     goToSplitOptions.putExtra("option", splitMode);
-                    goToSplitOptions.putExtra("groupIndex", groupindex);
-                    goToSplitOptions.putExtra("expenseindex", expenseIndex);
+                    goToSplitOptions.putExtra("groupIndex", 0);
+                    goToSplitOptions.putExtra("expenseindex", 0);
 
                     finish();
                     startActivity(goToSplitOptions);

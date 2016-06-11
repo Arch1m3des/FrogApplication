@@ -118,7 +118,7 @@ public class SplitViewActivity extends AppCompatActivity {
         groupDAO = new GroupManager();
 
         try {
-            groupDAO.loadGroupData(getApplicationContext(), "Groups");
+            groupDAO.loadGroupData(getApplicationContext(), "newExpense");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -128,6 +128,8 @@ public class SplitViewActivity extends AppCompatActivity {
         groups =  groupDAO.getGroupList();
         thisGroup = groups.get(groupindex);
         thisExpense = thisGroup.getExpenses().get(expenseindex);
+        Toast.makeText(getApplicationContext(), "Expense" + thisExpense.toString(), Toast.LENGTH_SHORT).show();
+
 
         System.out.println(splitOption);
 
