@@ -428,6 +428,10 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                     }
                 }
 
+                ExpandableListAdapter itemAdapter = parent.getExpandableListAdapter();
+                Parent group = (Parent) itemAdapter.getGroup(groupPosition);
+                group.setName("Who participated?" + " (" + participants.size() + ")");
+
                 return false;
             }
         });
@@ -475,11 +479,12 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         listCategory.add(new Child("Moneytransfer"));
 
 
+        Currencies curr = new Currencies();
         for (String currency : thisGroup.getCurrencies()) {
-            listCurrency.add(new Child(currency));
+            listCurrency.add(new Child(currency + " " + curr.getCurrencies().get(currency)));
         }
 
-        String defaultCurrency =  thisGroup.getCurrencies().get(0);
+        String defaultCurrency =  curr.getCurrencies().get(thisGroup.getCurrencies().get(0));
         exCurrency = defaultCurrency;
 
         Parent parentCategory = new Parent("Category: ", listCategory);
@@ -528,9 +533,9 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                 String selectedItem = child.getName();
                 Parent group = (Parent) itemAdapter.getGroup(groupPosition);
 
-                exCurrency = selectedItem;
+                exCurrency = selectedItem.substring(0,3);
 
-                group.setName("Amount in " + selectedItem);
+                group.setName("Amount in " + selectedItem.substring(4,5));
                 if (parent.isGroupExpanded(groupPosition)) {
                     parent.collapseGroup(groupPosition);
                 }

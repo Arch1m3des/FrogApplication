@@ -81,7 +81,7 @@ public class AddDummyActivity extends AppCompatActivity {
                     }
 
                     ArrayList<Friend> friends = frienddao.getFriendList();
-                    friends.add(new Friend(friends.size(), surnameToString, nameToString, emailToString));
+                    friends.add(new Friend(friends.size()+1, surnameToString, nameToString, emailToString));
 
                     frienddao.setFriendList(friends);
                     try {
@@ -91,7 +91,6 @@ public class AddDummyActivity extends AppCompatActivity {
                     }
 
                     Intent goToFriends = new Intent(AddDummyActivity.this, FriendActivity.class);
-                    //addQR.putExtra("values",parts);
                     startActivity(goToFriends);
                 }
 
@@ -144,7 +143,28 @@ public class AddDummyActivity extends AppCompatActivity {
                     //Besteht der Content aus 3 Teilen, nehmen wir an das einer von unseren QR Codes gescannt wurde
                     //Nun wird ein neuer Intent angelegt, die Daten mitgegeben und danach wird FriendActivity gestartet
                     Intent addQR = new Intent(this, FriendActivity.class);
-                    addQR.putExtra("values",parts);
+
+                    FriendManager frienddao = new FriendManager();
+                    try {
+                        frienddao.loadFriendData(getApplicationContext(),"Friends");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    ArrayList<Friend> friends = frienddao.getFriendList();
+                    friends.add(new Friend(friends.size()+1, parts[0], parts[1], parts[2]));
+
+                    frienddao.setFriendList(friends);
+                    try {
+                        frienddao.saveFriendData(getApplicationContext(),"Friends");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    //addQR.putExtra("values",parts);
                     startActivity(addQR);
                 }else{
                     //Sollte der gescannte Content nicht aus 3 Teilen bestehen, handelt es sich nicht um einen QR Code von uns

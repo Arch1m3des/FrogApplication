@@ -134,11 +134,11 @@ public class AddGroupActivity extends AppCompatActivity {
         participantView = (ExpandableListView) findViewById(R.id.participantView);
 
         Currencies curr = new Currencies();
-        HashMap<String, String> currmap = curr.getCurrencies();
+        HashMap<String, String> currmap = curr.sortedCurrenciesCountries();
         Iterator it = currmap.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry valuepair = (Map.Entry)it.next();
-            currency.add(new Child((String) valuepair.getKey()));
+            currency.add(new Child((String) valuepair.getKey() + " " + valuepair.getValue()));
         }
 
         Friend me = frienddao.getFriendList().get(0);
@@ -179,7 +179,7 @@ public class AddGroupActivity extends AppCompatActivity {
                     turn = false;
 
                     if (!groupCurrencies.contains(currency.get(childPosition))) {
-                        groupCurrencies.add(currency.get(childPosition).getName());
+                        groupCurrencies.add(currency.get(childPosition).getName().substring(0,3));
                     }
                 }
 
@@ -187,8 +187,8 @@ public class AddGroupActivity extends AppCompatActivity {
                     child.setSelected(false);
                     view.setBackgroundColor(Color.TRANSPARENT);
 
-                    if (groupCurrencies.contains(currency.get(childPosition).toString())) {
-                        groupCurrencies.remove(currency.get(childPosition).toString());
+                    if (groupCurrencies.contains(currency.get(childPosition).toString().substring(0,3))) {
+                        groupCurrencies.remove(currency.get(childPosition).toString().substring(0,3));
                     }
                 }
                 return false;

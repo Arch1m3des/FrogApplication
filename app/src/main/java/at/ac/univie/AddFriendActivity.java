@@ -120,6 +120,7 @@ public class AddFriendActivity extends AppCompatActivity {
                 if(parts.length==3){
                     //Besteht der Content aus 3 Teilen, nehmen wir an das einer von unseren QR Codes gescannt wurde
                     //Nun wird ein neuer Intent angelegt, die Daten mitgegeben und danach wird FriendActivity gestartet
+
                     Intent addQR = new Intent(this, FriendActivity.class);
                     addQR.putExtra("values",parts);
                     startActivity(addQR);
