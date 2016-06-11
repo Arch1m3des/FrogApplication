@@ -125,7 +125,7 @@ public class AddFriendActivity extends AppCompatActivity {
                     startActivity(addQR);
                 }else{
                     //Sollte der gescannte Content nicht aus 3 Teilen bestehen, handelt es sich nicht um einen QR Code von uns
-                    Toast toast = Toast.makeText(getApplicationContext(),"Scant QR Code wasn´t our!", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(),"Scanned QR Code wasn´t a Friend!", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }else{

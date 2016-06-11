@@ -13,10 +13,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import at.ac.univie.SplitDAO.Currencies;
 import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.GroupManager;
@@ -112,13 +114,16 @@ public class GroupDetailActivity extends AppCompatActivity {
         }
 */
 
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMAN);
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy", Locale.GERMAN);
+        DecimalFormat doubleform = new DecimalFormat("#.##");
 
+
+        Currencies curr = new Currencies();
         for (Expense temp : expense) {
             expenseToString.add(temp.getDescription());
-            amount.add(temp.getAmount() + "€");
+            amount.add(doubleform.format(temp.getAmountInHomeCurrency()) + "€");
             date.add(df.format(temp.getDate()));
-            expenseInitials.add("$");
+            expenseInitials.add(curr.getCurrencies().get(temp.getCurrency()));
             iconColors.add("#00CC7A");
         }
 

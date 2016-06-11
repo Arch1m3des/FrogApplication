@@ -61,6 +61,7 @@ public class FancyListAdapter extends ArrayAdapter<String> {
         dateView.setText(date.get(position));
         dateView.setBackgroundColor(Color.WHITE);
 
+
         amountView.setTextColor(Color.BLACK);
         amountView.setText(amount.get(position));
         amountView.setBackgroundColor(Color.WHITE);

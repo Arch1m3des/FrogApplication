@@ -104,7 +104,7 @@ public class Group implements Serializable {
         double sum = 0;
         if (expenses.isEmpty()) return 0;
         for (Expense ex : expenses) {
-            sum += ex.getAmount();
+            sum += ex.getAmountInHomeCurrency();
         }
         return sum;
     }

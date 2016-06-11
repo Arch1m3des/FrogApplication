@@ -32,9 +32,9 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 
     ExpandableListView listView;
     ExpandableListAdapter adapter;
-    Button location;
-    double longitude;
-    double latitude;
+    //Button location;
+    //double longitude;
+    //double latitude;
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -52,8 +52,10 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView group=(TextView) findViewById(R.id.imageGroupsWithText);
-        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
-        group.setTextColor(Color.parseColor("#000000"));
+        TextView textAmountCurr = (TextView) findViewById(R.id.textAmountCurr);
+        TextView convRate = (TextView) findViewById(R.id.convRate);
+        //group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
+        //group.setTextColor(Color.parseColor("#000000"));
 
         listView = (ExpandableListView) findViewById(R.id.textMember);
         ArrayList<Parent> groups = new ArrayList();
@@ -83,28 +85,31 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         }
 
         DecimalFormat doubleform = new DecimalFormat("#.##");
-        SimpleDateFormat dateform = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMAN);
+        SimpleDateFormat dateform = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
 
-        location = (Button) findViewById(R.id.location);
+        //location = (Button) findViewById(R.id.location);
 
-        longitude = expense.getLongitude();
-        latitude = expense.getLatitude();
+        //longitude = expense.getLongitude();
+        //latitude = expense.getLatitude();
 
         TextView txt_desc = (TextView) findViewById(R.id.textDescription);
         TextView txt_amt = (TextView) findViewById(R.id.textAmount);
         TextView txt_date = (TextView) findViewById(R.id.textDate);
         TextView txt_cat = (TextView) findViewById(R.id.textCategory);
-        txt_amt.setText(txt_amt.getText().toString() + "  " + doubleform.format(expense.getAmount()));
+        txt_amt.setText(txt_amt.getText().toString() + " " + doubleform.format(expense.getAmountInHomeCurrency()));
+        Currencies curr = new Currencies();
+        textAmountCurr.setText(textAmountCurr.getText().toString() + " " + curr.getCurrencies().get(expense.getCurrency()) + ": " + doubleform.format(expense.getAmount()));
+        convRate.setText(convRate.getText() + doubleform.format((expense.getAmount()/expense.getAmountInHomeCurrency())));
         txt_date.setText(txt_date.getText().toString() + "  " + dateform.format(expense.getDate()));
-        txt_cat.setText(txt_cat.getText().toString() + "  " + expense.getCategory());
+        txt_cat.setText(txt_cat.getText().toString() + " " + expense.getCategory());
 
         txt_desc.setText(txt_desc.getText().toString() + " " + expense.getDescription());
 
         if (expense.getSpending().size() == expense.getParticipants().size()) {
             for (int i= 0; i<expense.getParticipants().size(); i++) {
                 String name = expense.getParticipants().get(i).getName() + " " + expense.getParticipants().get(i).getSurname();
-                double amount = expense.getSpending().get(i);
-                members.add(new Child(name + "    " + doubleform.format(amount)));
+                double amount = expense.getSpendingInHomeCurrency().get(i);
+                members.add(new Child(name + "\t\t\t" + doubleform.format(amount) + "€"));
             }
         }
 
@@ -116,6 +121,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
+        /*
         location.setOnClickListener (new View.OnClickListener() {
 
             @Override
@@ -129,7 +135,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
             }
 
         });
-
+*/
     }
 
     public void gotToFriendsActivity(View v){

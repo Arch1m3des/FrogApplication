@@ -107,7 +107,7 @@ public class FriendActivity extends AppCompatActivity {
             if (temp != me) { // in order to not see yourself as a friend
                 friendsToString.add(temp.getName() + " " + temp.getSurname());
                 amount.add("");
-                date.add("");
+                date.add("tap for details");
                 friendsInitials.add(temp.getInitials());
                 iconColors.add(temp.getIconColor());
             }

@@ -1,5 +1,6 @@
 package at.ac.univie.SplitDAO;
 
+import android.content.Context;
 import android.location.Location;
 
 import java.io.Serializable;
@@ -14,8 +15,8 @@ import java.util.Objects;
  */
 public class SplitManual extends Expense implements Serializable{
 
-    public SplitManual(Friend creator, Friend payer, double amount, String description, String category, int splitOption) {
-        super(creator, payer, amount, description, category, splitOption);
+    public SplitManual(Friend payer, double amount, String description, String category, int splitOption) {
+        super(payer, amount, description, category, splitOption);
         inputFields.put(payer, (double) 0);
     }
 

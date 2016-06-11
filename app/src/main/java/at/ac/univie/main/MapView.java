@@ -122,7 +122,6 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
 
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -199,9 +198,22 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
 
         LatLngBounds bounds = builder.build();
         int padding=10;
-        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 13.0f);
+        CameraUpdate cu;
+
+        try{
+            cu = CameraUpdateFactory.newLatLngBounds(bounds,6000);
+            cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 10.0f);
+            map.animateCamera(cu);
+        } catch(IllegalStateException e) {
+            e.printStackTrace();
+            cu = CameraUpdateFactory.newLatLngBounds(bounds,6000,6000,0);
+            map.animateCamera(cu);
+        }
+        /*  //this didn't work for me
+        cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 13.0f);
         this.map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,padding));
         this.map.animateCamera(cu);
+        */
 
     }
 

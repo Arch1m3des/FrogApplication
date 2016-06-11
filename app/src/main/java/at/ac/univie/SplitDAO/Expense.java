@@ -19,15 +19,13 @@ import java.util.UUID;
 public abstract class Expense implements IExpensecalculations, Serializable {
 
     Date date;
-    Friend creator;
     double amount;
     double amountInHomeCurrency;
     String description;
-    Context context;
     double longitude;
     double latitude;
     String category;
-    String currency="USD";
+    String currency="EUR";
     int splitOption;
 
     HashMap<Friend, Double> inputFields = new HashMap();
@@ -36,12 +34,7 @@ public abstract class Expense implements IExpensecalculations, Serializable {
     List<Double> spendingInHomeCurrency = new ArrayList<>();
     Friend payer;
 
-    public Expense(Context context){
-        this.context=context;
-    }
-
-    public Expense (Friend creator, Friend payer, double amount, String description, String category, int splitOption) {
-        this.creator = creator;
+    public Expense (Friend payer, double amount, String description, String category, int splitOption) {
         date = new Date();
         setPayer(payer);
         setAmount(amount);
@@ -212,13 +205,23 @@ public abstract class Expense implements IExpensecalculations, Serializable {
         return category;
     }
 
+    /*
     //Function calculates the spendings in the home currency
     public boolean calculateDebtInHomeSpendings(){
-        CurrencyManager cm=new CurrencyManager(context);
+        CurrencyManager cm=new CurrencyManager();
 
         spendingInHomeCurrency=cm.getSpendingInHomeCurrency(spending,currency);
         amountInHomeCurrency = cm.getAmountinHomeCurrency(amount, currency);
         return true;
+    }
+    */
+
+    public double getAmountInHomeCurrency() {
+        return amountInHomeCurrency;
+    }
+
+    public void setSpendingInHomeCurrency(List<Double> spendingInHomeCurrency) {
+        this.spendingInHomeCurrency = spendingInHomeCurrency;
     }
 
     //Function returning the spendings in hom Currency

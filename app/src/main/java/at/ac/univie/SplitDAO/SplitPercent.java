@@ -1,5 +1,6 @@
 package at.ac.univie.SplitDAO;
 
+import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
@@ -20,8 +21,8 @@ import java.util.Objects;
 public class SplitPercent extends Expense implements Serializable {
 
 
-    public SplitPercent(Friend creator, Friend payer, double amount, String description, String category, int splitOption) {
-        super(creator, payer, amount, description, category, splitOption);
+    public SplitPercent(Friend payer, double amount, String description, String category, int splitOption) {
+        super(payer, amount, description, category, splitOption);
         inputFields.put(payer, (double) 100.0);
     }
 

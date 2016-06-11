@@ -3,15 +3,19 @@ package at.ac.univie.SplitDAO;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Daniel on 25.05.2016.
@@ -23,11 +27,16 @@ public class CurrencyManager {
         this.context=context;
     }
 
-    public List<Double> getSpendingInHomeCurrency(List<Double> spending,String currency){
+    public List<Double> getSpendingInHomeCurrency(List<Double> spending,String currency) {
         List<Double> spendingsInHomeCurrency=new ArrayList<>();
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        double rate=Double.parseDouble(sharedPrefs.getString(currency,""));
+        double rate = 1;
+        try {
+            Double.parseDouble(sharedPrefs.getString(currency,"").toString());
+        } catch (NumberFormatException e) {
+            rate = 1;
+        }
 
         for(double amount:spending){
             spendingsInHomeCurrency.add(amount/rate);

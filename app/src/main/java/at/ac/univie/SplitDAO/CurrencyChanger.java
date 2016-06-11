@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -120,6 +121,8 @@ public class CurrencyChanger extends AsyncTask<String,Void,JSONObject>{
             }
 
             editor.apply();
+            //Toast.makeText(context, "Just updated Currency List", Toast.LENGTH_SHORT).show();
+
         }catch (JSONException e) {
             Log.e("ERROR", e.getMessage(), e);
         }
