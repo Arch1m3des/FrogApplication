@@ -44,8 +44,18 @@ public class SplitManual extends Expense implements Serializable{
     }
 
     public void optimizeinputs() {
-        if(sumitems()<amount && inputFields.containsValue((double) 0)) {
-            inputFields.put(getFriendfromKey((double) 0), amount-sumitems());
+        if(sumitems()<amount && inputFields.containsValue(0.0)) {
+            //how many zeroes???
+            int zeros = 0;
+            for (double val : inputFields.values()) {
+                if(val == 0)
+                    zeros++;
+            }
+            double remaining = (amount-sumitems()/zeros);
+            while (inputFields.containsValue(0.0)) {
+                inputFields.put(getFriendfromKey((double) 0), remaining);
+            }
+            calculateDebt();
         }
         else if(sumitems()>amount) {
             //convert to relative

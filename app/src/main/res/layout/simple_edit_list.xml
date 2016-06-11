@@ -31,7 +31,8 @@
         android:textAlignment="textEnd"
         android:layout_alignEnd="@+id/simpleText"
         android:layout_marginEnd="59dp"
-        android:selectAllOnFocus="true" />
+        android:selectAllOnFocus="true"
+        android:text="0" />
 
     <TextView
         android:layout_width="wrap_content"

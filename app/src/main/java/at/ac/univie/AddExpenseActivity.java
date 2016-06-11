@@ -193,53 +193,55 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
             if (splitMode == 0) {
 
                 //calculate in homecurrency
-                CurrencyManager cm=new CurrencyManager(getApplicationContext());
+                CurrencyManager cm = new CurrencyManager(getApplicationContext());
 
                 //calculate in homecurrencies
-                newExpense.setSpendingInHomeCurrency(cm.getSpendingInHomeCurrency(newExpense.getSpending(),newExpense.getCurrency()));
+                newExpense.setSpendingInHomeCurrency(cm.getSpendingInHomeCurrency(newExpense.getSpending(), newExpense.getCurrency()));
                 newExpense.setAmountinHomeCurrency(cm.getAmountinHomeCurrency(newExpense.getAmount(), newExpense.getCurrency()));
 
                 thisGroup.addExpense(newExpense);
-                int expenseIndex =thisGroup.getExpenses().indexOf(newExpense);
+                int expenseIndex = thisGroup.getExpenses().indexOf(newExpense);
 
                 //check if it was added to groups
                 if (groups.get(groupindex).getExpenses().contains(newExpense)) {
                     groupDAO.setGroupList(groups);
                     try {
-                        groupDAO.saveGroupData(getApplicationContext() ,"Groups");
+                        groupDAO.saveGroupData(getApplicationContext(), "Groups");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
                     //Switch Intent
-                    Intent goToGroupDetails=new Intent(AddExpenseActivity.this,GroupDetailActivity.class);
+                    Intent goToGroupDetails = new Intent(AddExpenseActivity.this, GroupDetailActivity.class);
                     goToGroupDetails.putExtra("GroupPosition", groupindex);
                     finish();
                     startActivity(goToGroupDetails);
                 }
-                else {
-                    Group newGroup = new Group(0,"DummyGroup");
-                    newGroup.addExpense(newExpense);
-                    ArrayList<Group>newgroups = new ArrayList<>();
-                    newgroups.add(newGroup);
-                    groupDAO.setGroupList(newgroups);
-                    try {
-                        groupDAO.saveGroupData(getApplicationContext() ,"newExpense");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
-                    goToSplitOptions.putExtra("option", splitMode);
-                    goToSplitOptions.putExtra("groupIndex", 0);
-                    goToSplitOptions.putExtra("expenseindex", 0);
-
-                    finish();
-                    startActivity(goToSplitOptions);
-                }
-                return true;
-
             }
+            else {
+                Group newGroup = new Group(0,"DummyGroup");
+                newGroup.addExpense(newExpense);
+                ArrayList<Group>newgroups = new ArrayList<>();
+                newgroups.add(newGroup);
+                groupDAO.setGroupList(newgroups);
+                try {
+                    groupDAO.saveGroupData(getApplicationContext() ,"newExpense");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
+                goToSplitOptions.putExtra("option", splitMode);
+                goToSplitOptions.putExtra("newGroupIndex", 0);
+                goToSplitOptions.putExtra("newExpenseindex", 0);
+                goToSplitOptions.putExtra("groupIndex", groupindex);
+
+                finish();
+                startActivity(goToSplitOptions);
+            }
+            return true;
+
+
         }
 
 

@@ -52,8 +52,18 @@ public class SplitPercent extends Expense implements Serializable {
     }
 
     public void optimizeinputs() {
-        if(sumitems()<100.0 && inputFields.containsValue((double) 0)) {
-            inputFields.put(getFriendfromKey((double) 0), 100.0-sumitems());
+        if(sumitems()<100.0 && inputFields.containsValue(0.0)) {
+            //how many zerores?
+            int zeros = 0;
+            for (double val : inputFields.values()) {
+                if(val == 0)
+                    zeros++;
+            }
+            double remaining = (100.0-sumitems())/zeros;
+            while (inputFields.containsValue(0.0)) {
+                inputFields.put(getFriendfromKey((double) 0), remaining);
+            }
+
         }
         else if(sumitems()>100.0) {
             //convert to relative
@@ -72,6 +82,7 @@ public class SplitPercent extends Expense implements Serializable {
             }
 
         }
+        calculateDebt();
 
     }
 

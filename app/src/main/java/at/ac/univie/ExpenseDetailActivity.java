@@ -99,7 +99,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         txt_amt.setText(txt_amt.getText().toString() + " " + doubleform.format(expense.getAmountInHomeCurrency()));
         Currencies curr = new Currencies();
         textAmountCurr.setText(textAmountCurr.getText().toString() + " " + curr.getCurrencies().get(expense.getCurrency()) + ": " + doubleform.format(expense.getAmount()));
-        convRate.setText(convRate.getText() + doubleform.format((expense.getAmount()/expense.getAmountInHomeCurrency())));
+        convRate.setText(convRate.getText() + doubleform.format((expense.getAmount()/expense.getAmountInHomeCurrency())) + "    ");
         txt_date.setText(txt_date.getText().toString() + "  " + dateform.format(expense.getDate()));
         txt_cat.setText(txt_cat.getText().toString() + " " + expense.getCategory());
 

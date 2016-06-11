@@ -46,7 +46,8 @@ public class SplitParts extends Expense implements Serializable{
 
     public void optimizeinputs() {
         if(inputFields.containsValue((double) 0)) {
-            inputFields.put(getFriendfromKey((double) 0), (double) 1);
+            while (inputFields.containsValue(0.0))
+                inputFields.put(getFriendfromKey((double) 0), (double) 1);
         }
         else if(sumitems()>100) {
             double rel = (sumitems()/10);
@@ -61,6 +62,7 @@ public class SplitParts extends Expense implements Serializable{
             }
 
         }
+        calculateDebt();
 
     }
 
