@@ -4,7 +4,9 @@ import at.ac.univie.SplitDAO.*;
 import at.ac.univie.frog.R;
 import at.ac.univie.SearchActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
@@ -36,6 +38,10 @@ import java.util.ArrayList;
 
 public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     //MapMarker mapMarker;
+    private SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String gruppenname;
+
     Marker marker;
     GoogleMap map;
     ArrayList<MapMarker> places = new ArrayList();
@@ -132,9 +138,23 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
                 }
             }
         }else {
-            Group group=groups.get(0);
-            getSupportActionBar().setTitle(group.getName());
-            placesGroups.addAll(group.getPlaces());
+            sharedPreferences = getSharedPreferences("Log", Context.MODE_PRIVATE);
+
+            if (sharedPreferences.contains("Groupname")) {
+                gruppenname = sharedPreferences.getString("Groupname", "");
+                getSupportActionBar().setTitle(gruppenname);
+
+                for(Group group:groups){
+                    if(group.getName().equals(gruppenname)){
+                        placesGroups.addAll(group.getPlaces());
+                    }
+                }
+
+            }else {
+                Group group = groups.get(0);
+                getSupportActionBar().setTitle(group.getName());
+                placesGroups.addAll(group.getPlaces());
+            }
         }
 
         MapFragment mf = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
