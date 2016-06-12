@@ -195,7 +195,6 @@ public class SplitViewActivity extends AppCompatActivity {
         //Toast.makeText(getApplicationContext(), "Expense" + thisExpense.toString(), Toast.LENGTH_SHORT).show();
 
 
-        System.out.println(splitOption);
 
         Currencies currList = new Currencies();
         DecimalFormat doubleform = new DecimalFormat("#.##");

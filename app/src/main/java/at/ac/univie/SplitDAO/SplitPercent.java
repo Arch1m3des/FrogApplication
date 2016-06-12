@@ -65,24 +65,8 @@ public class SplitPercent extends Expense implements Serializable {
             }
 
         }
-        else if(sumitems()>100.0) {
-            //convert to relative
-            double rel = (((sumitems()-100.0))/participants.size());
-            for (Friend friend: participants) {
-                double relamnt = inputFields.get(friend);
-                if(relamnt < rel) {
-                    inputFields.put(friend, 0.0);
-                    relamnt = 0;
-                    optimizeinputs();
-                    break;
-                }
-                if(relamnt == 0) continue;
-
-                inputFields.put(friend, (relamnt-rel));
-            }
-
-        }
         calculateDebt();
+        //always calc debt
 
     }
 

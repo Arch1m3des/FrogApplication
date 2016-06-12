@@ -18,6 +18,7 @@ import java.util.ListIterator;
 public class SplitEqual extends Expense implements Serializable {
     public SplitEqual(Friend payer, double amount, String description, String category, int splitOption) {
         super(payer, amount, description, category,splitOption);
+        calculateDebt();
     }
 
     @Override

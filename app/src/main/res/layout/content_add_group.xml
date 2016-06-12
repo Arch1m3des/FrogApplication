@@ -1,60 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/world"
-    android:src="@drawable/group_icon"
-    android:backgroundTint="@color/colorAccent"
-    android:scaleX="0.7"
-    android:scaleY="0.7"
-    android:layout_alignParentTop="true"
-    android:layout_toEndOf="@+id/groupName"
-    android:layout_alignBottom="@+id/groupName" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/world"
+        android:src="@drawable/group_icon"
+        android:backgroundTint="@color/colorAccent"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/groupName"
+        android:layout_alignBottom="@+id/groupName" />
 
 
-<EditText
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:hint="Name"
-    android:ems="10"
-    android:id="@+id/groupName"
-    android:textSize="20sp"
-    android:fontFamily="sans-serif-light"
-    android:clickable="true"
-    android:layout_marginTop="20dp"
-    android:layout_marginStart="20dp"
-    android:layout_alignParentStart="true"
-    android:singleLine="true" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:ems="10"
+        android:id="@+id/groupName"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-light"
+        android:clickable="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentStart="true"
+        android:singleLine="true" />
 
-<ExpandableListView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/currencyView"
-    android:textSize="20sp"
-    android:layout_marginLeft="5dp"
-    android:fontFamily="sans-serif-light"
-    android:layout_below="@+id/groupName"
-    android:layout_alignParentStart="true"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:clickable="true" />
+    <ExpandableListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/currencyView"
+        android:textSize="20sp"
+        android:layout_marginLeft="5dp"
+        android:fontFamily="sans-serif-light"
+        android:layout_below="@+id/groupName"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:clickable="true" />
 
-<ExpandableListView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/participantView"
-    android:textSize="20sp"
-    android:layout_marginLeft="5dp"
-    android:fontFamily="sans-serif-light"
-    android:layout_below="@+id/currencyView"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:layout_alignParentStart="true"
-    android:clickable="true"
-    android:layout_marginBottom="0dp" />
+    <ExpandableListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/participantView"
+        android:textSize="20sp"
+        android:layout_marginLeft="5dp"
+        android:fontFamily="sans-serif-light"
+        android:layout_below="@+id/currencyView"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:layout_marginBottom="0dp" />
 
 </RelativeLayout>
