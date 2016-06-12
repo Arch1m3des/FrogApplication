@@ -42,14 +42,18 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     SharedPreferences.Editor editor;
     String gruppenname;
 
-    Marker marker;
     GoogleMap map;
-    ArrayList<MapMarker> places = new ArrayList();
     ArrayList<MapMarker> placesGroups = new ArrayList();
     ArrayList<LatLng> points = new ArrayList<LatLng>();
     GroupManager groupManager;
     String groupname;
     boolean doubleBackToExitPressedOnce=false;
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
 
     @Override
     public void onBackPressed() {
@@ -110,6 +114,8 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
 
         setContentView(R.layout.activity_map_view);
         getSupportActionBar().setElevation(0);
+        if (getIntent().hasExtra("lat") && getIntent().hasExtra("long"))
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView settings = (TextView) findViewById(R.id.imageMapWithText);
         settings.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_map_clicked,0,0);
@@ -214,11 +220,12 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap Gmap) {
         LatLngBounds bounds=null;
+
         if(placesGroups.isEmpty()){
             Toast.makeText(this, "No locations saved in this group!", Toast.LENGTH_SHORT).show();
         }else {
             this.map = Gmap;
-            //static final LatLng PERTH = new LatLng(-31.90, 115.86)
+
             PolylineOptions line = new PolylineOptions().width(5).color(Color.RED); //looks nice enough?
             LatLng obj = null;
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -227,7 +234,12 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
                 obj = new LatLng(marker.getLat(), marker.getLang());
                 map.addMarker(new MarkerOptions().position(obj).title(marker.getDescription()));
                 points.add(obj);
-                builder.include(obj);
+
+                if (getIntent().hasExtra("lat") && getIntent().hasExtra("long")) {
+                   builder.include(new LatLng(getIntent().getDoubleExtra("lat", 0), getIntent().getDoubleExtra("long", 0)));
+                }
+                else
+                    builder.include(obj);
             }
 
             Polyline route = map.addPolyline(line);
@@ -237,7 +249,6 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
             CameraUpdate cu;
 
             try{
-                cu = CameraUpdateFactory.newLatLngBounds(bounds,6000);
                 cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 10.0f);
                 map.animateCamera(cu);
             } catch(IllegalStateException e) {
@@ -246,18 +257,6 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
                 map.animateCamera(cu);
             }
         }
-        /*
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-
-        if (extras != null) {
-            builder.include(new LatLng(intent.getDoubleExtra("lat", 0), intent.getDoubleExtra("long", 0)));
-        }
-
-        else {
-            builder.include(new LatLng(placesGroups.get(0).getLat(), placesGroups.get(0).getLang()));
-            builder.include(new LatLng(placesGroups.get(placesGroups.size() - 1).getLat(), placesGroups.get(placesGroups.size() - 1).getLang()));
-        }*/
 
         /*  //this didn't work for me
         cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 13.0f);

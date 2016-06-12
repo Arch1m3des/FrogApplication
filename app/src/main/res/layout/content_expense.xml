@@ -22,4 +22,16 @@
         android:id="@+id/expenseView"
         android:layout_alignParentEnd="true"
         android:clickable="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_expense"
+        android:textSize="25sp"
+        android:visibility="gone"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/textView" />
+
 </RelativeLayout>

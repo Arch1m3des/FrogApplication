@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -110,6 +111,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         ArrayList<at.ac.univie.SplitDAO.Group> groupList = groupDAO.getGroupList();
 
         List<Expense> list = groupList.get(groupIndex).getExpenses();
+        Collections.reverse(list);
         Expense expense = list.get(expenseIndex);
         try {
             expense.calculateDebt();

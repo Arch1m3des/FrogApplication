@@ -43,6 +43,7 @@ public class GroupDetailActivity extends AppCompatActivity {
 
     ListView expenseView;
     ArrayAdapter adapter;
+    TextView noExpenses;
     ArrayList<String> expenseToString = new ArrayList();
     ArrayList<String> expenseInitials = new ArrayList();
     ArrayList<String> date = new ArrayList();
@@ -116,7 +117,7 @@ public class GroupDetailActivity extends AppCompatActivity {
         group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
         group.setTextColor(Color.parseColor("#000000"));
 
-
+        noExpenses = (TextView) findViewById(R.id.textView);
 
         Intent intent = getIntent();
         groupindex = intent.getIntExtra("GroupPosition", 0);
@@ -131,6 +132,9 @@ public class GroupDetailActivity extends AppCompatActivity {
 
         ArrayList<Expense> expense = (ArrayList<Expense>) groupdao.getGroupList().get(groupindex).getExpenses();
         Collections.reverse(expense);
+        if (expense.isEmpty())
+            noExpenses.setVisibility(View.VISIBLE);
+
         gruppenname=groupdao.getGroupList().get(groupindex).getName();
 
         sharedPreferences = getSharedPreferences("Log", Context.MODE_PRIVATE);
@@ -174,7 +178,7 @@ public class GroupDetailActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
                 Intent detailExpense = new Intent(GroupDetailActivity.this, ExpenseDetailActivity.class);
                 detailExpense.putExtra("groupindex",groupindex);
-                detailExpense.putExtra("expenseindex",position);
+                detailExpense.putExtra("expenseindex", position);
                 startActivity(detailExpense);
             }
 

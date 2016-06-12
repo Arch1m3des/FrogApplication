@@ -18,4 +18,5 @@
     <string name="start_two">Let us help you split group travel costs efficiently</string>
     <string name="google_app_id">AIzaSyDC0HH2a9h8GK_zhjRJoQgHDWycsTPk9dg</string>
     <string name="amount">HALLO</string>
+    <string name="no_expense">You don\'t have any expenses in this group yet.</string>
 </resources>

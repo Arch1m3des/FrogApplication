@@ -50,16 +50,16 @@ public class ExampleUnitTest {
         thailand.addMember(max3);
 
 
-        Expense firstexpense = new SplitEqual(max ,max, 26, "Erstes Essen nach dem Krankenhaus", "Food", 0);
-        firstexpense.addParticipant(andy);
+        //Expense firstexpense = new SplitEqual(max ,max, 26, "Erstes Essen nach dem Krankenhaus", "Food", 0);
+        //firstexpense.addParticipant(andy);
 
-        Expense menu = new SplitParts(max, max, 30, "Eis essen bei Tichy", "Food", 1);
-        menu.addParticipant(andy);
-        menu.setitem(andy, 3);
+        //Expense menu = new SplitParts(max, max, 30, "Eis essen bei Tichy", "Food", 1);
+        //menu.addParticipant(andy);
+        //menu.setitem(andy, 3);
 
 
-        thailand.addExpense(firstexpense);
-        thailand.addExpense(menu);
+        //thailand.addExpense(firstexpense);
+        //thailand.addExpense(menu);
 
         double balance = thailand.calculatebalance(max);
         double owes = thailand.calculateowes(andy, max);
@@ -70,17 +70,17 @@ public class ExampleUnitTest {
 
 
         System.out.println("Adding first expense");
-        System.out.println(firstexpense.isParticipant(andy));
+        //System.out.println(firstexpense.isParticipant(andy));
 
         List<Double> debt;
 
-       if (firstexpense.calculateDebt()) {
-           debt = firstexpense.getSpending();
+       //if (firstexpense.calculateDebt()) {
+         //  debt = firstexpense.getSpending();
 
            int index= 0;
-           for (Double x : debt) {
-               System.out.println(firstexpense.getParticipants().get(index++).getName() + "\t\t" + x + " €");
-           }
+           //for (Double x : debt) {
+             //  System.out.println(firstexpense.getParticipants().get(index++).getName() + "\t\t" + x + " €");
+           //}
        }
 
 
@@ -199,6 +199,6 @@ public class ExampleUnitTest {
 
 
 
-    }
+   // }
 
 }

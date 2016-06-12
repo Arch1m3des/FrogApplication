@@ -198,12 +198,14 @@ public class StartActivity extends AppCompatActivity {
 
 
         //add expenses
-        Expense newExpense = new SplitEqual(g1.getMembers().get(0), 5, "Früchte Essen", "Food", 0);
+        Expense newExpense = new SplitEqual(g1.getMembers().get(0), 30, "Tempelbesuch", "Culture", 0);
         newExpense.setHasLocation(true);
         newExpense.addParticipant(f1);
         newExpense.addParticipant(f2);
         newExpense.addParticipant(f3);
         newExpense.addParticipant(f4);
+        newExpense.setLatitude(13.746697);
+        newExpense.setLongitude(100.4932212);
 
         newExpense.setCurrency("EUR");
 
@@ -211,7 +213,25 @@ public class StartActivity extends AppCompatActivity {
         newExpense.setSpendingInHomeCurrency(newExpense.getSpending());
 
 
-        g1.addPlace(new MapMarker(13.7134702,100.5133035,"Früchte Essen Bangkok"));
+        g1.addPlace(new MapMarker(13.746697,100.4932212,"Tempelbesuch"));
+        g1.addExpense(newExpense);
+
+        newExpense = new SplitEqual(g1.getMembers().get(0), 5, "Früchte Essen", "Food", 0);
+        newExpense.setHasLocation(true);
+        newExpense.addParticipant(f1);
+        newExpense.addParticipant(f2);
+        newExpense.addParticipant(f3);
+        newExpense.addParticipant(f4);
+        newExpense.setLatitude(13.7134702);
+        newExpense.setLongitude(100.5133035);
+
+        newExpense.setCurrency("EUR");
+
+        newExpense.setAmountinHomeCurrency(newExpense.getAmount());
+        newExpense.setSpendingInHomeCurrency(newExpense.getSpending());
+
+
+        g1.addPlace(new MapMarker(13.7134702,100.5133035,"Früchte Essen"));
         g1.addExpense(newExpense);
 
         newExpense = new SplitParts(f1, 34, "Fish'n'Chips essen", "Food", 1);
@@ -221,6 +241,8 @@ public class StartActivity extends AppCompatActivity {
         newExpense.setitem(f3, 1);
         newExpense.setitem(f3, 4);
         newExpense.setitem(f6, 1);
+        newExpense.setLatitude(51.5304439);
+        newExpense.setLongitude(-0.826729);
 
         newExpense.setAmountinHomeCurrency(newExpense.getAmount());
         newExpense.setSpendingInHomeCurrency(newExpense.getSpending());
@@ -236,6 +258,8 @@ public class StartActivity extends AppCompatActivity {
 
         newExpense = new SplitEqual(f3, 28.50, "Eintritt Therme", "Culture", 0);
         newExpense.setHasLocation(true);
+        newExpense.setLatitude(48.1265264);
+        newExpense.setLongitude(16.3932835);
         try {
             newExpense.calculateDebt();
         } catch (Exception e) {
@@ -251,6 +275,8 @@ public class StartActivity extends AppCompatActivity {
 
         newExpense = new SplitEqual(f5, 30.50, "Eintritt Therme", "Culture", 0);
         newExpense.setHasLocation(true);
+        newExpense.setLatitude(48.1265264);
+        newExpense.setLongitude(16.4032835);
         try {
             newExpense.calculateDebt();
         } catch (Exception e) {
@@ -265,6 +291,8 @@ public class StartActivity extends AppCompatActivity {
 
         newExpense = new SplitParts(f3, 340, "Safari", "Culture", 1);
         newExpense.setHasLocation(true);
+        newExpense.setLatitude(-36.459652);
+        newExpense.setLongitude(-64.0360471);
         newExpense.addParticipant(f2);
         newExpense.addParticipant(f1);
 
