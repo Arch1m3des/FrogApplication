@@ -6,9 +6,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +27,7 @@ import at.ac.univie.SplitDAO.*;
 import at.ac.univie.adapter.Child;
 import at.ac.univie.adapter.FancyExpandableListAdapter;
 import at.ac.univie.adapter.Parent;
+import at.ac.univie.adapter.SimpleListAdapter;
 import at.ac.univie.frog.R;
 import at.ac.univie.main.FriendActivity;
 import at.ac.univie.main.GroupActivity;
@@ -33,11 +38,14 @@ import at.ac.univie.main.SettingActivity;
 public class ExpenseDetailActivity extends AppCompatActivity {
 
     ExpandableListView listView;
+    ListView detailView;
+    ArrayList<String> listDetail = new ArrayList();
+    ListAdapter detailAdapter;
     ExpandableListAdapter adapter;
-    //Button location;
-    //double longitude;
-    //double latitude;
-    boolean doubleBackToExitPressedOnce=false;
+    Button location;
+    double longitude;
+    double latitude;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
@@ -76,12 +84,13 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView group=(TextView) findViewById(R.id.imageGroupsWithText);
-        TextView textAmountCurr = (TextView) findViewById(R.id.textAmountCurr);
-        TextView convRate = (TextView) findViewById(R.id.convRate);
+        //TextView textAmountCurr = (TextView) findViewById(R.id.textAmountCurr);
+        //TextView convRate = (TextView) findViewById(R.id.convRate);
         //group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
         //group.setTextColor(Color.parseColor("#000000"));
 
         listView = (ExpandableListView) findViewById(R.id.textMember);
+        detailView = (ListView) findViewById(R.id.expenseDetail);
         ArrayList<Parent> groups = new ArrayList();
         ArrayList<Child> members = new ArrayList();
 
@@ -110,24 +119,16 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 
         DecimalFormat doubleform = new DecimalFormat("#.##");
         SimpleDateFormat dateform = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
-
-        //location = (Button) findViewById(R.id.location);
-
-        //longitude = expense.getLongitude();
-        //latitude = expense.getLatitude();
-
-        TextView txt_desc = (TextView) findViewById(R.id.textDescription);
-        TextView txt_amt = (TextView) findViewById(R.id.textAmount);
-        TextView txt_date = (TextView) findViewById(R.id.textDate);
-        TextView txt_cat = (TextView) findViewById(R.id.textCategory);
-        txt_amt.setText(txt_amt.getText().toString() + " " + doubleform.format(expense.getAmountInHomeCurrency()));
         Currencies curr = new Currencies();
-        textAmountCurr.setText(textAmountCurr.getText().toString() + " " + curr.getCurrencies().get(expense.getCurrency()) + ": " + doubleform.format(expense.getAmount()));
-        convRate.setText(convRate.getText() + doubleform.format((expense.getAmount()/expense.getAmountInHomeCurrency())) + "    ");
-        txt_date.setText(txt_date.getText().toString() + "  " + dateform.format(expense.getDate()));
-        txt_cat.setText(txt_cat.getText().toString() + " " + expense.getCategory());
 
-        txt_desc.setText(txt_desc.getText().toString() + " " + expense.getDescription());
+        listDetail.add("Description: " + expense.getDescription());
+        listDetail.add("from " + dateform.format(expense.getDate()));
+        listDetail.add("Amount in €: " + doubleform.format(expense.getAmountInHomeCurrency()));
+        if (!curr.getCurrencies().get(expense.getCurrency()).equals("€")) {
+            listDetail.add("Amount in " + curr.getCurrencies().get(expense.getCurrency()) + ": " + doubleform.format(expense.getAmount()));
+            listDetail.add("Exchange rate: " + doubleform.format((expense.getAmount() / expense.getAmountInHomeCurrency())));
+        }
+        listDetail.add("Category: " + expense.getCategory());
 
         if (expense.getSpending().size() == expense.getParticipants().size()) {
             for (int i= 0; i<expense.getParticipants().size(); i++) {
@@ -142,20 +143,35 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         groups.add(parent);
 
         adapter = new FancyExpandableListAdapter(this, groups, false);
+        detailAdapter = new SimpleListAdapter(this, R.layout.simple_list, listDetail, "");
 
         listView.setAdapter(adapter);
+        detailView.setAdapter(detailAdapter);
 
-        /*
-        location.setOnClickListener (new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent goToMaps = new Intent(ExpenseDetailActivity.this, MapView.class);
-                goToMaps.putExtra("long", longitude);
-                goToMaps.putExtra("lat", latitude);
-                startActivity(goToMaps);
-            }
-        });
-*/
+        location = (Button) findViewById(R.id.location);
+
+        if (expense.getHasLocation()) {
+
+            longitude = expense.getLongitude();
+            latitude = expense.getLatitude();
+
+            location.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent goToMaps = new Intent(ExpenseDetailActivity.this, MapView.class);
+                    goToMaps.putExtra("long", longitude);
+                    goToMaps.putExtra("lat", latitude);
+                    goToMaps.putExtra("where", "ExpenseDetailActivity.class");
+                    startActivity(goToMaps);
+                }
+            });
+        }
+
+        else  {
+            location.setVisibility(View.GONE);
+        }
+
+
     }
 
     public void onWindowFocusChanged(boolean hasFocus) {

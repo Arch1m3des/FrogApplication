@@ -27,6 +27,7 @@ public abstract class Expense implements IExpensecalculations, Serializable {
     String category;
     String currency="EUR";
     int splitOption;
+    boolean hasLocation;
 
     HashMap<Friend, Double> inputFields = new HashMap();
     List<Friend> participants = new ArrayList();
@@ -105,6 +106,14 @@ public abstract class Expense implements IExpensecalculations, Serializable {
             return false;
         }
 
+    }
+
+    public void setHasLocation(boolean hasLocation) {
+        this.hasLocation = hasLocation;
+    }
+
+    public boolean getHasLocation() {
+        return this.hasLocation;
     }
 
     public double getAmount() {

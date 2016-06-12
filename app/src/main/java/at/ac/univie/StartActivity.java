@@ -89,7 +89,7 @@ public class StartActivity extends AppCompatActivity {
 
                     if (emailToString.length() == 0 || !emailToString.contains("@"))
                         Toast.makeText(getApplicationContext(), "Please enter your email address.", Toast.LENGTH_LONG).show();
-                    else if (nameToString.length() <= 3)
+                    else if (nameToString.length() < 2)
                         Toast.makeText(getApplicationContext(), "Please enter your name.", Toast.LENGTH_LONG).show();
                     else if (surnameToString.length() <= 1)
                         Toast.makeText(getApplicationContext(), "Please enter your surname.", Toast.LENGTH_LONG).show();
@@ -199,6 +199,7 @@ public class StartActivity extends AppCompatActivity {
 
         //add expenses
         Expense newExpense = new SplitEqual(g1.getMembers().get(0), 5, "Früchte Essen", "Food", 0);
+        newExpense.setHasLocation(true);
         newExpense.addParticipant(f1);
         newExpense.addParticipant(f2);
         newExpense.addParticipant(f3);
@@ -214,6 +215,7 @@ public class StartActivity extends AppCompatActivity {
         g1.addExpense(newExpense);
 
         newExpense = new SplitParts(f1, 34, "Fish'n'Chips essen", "Food", 1);
+        newExpense.setHasLocation(true);
         newExpense.addParticipant(f3);
         newExpense.addParticipant(f6);
         newExpense.setitem(f3, 1);
@@ -233,6 +235,7 @@ public class StartActivity extends AppCompatActivity {
         g2.addExpense(newExpense);
 
         newExpense = new SplitEqual(f3, 28.50, "Eintritt Therme", "Culture", 0);
+        newExpense.setHasLocation(true);
         try {
             newExpense.calculateDebt();
         } catch (Exception e) {
@@ -247,6 +250,7 @@ public class StartActivity extends AppCompatActivity {
         g3.addExpense(newExpense);
 
         newExpense = new SplitEqual(f5, 30.50, "Eintritt Therme", "Culture", 0);
+        newExpense.setHasLocation(true);
         try {
             newExpense.calculateDebt();
         } catch (Exception e) {
@@ -260,6 +264,7 @@ public class StartActivity extends AppCompatActivity {
 
 
         newExpense = new SplitParts(f3, 340, "Safari", "Culture", 1);
+        newExpense.setHasLocation(true);
         newExpense.addParticipant(f2);
         newExpense.addParticipant(f1);
 

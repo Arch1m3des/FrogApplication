@@ -44,6 +44,7 @@ import at.ac.univie.main.GroupActivity;
 public class AddExpenseActivity extends AppCompatActivity implements LocationListener {
 
     CheckedTextView locationView;
+    boolean wantLocation;
     EditText amount;
     TextView description;
     ExpandableListView categoryView, currencyView, splitView, friendsView, payerView;
@@ -205,13 +206,15 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
 
             //add location as last point
             Location currLocation = getLocation();
-            if (currLocation != null) {
-                //Toast.makeText(getApplicationContext(), "Location is " + location1.getLatitude() + ";" + location1.getLongitude(), Toast.LENGTH_SHORT).show();
+            if (currLocation != null && wantLocation) {
+                newExpense.setHasLocation(true);
                 newExpense.setLatitude(currLocation.getLatitude());
                 newExpense.setLongitude(currLocation.getLongitude());
                 thisGroup.addPlace(new MapMarker(newExpense.getLatitude(), newExpense.getLongitude(), newExpense.getDescription()));
-            }else{
-                Toast.makeText(getApplicationContext(), "Your location could not be determined. Please make sure you enabled GPS for this app in your settings.", Toast.LENGTH_LONG).show();
+            } else {
+                newExpense.setHasLocation(false);
+                if (wantLocation)
+                    Toast.makeText(getApplicationContext(), "Your location could not be determined. Please make sure you enabled GPS for this app in your settings.", Toast.LENGTH_LONG).show();
             }
 
             //if Splitequal store in DAO and return to group intent
@@ -576,10 +579,13 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
 
             @Override
             public void onClick(View v) {
-                if (locationView.isChecked())
+                if (locationView.isChecked()) {
                     locationView.setChecked(false);
+                    wantLocation = false;
+                }
                 else {
                     locationView.setChecked(true);
+                    wantLocation = true;
                     getLocation();
                     if (getLocation() != null) {
                         //Toast.makeText(getApplicationContext(), "location is " + getLocation(), Toast.LENGTH_LONG).show();

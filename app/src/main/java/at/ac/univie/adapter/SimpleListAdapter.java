@@ -44,16 +44,11 @@ public class SimpleListAdapter extends ArrayAdapter<String> {
         }
 
         TextView textView = (TextView) simpleView.findViewById(R.id.simpleText);
-        EditText editText = (EditText) simpleView.findViewById(R.id.simpleEdit);
         TextView splitSymbol = (TextView) simpleView.findViewById(R.id.splitSymbol);
 
-
-        textView.setTextColor(Color.BLACK);
         textView.setText(list.get(position));
-        splitSymbol.setText(splitSign);
-
-
-        //textView.setBackgroundColor(Color.WHITE);
+        if (splitSign != "")
+            splitSymbol.setText(splitSign);
 
         return simpleView;
     }
