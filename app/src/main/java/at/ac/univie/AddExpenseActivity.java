@@ -178,7 +178,8 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
             //Toast.makeText(getApplicationContext(), "Expenseinfo " + splitMode + ";" + exPayer + ";" + amountDbl + ";" + exDescription + ";" + exCategory, Toast.LENGTH_SHORT).show();
 
             //add currency;
-            newExpense.setCurrency(exCurrency);
+            if (exCurrency != null)
+                newExpense.setCurrency(exCurrency);
 
             //add location as last point
             Location currLocation = getLocation();
@@ -485,7 +486,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         }
 
         String defaultCurrency =  curr.getCurrencies().get(thisGroup.getCurrencies().get(0));
-        exCurrency = defaultCurrency;
+        exCurrency = thisGroup.getCurrencies().get(0);
 
         Parent parentCategory = new Parent("Category: ", listCategory);
         Parent parentCurrency = new Parent("Amount in " + defaultCurrency, listCurrency);
@@ -535,6 +536,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
 
                 exCurrency = selectedItem.substring(0,3);
 
+                String sub =  selectedItem.substring(4,5);
                 group.setName("Amount in " + selectedItem.substring(4,5));
                 if (parent.isGroupExpanded(groupPosition)) {
                     parent.collapseGroup(groupPosition);
