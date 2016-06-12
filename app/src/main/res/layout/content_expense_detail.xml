@@ -30,12 +30,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show on map"
+        android:text="Show on map "
         android:textColor="#5d5d5d"
         android:fontFamily="sans-serif-light"
         android:id="@+id/location"
         android:layout_marginStart="20dp"
         android:background="#0000"
+        android:drawableEnd="@android:drawable/ic_menu_directions"
         android:textSize="20sp"
         android:textAllCaps="false"
         android:layout_below="@+id/textMember" />

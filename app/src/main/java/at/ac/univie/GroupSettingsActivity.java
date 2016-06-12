@@ -256,4 +256,11 @@ public class GroupSettingsActivity extends AppCompatActivity {
         }
         return super.dispatchTouchEvent( event );
     }
+
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        currencyView.setIndicatorBoundsRelative(currencyView.getRight() - 200, currencyView.getWidth());
+        participantView.setIndicatorBoundsRelative(participantView.getRight() - 200, participantView.getWidth());
+    }
+
 }

@@ -132,7 +132,7 @@ public class SplitViewActivity extends AppCompatActivity {
 
                 switch (splitOption) {
                     case 1: //SplitManual
-                        if (!((sum+1 > thisExpense.getAmount()) && (sum-1 < thisExpense.getAmount()))) {
+                        if (thisExpense.getAmount() > sum+1 || thisExpense.getAmount() < sum -1) {
                             Toast.makeText(getApplicationContext(), "Your sum (" + sum + ") does not add up to " + thisExpense.getAmount() + ". Please change that.", Toast.LENGTH_LONG).show();
                             totalAmt.setText("Total: " + doubleform.format(sum) + "/" + doubleform.format(thisExpense.getAmount()));
                             return false;

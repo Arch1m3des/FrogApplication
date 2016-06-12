@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Locale;
 
 import at.ac.univie.SplitDAO.Currencies;
@@ -41,7 +43,6 @@ public class GroupDetailActivity extends AppCompatActivity {
 
     ListView expenseView;
     ArrayAdapter adapter;
-    ArrayList<Friend> expense = new ArrayList();
     ArrayList<String> expenseToString = new ArrayList();
     ArrayList<String> expenseInitials = new ArrayList();
     ArrayList<String> date = new ArrayList();
@@ -129,6 +130,7 @@ public class GroupDetailActivity extends AppCompatActivity {
         }
 
         ArrayList<Expense> expense = (ArrayList<Expense>) groupdao.getGroupList().get(groupindex).getExpenses();
+        Collections.reverse(expense);
         gruppenname=groupdao.getGroupList().get(groupindex).getName();
 
         sharedPreferences = getSharedPreferences("Log", Context.MODE_PRIVATE);
