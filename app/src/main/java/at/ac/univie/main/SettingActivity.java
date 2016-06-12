@@ -33,15 +33,37 @@ import java.util.ArrayList;
 import at.ac.univie.AddFriendActivity;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
+import at.ac.univie.SplitDAO.MapMarker;
 import at.ac.univie.frog.R;
 import at.ac.univie.qr.QRGenerate;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity{
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String name, surname, email;
     Switch controlGPS;
-    boolean canGetLocation;
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+
+        controlGPS = (Switch) findViewById(R.id.gps);
+
+        LocationManager lm=(LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+        if(!gps_enabled && !network_enabled) {
+            controlGPS.setChecked(false);
+        }else{
+            controlGPS.setChecked(true);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +76,23 @@ public class SettingActivity extends AppCompatActivity {
         TextView settings = (TextView) findViewById(R.id.imageSettingsWithText);
         settings.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_settings_clicked,0,0);
         settings.setTextColor(Color.parseColor("#000000"));
+
+        controlGPS = (Switch) findViewById(R.id.gps);
+
+        LocationManager lm=(LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+        if(!gps_enabled && !network_enabled) {
+            controlGPS.setChecked(false);
+        }else{
+            controlGPS.setChecked(true);
+        }
 
         final TextView qrCodeText = (TextView) findViewById(R.id.qrCodeText);
         final ImageView qrCode = (ImageView) findViewById(R.id.qrCode);
@@ -78,14 +117,12 @@ public class SettingActivity extends AppCompatActivity {
         QRGenerate myqr = new QRGenerate(SettingActivity.this, qrCodeText, qrCode, code);
         myqr.execute();
 
-        controlGPS = (Switch) findViewById(R.id.gps);
 
         controlGPS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-
             }
 
         });
@@ -127,7 +164,9 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //TODO chatching Crash when going back from scan-app
+        if(intent==null){
+            return;
+        }
         //retrieve scan result
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
@@ -186,5 +225,4 @@ public class SettingActivity extends AppCompatActivity {
         }
 
     }
-
 }
