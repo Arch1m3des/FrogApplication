@@ -98,6 +98,8 @@ public class AddGroupActivity extends AppCompatActivity {
 
                 if (groupName.getText().length() == 0)
                     Toast.makeText(getApplicationContext(), "Please add a group name.", Toast.LENGTH_LONG).show();
+                else if(groupCurrencies.size() == 0)
+                    Toast.makeText(getApplicationContext(), "Please select at least one currency.", Toast.LENGTH_LONG).show();
                 else if (friendpos.size() == 0)
                     Toast.makeText(getApplicationContext(), "Please select at least one friend.", Toast.LENGTH_LONG).show();
                 else {
@@ -275,7 +277,7 @@ public class AddGroupActivity extends AppCompatActivity {
     }
 
     public void goToSettings(View v){
-        Intent goToSettings=new Intent(AddGroupActivity.this, SettingActivity.class);
+        Intent goToSettings = new Intent(AddGroupActivity.this, SettingActivity.class);
         startActivity(goToSettings);
     }
 

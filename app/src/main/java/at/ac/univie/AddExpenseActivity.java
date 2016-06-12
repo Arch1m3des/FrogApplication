@@ -106,193 +106,175 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        DecimalFormat doubleform = new DecimalFormat("#.##");
-        double amountDbl = 0;
-        String exDescription = "";
-
-        try {
-            exDescription = description.getText().toString();
-
-        }
-        catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Please add a description", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (exDescription.length() == 0) {
-            Toast.makeText(getApplicationContext(), "This is a really short description", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        try {
-            //TODO limt to 2 decimal places
-            try {
-                amountDbl = Double.parseDouble(amount.getText().toString());
-            } catch (NumberFormatException e2) {
-                try {
-                    NumberFormat format = NumberFormat.getInstance(Locale.GERMAN);
-                    Number number = format.parse(amount.getText().toString());
-                } catch (ParseException e1) {
-                    amountDbl = Double.parseDouble(amount.getText().toString());
-                }
-            }
-
-
-        }
-        catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Please insert an expense amount", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (amountDbl == 0) {
-            Toast.makeText(getApplicationContext(), "0 is not much for an expense", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (exCurrency.length() == 0) {
-            Toast.makeText(getApplicationContext(), "Please select a currency", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (exPayer == null) {
-            Toast.makeText(getApplicationContext(), "Please select a payer", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (splitMode == -1) {
-            Toast.makeText(getApplicationContext(), "Please select a split mode", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (exCategory.length() == 0) {
-            Toast.makeText(getApplicationContext(), "Please select a category", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        Expense newExpense = null;
-        switch (splitMode) {
-            case 0:
-                newExpense = new SplitEqual(exPayer, amountDbl, exDescription, exCategory, splitMode);
-                try {
-                    newExpense.calculateDebt();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case 1:
-                newExpense = new SplitManual(exPayer, amountDbl, exDescription, exCategory, splitMode);
-                break;
-            case 2:
-                newExpense = new SplitPercent(exPayer, amountDbl, exDescription, exCategory, splitMode);
-                break;
-            case 3:
-                newExpense = new SplitParts(exPayer, amountDbl, exDescription, exCategory, splitMode);
-                break;
-            default: return false;
-        }
-
-        if (newExpense != null) {
-            //add participants
-            for (Friend friend : participants) {
-                newExpense.addParticipant(friend);
-            }
-
-            //Expenseinfo for Debugging
-            //Toast.makeText(getApplicationContext(), "Expenseinfo " + splitMode + ";" + exPayer + ";" + amountDbl + ";" + exDescription + ";" + exCategory, Toast.LENGTH_SHORT).show();
-
-            //add currency;
-            if (exCurrency != null)
-                newExpense.setCurrency(exCurrency);
-
-            //add location as last point
-            Location currLocation = getLocation();
-            if (currLocation != null && wantLocation) {
-                newExpense.setHasLocation(true);
-                newExpense.setLatitude(currLocation.getLatitude());
-                newExpense.setLongitude(currLocation.getLongitude());
-                thisGroup.addPlace(new MapMarker(newExpense.getLatitude(), newExpense.getLongitude(), newExpense.getDescription()));
-            } else {
-                newExpense.setHasLocation(false);
-                if (wantLocation)
-                    Toast.makeText(getApplicationContext(), "Your location could not be determined. Please make sure you enabled GPS for this app in your settings.", Toast.LENGTH_LONG).show();
-            }
-
-            //if Splitequal store in DAO and return to group intent
-            if (splitMode == 0) {
-
-                //calculate in homecurrency
-                CurrencyManager cm = new CurrencyManager(getApplicationContext());
-
-                //calculate in homecurrencies
-                newExpense.setSpendingInHomeCurrency(cm.getSpendingInHomeCurrency(newExpense.getSpending(), newExpense.getCurrency()));
-                newExpense.setAmountinHomeCurrency(cm.getAmountinHomeCurrency(newExpense.getAmount(), newExpense.getCurrency()));
-
-                thisGroup.addExpense(newExpense);
-                int expenseIndex = thisGroup.getExpenses().indexOf(newExpense);
-
-                //check if it was added to groups
-                if (groups.get(groupindex).getExpenses().contains(newExpense)) {
-                    groupDAO.setGroupList(groups);
-                    try {
-                        groupDAO.saveGroupData(getApplicationContext(), "Groups");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    //Switch Intent
-                    Intent goToGroupDetails = new Intent(AddExpenseActivity.this, GroupDetailActivity.class);
-                    goToGroupDetails.putExtra("GroupPosition", groupindex);
-                    finish();
-                    startActivity(goToGroupDetails);
-                }
-            }
-            else {
-                Group newGroup = new Group(0,"DummyGroup");
-                newGroup.addExpense(newExpense);
-                ArrayList<Group>newgroups = new ArrayList<>();
-                newgroups.add(newGroup);
-                groupDAO.setGroupList(newgroups);
-                try {
-                    groupDAO.saveGroupData(getApplicationContext() ,"newExpense");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
-                goToSplitOptions.putExtra("option", splitMode);
-                goToSplitOptions.putExtra("newGroupIndex", 0);
-                goToSplitOptions.putExtra("newExpenseindex", 0);
-                goToSplitOptions.putExtra("groupIndex", groupindex);
-
-                finish();
-                startActivity(goToSplitOptions);
-            }
-            return true;
-
-
-        }
-
-
 
         switch (item.getItemId()) {
             case R.id.action_menu_done:
 
-                /*
-                Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
-                goToSplitOptions.putExtra("option", 1);
-<<<<<<< HEAD
-                Expense expense = new SplitManual(members.get(0), members.get(0), amountInt, "Test", "Food", 1);
-=======
-                Expense expense = new SplitManual(members.get(0), members.get(0), amountDbl, "Test", "Food", 1);
->>>>>>> 91be6aedf738a21e1b325851d8faed8c8ead9a40
-                thisGroup.addExpense(expense);
-                System.out.println("just added expense: " + expense);
-                goToSplitOptions.putExtra("amount", amountDbl);
-                finish();
-                startActivity(goToSplitOptions);
-                return true;
-                */
+                DecimalFormat doubleform = new DecimalFormat("#.##");
+                double amountDbl = 0;
+                String exDescription = "";
+
+                try {
+                    exDescription = description.getText().toString();
+
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Please add a description", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                if (exDescription.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "This is a really short description", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                try {
+                    //TODO limt to 2 decimal places
+                    try {
+                        amountDbl = Double.parseDouble(amount.getText().toString());
+                    } catch (NumberFormatException e2) {
+                        try {
+                            NumberFormat format = NumberFormat.getInstance(Locale.GERMAN);
+                            Number number = format.parse(amount.getText().toString());
+                        } catch (ParseException e1) {
+                            amountDbl = Double.parseDouble(amount.getText().toString());
+                        }
+                    }
+
+
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Please insert an amount.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                if (amountDbl == 0) {
+                    Toast.makeText(getApplicationContext(), "0 is not much for an expense.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                if (exCurrency.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Please select a currency.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                if (exPayer == null) {
+                    Toast.makeText(getApplicationContext(), "Please select a payer.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                if (splitMode == -1) {
+                    Toast.makeText(getApplicationContext(), "Please select a split mode.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                if (exCategory.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Please select a category.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                Expense newExpense = null;
+                switch (splitMode) {
+                    case 0:
+                        newExpense = new SplitEqual(exPayer, amountDbl, exDescription, exCategory, splitMode);
+                        try {
+                            newExpense.calculateDebt();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 1:
+                        newExpense = new SplitManual(exPayer, amountDbl, exDescription, exCategory, splitMode);
+                        break;
+                    case 2:
+                        newExpense = new SplitPercent(exPayer, amountDbl, exDescription, exCategory, splitMode);
+                        break;
+                    case 3:
+                        newExpense = new SplitParts(exPayer, amountDbl, exDescription, exCategory, splitMode);
+                        break;
+                    default:
+                        return false;
+                }
+
+                if (newExpense != null) {
+                    //add participants
+                    for (Friend friend : participants) {
+                        newExpense.addParticipant(friend);
+                    }
+
+                    //Expenseinfo for Debugging
+                    //Toast.makeText(getApplicationContext(), "Expenseinfo " + splitMode + ";" + exPayer + ";" + amountDbl + ";" + exDescription + ";" + exCategory, Toast.LENGTH_SHORT).show();
+
+                    //add currency;
+                    if (exCurrency != null)
+                        newExpense.setCurrency(exCurrency);
+
+                    //add location as last point
+                    Location currLocation = getLocation();
+                    if (currLocation != null && wantLocation) {
+                        newExpense.setHasLocation(true);
+                        newExpense.setLatitude(currLocation.getLatitude());
+                        newExpense.setLongitude(currLocation.getLongitude());
+                        thisGroup.addPlace(new MapMarker(newExpense.getLatitude(), newExpense.getLongitude(), newExpense.getDescription()));
+                    } else {
+                        newExpense.setHasLocation(false);
+                        if (wantLocation)
+                            Toast.makeText(getApplicationContext(), "Your location could not be determined. Please make sure you enabled GPS for this app in your settings.", Toast.LENGTH_LONG).show();
+                    }
+
+                    //if Splitequal store in DAO and return to group intent
+                    if (splitMode == 0) {
+
+                        //calculate in homecurrency
+                        CurrencyManager cm = new CurrencyManager(getApplicationContext());
+
+                        //calculate in homecurrencies
+                        newExpense.setSpendingInHomeCurrency(cm.getSpendingInHomeCurrency(newExpense.getSpending(), newExpense.getCurrency()));
+                        newExpense.setAmountinHomeCurrency(cm.getAmountinHomeCurrency(newExpense.getAmount(), newExpense.getCurrency()));
+
+                        thisGroup.addExpense(newExpense);
+                        int expenseIndex = thisGroup.getExpenses().indexOf(newExpense);
+
+                        //check if it was added to groups
+                        if (groups.get(groupindex).getExpenses().contains(newExpense)) {
+                            groupDAO.setGroupList(groups);
+                            try {
+                                groupDAO.saveGroupData(getApplicationContext(), "Groups");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            //Switch Intent
+                            Intent goToGroupDetails = new Intent(AddExpenseActivity.this, GroupDetailActivity.class);
+                            goToGroupDetails.putExtra("GroupPosition", groupindex);
+                            finish();
+                            startActivity(goToGroupDetails);
+                        }
+                    } else {
+                        Group newGroup = new Group(0, "DummyGroup");
+                        newGroup.addExpense(newExpense);
+                        ArrayList<Group> newgroups = new ArrayList<>();
+                        newgroups.add(newGroup);
+                        groupDAO.setGroupList(newgroups);
+                        try {
+                            groupDAO.saveGroupData(getApplicationContext(), "newExpense");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        Intent goToSplitOptions = new Intent(AddExpenseActivity.this, SplitViewActivity.class);
+                        goToSplitOptions.putExtra("option", splitMode);
+                        goToSplitOptions.putExtra("newGroupIndex", 0);
+                        goToSplitOptions.putExtra("newExpenseindex", 0);
+                        goToSplitOptions.putExtra("groupIndex", groupindex);
+
+                        finish();
+                        startActivity(goToSplitOptions);
+                    }
+                    return true;
+
+
+                }
             default: return  false;
+
         }
 
     }
@@ -503,7 +485,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         listCategory.add(new Child("Food & Drinks"));
         listCategory.add(new Child("Fun"));
         listCategory.add(new Child("Medical"));
-        listCategory.add(new Child("Moneytransfer"));
+        listCategory.add(new Child("Money Transfer"));
 
 
         Currencies curr = new Currencies();

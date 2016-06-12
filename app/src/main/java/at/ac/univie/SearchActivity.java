@@ -68,7 +68,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_search);
-        getSupportActionBar().setTitle("Gruppe wählen");
+        getSupportActionBar().setTitle("Choose group");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView settings = (TextView) findViewById(R.id.imageMapWithText);
