@@ -208,25 +208,39 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
 
     @Override
     public void onMapReady(GoogleMap Gmap) {
-        /*if(placesGroups.isEmpty()){
-            return;
-        }*/
+        LatLngBounds bounds=null;
+        if(placesGroups.isEmpty()){
+            Toast.makeText(this, "No locations saved in this group!", Toast.LENGTH_SHORT).show();
+        }else {
+            this.map = Gmap;
+            //static final LatLng PERTH = new LatLng(-31.90, 115.86)
+            PolylineOptions line = new PolylineOptions().width(5).color(Color.RED); //looks nice enough?
+            LatLng obj = null;
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-        this.map = Gmap;
-        //static final LatLng PERTH = new LatLng(-31.90, 115.86)
-        PolylineOptions line = new PolylineOptions().width(5).color(Color.RED); //looks nice enough?
-        LatLng obj = null;
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (MapMarker marker : placesGroups) {
+                obj = new LatLng(marker.getLat(), marker.getLang());
+                map.addMarker(new MarkerOptions().position(obj).title(marker.getDescription()));
+                points.add(obj);
+                builder.include(obj);
+            }
 
-        for (MapMarker marker : placesGroups) {
-            obj = new LatLng(marker.getLat(), marker.getLang());
-            map.addMarker(new MarkerOptions().position(obj).title(marker.getDescription()));
-            points.add(obj);
-            builder.include(obj);
+            Polyline route = map.addPolyline(line);
+            route.setPoints(points); //route
+            bounds = builder.build();
+
+            CameraUpdate cu;
+
+            try{
+                cu = CameraUpdateFactory.newLatLngBounds(bounds,6000);
+                cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 10.0f);
+                map.animateCamera(cu);
+            } catch(IllegalStateException e) {
+                e.printStackTrace();
+                cu = CameraUpdateFactory.newLatLngBounds(bounds,6000,6000,0);
+                map.animateCamera(cu);
+            }
         }
-
-        Polyline route = map.addPolyline(line);
-        route.setPoints(points); //route
         /*
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -240,25 +254,11 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
             builder.include(new LatLng(placesGroups.get(placesGroups.size() - 1).getLat(), placesGroups.get(placesGroups.size() - 1).getLang()));
         }*/
 
-        LatLngBounds bounds = builder.build();
-        int padding=10;
-        CameraUpdate cu;
-
-        try{
-            cu = CameraUpdateFactory.newLatLngBounds(bounds,6000);
-            cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 10.0f);
-            map.animateCamera(cu);
-        } catch(IllegalStateException e) {
-            e.printStackTrace();
-            cu = CameraUpdateFactory.newLatLngBounds(bounds,6000,6000,0);
-            map.animateCamera(cu);
-        }
         /*  //this didn't work for me
         cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 13.0f);
         this.map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,padding));
         this.map.animateCamera(cu);
         */
-
     }
 
     public void gotToFriendsActivity(View v){
