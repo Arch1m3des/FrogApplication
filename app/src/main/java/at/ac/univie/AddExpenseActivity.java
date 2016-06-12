@@ -57,7 +57,6 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
     ArrayList<Child> splitOptions = new ArrayList();
     GroupManager groupDAO;
     at.ac.univie.SplitDAO.Group thisGroup;
-    Button button;
     int groupindex;
     ArrayList<Friend> members;
     Location location;
@@ -348,7 +347,6 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
         optionAdapter = new FancyExpandableListAdapter(this, options, false);
         payerAdapter = new FancyExpandableListAdapter(this, payer, false);
         friendsAdapter = new FancyExpandableListAdapter(this, friends, true);
-        button = (Button) findViewById(R.id.button);
 
         splitView.setAdapter(optionAdapter);
         friendsView.setAdapter(friendsAdapter);
@@ -570,6 +568,8 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
             }
         });
     }
+
+    /* http://www.androidhive.info/2012/07/android-gps-location-manager-tutorial/ */
 
     public Location getLocation() {
 

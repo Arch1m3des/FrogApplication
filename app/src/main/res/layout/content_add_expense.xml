@@ -37,7 +37,7 @@
         android:textSize="20sp"
         android:layout_marginLeft="5dp"
         android:fontFamily="sans-serif-light"
-        android:layout_below="@+id/viewCurrency"
+        android:layout_below="@+id/textLocation"
         android:layout_marginStart="20dp"
         android:layout_alignParentStart="true"
         android:clickable="true"
@@ -51,7 +51,7 @@
         android:fontFamily="sans-serif-light"
         android:id="@+id/textLocation"
         android:layout_marginLeft="5dp"
-        android:layout_below="@+id/textCategory"
+        android:layout_below="@+id/viewCurrency"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:textColor="@color/colorDarkGrey"
         android:layout_marginStart="20dp"
@@ -70,7 +70,7 @@
         android:textSize="20sp"
         android:fontFamily="sans-serif-light"
         android:clickable="true"
-        android:layout_below="@+id/textLocation"
+        android:layout_below="@+id/viewPayer"
         android:layout_marginStart="20dp"
         android:layout_alignParentStart="true"
         android:nestedScrollingEnabled="true"/>
@@ -82,7 +82,7 @@
         android:textSize="20sp"
         android:fontFamily="sans-serif-light"
         android:clickable="true"
-        android:layout_below="@+id/viewFriends"
+        android:layout_below="@+id/viewSplitOptions"
         android:layout_marginStart="20dp"
         android:layout_alignParentStart="true"
         android:nestedScrollingEnabled="true"/>
@@ -95,7 +95,7 @@
         android:textSize="20sp"
         android:fontFamily="sans-serif-light"
         android:clickable="true"
-        android:layout_below="@+id/viewPayer"
+        android:layout_below="@+id/textCategory"
         android:layout_marginStart="20dp"
         android:layout_alignParentStart="true"
         android:nestedScrollingEnabled="true"/>
@@ -133,14 +133,5 @@
         android:textColor="#5d5d5d"
         android:layout_toEndOf="@+id/viewDescription"
         android:layout_marginStart="49dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Show me on the map"
-        android:id="@+id/location"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
 
 </RelativeLayout>
