@@ -110,10 +110,6 @@ public class AddGroupActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Add Group");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //final TextView group=(TextView) findViewById(R.id.imageGroupsWithText);
-        //group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
-        //group.setTextColor(Color.parseColor("#000000"));
-
         groupName = (EditText) findViewById(R.id.groupName);
 
         groupdao = new GroupManager();
@@ -146,8 +142,13 @@ public class AddGroupActivity extends AppCompatActivity {
         groups = groupdao.getGroupList();
 
         for (Friend temp : friends) {
-            friendsToString.add(new Child(temp.getName() + " " + temp.getSurname()));
+            if (temp.getFriendID() != me.getFriendID())
+                friendsToString.add(new Child(temp.getName() + " " + temp.getSurname()));
         }
+        //make sure i am in this group
+        friendpos.add(me);
+
+
 
         Parent parentCurrency = new Parent("Select Currencies", currency);
         Parent parentFriends = new Parent("Add Friends", friendsToString);
@@ -234,7 +235,7 @@ public class AddGroupActivity extends AppCompatActivity {
         currencyView.setIndicatorBoundsRelative(currencyView.getRight() - 200, currencyView.getWidth());
         participantView.setIndicatorBoundsRelative(participantView.getRight() - 200, participantView.getWidth());
     }
-/*
+
     public void gotToFriendsActivity(View v){
         Intent goToFriends=new Intent(AddGroupActivity.this,FriendActivity.class);
         startActivity(goToFriends);
@@ -255,10 +256,6 @@ public class AddGroupActivity extends AppCompatActivity {
         startActivity(goToSettings);
     }
 
-<<<<<<< HEAD
-    */
-
-=======
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -275,5 +272,4 @@ public class AddGroupActivity extends AppCompatActivity {
         }
         return super.dispatchTouchEvent( event );
     }
->>>>>>> ed49d3121c4eaa36c81d52fefbe1833cdb8b0f62
 }

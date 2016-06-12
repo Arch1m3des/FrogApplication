@@ -123,39 +123,15 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 
         /*
         location.setOnClickListener (new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-
                 Intent goToMaps = new Intent(ExpenseDetailActivity.this, MapView.class);
                 goToMaps.putExtra("long", longitude);
                 goToMaps.putExtra("lat", latitude);
                 startActivity(goToMaps);
-
             }
-
         });
 */
-    }
-
-    public void gotToFriendsActivity(View v){
-        Intent goToFriends=new Intent(ExpenseDetailActivity.this,FriendActivity.class);
-        startActivity(goToFriends);
-    }
-
-    public void goToGroupActivity(View v){
-        Intent goToFriends=new Intent(ExpenseDetailActivity.this,GroupActivity.class);
-        startActivity(goToFriends);
-    }
-
-    public void goToMap(View v){
-        Intent goToMaps = new Intent(ExpenseDetailActivity.this, MapView.class);
-        startActivity(goToMaps);
-    }
-
-    public void goToSettings(View v){
-        Intent goToSettings=new Intent(ExpenseDetailActivity.this, SettingActivity.class);
-        startActivity(goToSettings);
     }
 
     public void onWindowFocusChanged(boolean hasFocus) {
