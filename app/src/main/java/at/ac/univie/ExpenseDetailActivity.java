@@ -138,26 +138,6 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 */
     }
 
-    public void gotToFriendsActivity(View v){
-        Intent goToFriends=new Intent(ExpenseDetailActivity.this,FriendActivity.class);
-        startActivity(goToFriends);
-    }
-
-    public void goToGroupActivity(View v){
-        Intent goToFriends=new Intent(ExpenseDetailActivity.this,GroupActivity.class);
-        startActivity(goToFriends);
-    }
-
-    public void goToMap(View v){
-        Intent goToMaps = new Intent(ExpenseDetailActivity.this, MapView.class);
-        startActivity(goToMaps);
-    }
-
-    public void goToSettings(View v){
-        Intent goToSettings=new Intent(ExpenseDetailActivity.this, SettingActivity.class);
-        startActivity(goToSettings);
-    }
-
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         listView.setIndicatorBoundsRelative(listView.getRight() - 200, listView.getWidth());

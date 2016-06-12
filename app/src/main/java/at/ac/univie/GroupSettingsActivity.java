@@ -87,10 +87,6 @@ public class GroupSettingsActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView group=(TextView) findViewById(R.id.imageGroupsWithText);
-        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
-        group.setTextColor(Color.parseColor("#000000"));
-
         groupName = (EditText) findViewById(R.id.groupName);
 
         groupdao = new GroupManager();
@@ -218,26 +214,6 @@ public class GroupSettingsActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
-
-    public void gotToFriendsActivity(View v){
-        Intent goToFriends=new Intent(GroupSettingsActivity.this,FriendActivity.class);
-        startActivity(goToFriends);
-    }
-
-    public void goToGroupActivity(View v){
-        Intent goToGroups = new Intent(GroupSettingsActivity.this, GroupActivity.class);
-        startActivity(goToGroups);
-    }
-
-    public void goToMap(View v){
-        Intent goToMaps = new Intent(GroupSettingsActivity.this, MapView.class);
-        startActivity(goToMaps);
-    }
-
-    public void goToSettings(View v){
-        Intent goToSettings=new Intent(GroupSettingsActivity.this, SettingActivity.class);
-        startActivity(goToSettings);
     }
 
     @Override
