@@ -146,8 +146,13 @@ public class AddGroupActivity extends AppCompatActivity {
         groups = groupdao.getGroupList();
 
         for (Friend temp : friends) {
-            friendsToString.add(new Child(temp.getName() + " " + temp.getSurname()));
+            if (temp.getFriendID() != me.getFriendID())
+                friendsToString.add(new Child(temp.getName() + " " + temp.getSurname()));
         }
+        //make sure i am in this group
+        friendpos.add(me);
+
+
 
         Parent parentCurrency = new Parent("Select Currencies", currency);
         Parent parentFriends = new Parent("Add Friends", friendsToString);

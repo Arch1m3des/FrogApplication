@@ -136,8 +136,8 @@ public class StartActivity extends AppCompatActivity {
         Friend f2 = new Friend(2, "Weinbahn", "Andy", "arch1m3des1988@gmail.com");
         Friend f3 = new Friend(3, "Druggs", "Tamara", "tammyd@googlemail.com");
         Friend f4 = new Friend(4, "Bubly", "Daniel", "ich@du.com");
-        Friend f5 = new Friend(5, "Duda", "Samuel", "sammy@deluxe.com");
-        Friend f6 = new Friend(6, "Bada", "Margus", "ich@du.com");
+        Friend f5 = new Friend(5, "Bada", "Margus", "ich@du.com");
+        Friend f6 = new Friend(6, "Duda", "Samuel", "sammy@deluxe.com");
 
         frienddao.addFriend(f1);
         frienddao.addFriend(f2);
@@ -194,9 +194,11 @@ public class StartActivity extends AppCompatActivity {
 
         g4.addMember(f3);
         g4.addMember(f2);
+        g4.addMember(f1);
+
 
         //add expenses
-        Expense newExpense = new SplitEqual(g1.getMembers().get(0), 5, "Straßenessen", "Food", 0);
+        Expense newExpense = new SplitEqual(g1.getMembers().get(0), 5, "Früchte Essen Bangkok", "Food", 0);
         newExpense.addParticipant(f1);
         newExpense.addParticipant(f2);
         newExpense.addParticipant(f3);
@@ -208,12 +210,13 @@ public class StartActivity extends AppCompatActivity {
         newExpense.setSpendingInHomeCurrency(newExpense.getSpending());
 
 
-        g1.addPlace(new MapMarker(13.7134702,100.5133035,"Straßenessen"));
+        g1.addPlace(new MapMarker(13.7134702,100.5133035,"Früchte Essen Bangkok"));
         g1.addExpense(newExpense);
 
-        newExpense = new SplitParts(f3, 34, "Eis essen", "Food", 1);
+        newExpense = new SplitParts(f1, 34, "Fish'n'Chips essen", "Food", 1);
         newExpense.addParticipant(f3);
         newExpense.addParticipant(f6);
+        newExpense.setitem(f3, 1);
         newExpense.setitem(f3, 4);
         newExpense.setitem(f6, 1);
 
@@ -226,7 +229,7 @@ public class StartActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        g2.addPlace(new MapMarker(51.5304439,-0.826729,"Eis essen"));
+        g2.addPlace(new MapMarker(51.5304439,-0.826729,"Fish'n'Chips"));
         g2.addExpense(newExpense);
 
         newExpense = new SplitEqual(f3, 28.50, "Eintritt Therme", "Culture", 0);
@@ -243,7 +246,12 @@ public class StartActivity extends AppCompatActivity {
         g3.addPlace(new MapMarker(48.1265264,16.3932835,"Eintritt Therme"));
         g3.addExpense(newExpense);
 
-        newExpense = new SplitEqual(f6, 30.50, "Eintritt Therme", "Culture", 0);
+        newExpense = new SplitEqual(f5, 30.50, "Eintritt Therme", "Culture", 0);
+        try {
+            newExpense.calculateDebt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         newExpense.setAmountinHomeCurrency(newExpense.getAmount());
         newExpense.setSpendingInHomeCurrency(newExpense.getSpending());
 
@@ -253,14 +261,21 @@ public class StartActivity extends AppCompatActivity {
 
         newExpense = new SplitParts(f3, 340, "Safari", "Culture", 1);
         newExpense.addParticipant(f2);
-        newExpense.setAmountinHomeCurrency(newExpense.getAmount());
-        newExpense.setSpendingInHomeCurrency(newExpense.getSpending());
+        newExpense.addParticipant(f1);
+
+        newExpense.setCurrency("EUR");
+        newExpense.setitem(f3, 2);
+        newExpense.setitem(f2, 1);
+        newExpense.setitem(f2, 1);
 
         try {
             newExpense.calculateDebt();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        newExpense.setAmountinHomeCurrency(newExpense.getAmount());
+        newExpense.setSpendingInHomeCurrency(newExpense.getSpending());
+
 
         g4.addPlace(new MapMarker(-36.459652,-64.0360471,"Safari"));
         g4.addExpense(newExpense);
