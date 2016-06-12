@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/Frog.iml" filepath="$PROJECT_DIR$/Frog.iml" />
-=======
->>>>>>> b78308d95421bdab615858afa224d9671636dbd5
       <module fileurl="file://$PROJECT_DIR$/FrogApplication.iml" filepath="$PROJECT_DIR$/FrogApplication.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

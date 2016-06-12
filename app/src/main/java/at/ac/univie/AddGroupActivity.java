@@ -106,9 +106,9 @@ public class AddGroupActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Add Group");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final TextView group=(TextView) findViewById(R.id.imageGroupsWithText);
-        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
-        group.setTextColor(Color.parseColor("#000000"));
+        //final TextView group=(TextView) findViewById(R.id.imageGroupsWithText);
+        //group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
+        //group.setTextColor(Color.parseColor("#000000"));
 
         groupName = (EditText) findViewById(R.id.groupName);
 
@@ -230,7 +230,7 @@ public class AddGroupActivity extends AppCompatActivity {
         currencyView.setIndicatorBoundsRelative(currencyView.getRight() - 200, currencyView.getWidth());
         participantView.setIndicatorBoundsRelative(participantView.getRight() - 200, participantView.getWidth());
     }
-
+/*
     public void gotToFriendsActivity(View v){
         Intent goToFriends=new Intent(AddGroupActivity.this,FriendActivity.class);
         startActivity(goToFriends);
@@ -250,5 +250,7 @@ public class AddGroupActivity extends AppCompatActivity {
         Intent goToSettings=new Intent(AddGroupActivity.this, SettingActivity.class);
         startActivity(goToSettings);
     }
+
+    */
 
 }
