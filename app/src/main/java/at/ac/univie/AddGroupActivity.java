@@ -110,10 +110,6 @@ public class AddGroupActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Add Group");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final TextView group=(TextView) findViewById(R.id.imageGroupsWithText);
-        group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_group_clicked,0,0);
-        group.setTextColor(Color.parseColor("#000000"));
-
         groupName = (EditText) findViewById(R.id.groupName);
 
         groupdao = new GroupManager();

@@ -198,7 +198,7 @@ public class StartActivity extends AppCompatActivity {
 
 
         //add expenses
-        Expense newExpense = new SplitEqual(g1.getMembers().get(0), 5, "Früchte Essen Bangkok", "Food", 0);
+        Expense newExpense = new SplitEqual(g1.getMembers().get(0), 5, "Früchte Essen", "Food", 0);
         newExpense.addParticipant(f1);
         newExpense.addParticipant(f2);
         newExpense.addParticipant(f3);

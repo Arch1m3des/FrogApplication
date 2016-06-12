@@ -58,6 +58,4 @@
         android:clickable="true"
         android:layout_marginBottom="0dp" />
 
-    <include layout="@layout/navbar_bottom" />
-
 </RelativeLayout>
