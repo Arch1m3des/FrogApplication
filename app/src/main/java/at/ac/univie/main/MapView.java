@@ -132,6 +132,11 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
             groupname = intent.getStringExtra("GroupPosition");
             getSupportActionBar().setTitle(groupname);
 
+            sharedPreferences = getSharedPreferences("Log", Context.MODE_PRIVATE);
+            editor = sharedPreferences.edit();
+            editor.putString("Groupname", groupname);
+            editor.commit();
+
             for(Group group:groups){
                 if(group.getName().equals(groupname)){
                     placesGroups.addAll(group.getPlaces());
