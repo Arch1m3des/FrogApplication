@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import at.ac.univie.SplitDAO.Expense;
+import at.ac.univie.SplitDAO.CurrencyChanger;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
 import at.ac.univie.frog.R;

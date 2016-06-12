@@ -1,5 +1,6 @@
 package at.ac.univie.SplitDAO;
 
+import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
@@ -15,8 +16,8 @@ import java.util.ListIterator;
  */
 
 public class SplitEqual extends Expense implements Serializable {
-    public SplitEqual(Friend creator, Friend payer, double amount, String description, String category, int splitOption) {
-        super(creator, payer, amount, description, category,splitOption);
+    public SplitEqual(Friend payer, double amount, String description, String category, int splitOption) {
+        super(payer, amount, description, category,splitOption);
     }
 
     @Override

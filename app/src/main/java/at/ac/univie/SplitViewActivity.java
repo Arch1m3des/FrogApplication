@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -17,6 +18,8 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import at.ac.univie.SplitDAO.Currencies;
+import at.ac.univie.SplitDAO.CurrencyManager;
 import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
@@ -35,6 +38,9 @@ public class SplitViewActivity extends AppCompatActivity {
     at.ac.univie.SplitDAO.Group thisGroup;
     Expense thisExpense;
     TextView totalAmt;
+    CheckedTextView optimize;
+    String splitSign;
+    int splitOption;
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -57,38 +63,101 @@ public class SplitViewActivity extends AppCompatActivity {
                 Intent goToGroupDetail = new Intent(SplitViewActivity.this, GroupDetailActivity.class);
                 goToGroupDetail.putExtra("GroupPosition", position);
 
-                //Splitmanual
+                Intent intent = getIntent();
+                int groupindex = intent.getIntExtra("groupIndex", 0);
+
+                groupDAO = new GroupManager();
+                try {
+                    groupDAO.loadGroupData(getApplicationContext(), "Groups");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                groups =  groupDAO.getGroupList();
+                thisGroup = groups.get(groupindex);
+
+
                 double sum = 0;
 
                 for (int i = 0; i < listView.getAdapter().getCount(); i++) {
                     View view = listView.getChildAt(i);
                     EditText editText = (EditText) view.findViewById(R.id.simpleEdit);
                     System.out.println(editText.getText().toString());
-                    thisExpense.setitem(thisExpense.getParticipants().get(i), Double.parseDouble(editText.getText().toString()));
-                    sum += Double.parseDouble(editText.getText().toString());
+                    double input = 0;
+                    try {
+                        input= Double.parseDouble(editText.getText().toString());
+                        thisExpense.setitem(thisExpense.getParticipants().get(i), input);
+                    } catch (NumberFormatException e1) {
+                        input = Double.parseDouble(editText.getHint().toString());
+                        thisExpense.setitem(thisExpense.getParticipants().get(i), input);
+                    }
+                    sum += input;
                 }
 
-                boolean optimize = true;
-                if (optimize) {
-                    //need to calc the sum again
-                    sum = 0;
+
+                //optimize makes splitting a piece of cake
+                if (optimize.isChecked()) {
                     thisExpense.optimizeinputs();
-                    for (int i = 0; i < listView.getAdapter().getCount(); i++) {
-                        View view = listView.getChildAt(i);
-                        EditText editText = (EditText) view.findViewById(R.id.simpleEdit);
-                        sum += Double.parseDouble(editText.getText().toString());
-                    }
-                    System.out.print(sum);
+                    sum = thisExpense.sumitems();
                 }
 
                 DecimalFormat doubleform = new DecimalFormat("#.##");
                 totalAmt.setText("Total: " + doubleform.format(sum) + "/" + thisExpense.getAmount());
+                boolean passed = false;
 
-                if (!(sum+1 > thisExpense.getAmount()) && !(sum-1 < thisExpense.getAmount()))
-                    Toast.makeText(getApplicationContext(), "Your sum (" + sum + ") does not add up to " + thisExpense.getAmount() + ". Please change that.", Toast.LENGTH_LONG).show();
-                else {
+                switch (splitOption) {
+                    case 1: //SplitManual
+                        if (!((sum+1 > thisExpense.getAmount()) && (sum-1 < thisExpense.getAmount()))) {
+                            Toast.makeText(getApplicationContext(), "Your sum (" + sum + ") does not add up to " + thisExpense.getAmount() + ". Please change that.", Toast.LENGTH_LONG).show();
+                            totalAmt.setText("Total: " + doubleform.format(thisExpense.sumitems()) + "/" + doubleform.format(thisExpense.getAmount()));
+                            return false;
+                        }
+                        else {
+                            passed = true;
+                        }
+                        break;
+                    case 2: //Splitpercent
+                        if (!(sum<100.01 && sum>99.9)) {
+                            Toast.makeText(getApplicationContext(), "Your percent (" + sum + ") do not add up to 100%. Please change that.", Toast.LENGTH_LONG).show();
+                            totalAmt.setText("Total: " + doubleform.format(thisExpense.sumitems()) + "/100%");
+                            return false;
+                        }
+                        else {
+                            passed = true;
+                        }
+                        break;
+                    case 3: //SplitParts
+                        if (thisExpense.getinput().containsValue(0.0)) {
+                            Toast.makeText(getApplicationContext(), "There are still members with 0 parts.", Toast.LENGTH_LONG).show();
+                            totalAmt.setText("Total: " + doubleform.format(thisExpense.sumitems()) +" Parts" + doubleform.format(thisExpense.getAmount()));
+                            return false;
+                        }
+                        else {
+                            passed = true;
+                        }
+                        break;
+                    default: return false;
+                }
+
+
+                if (passed) {
+                    //calculate in homecurrency
+                    CurrencyManager cm = new CurrencyManager(getApplicationContext());
+                    thisExpense.setSpendingInHomeCurrency(cm.getSpendingInHomeCurrency(thisExpense.getSpending(), thisExpense.getCurrency()));
+                    thisExpense.setAmountinHomeCurrency(cm.getAmountinHomeCurrency(thisExpense.getAmount(), thisExpense.getCurrency()));
+
+                    thisGroup.addExpense(thisExpense);
+
+                    groupDAO.setGroupList(groups);
+                    try {
+                        groupDAO.saveGroupData(getApplicationContext(), "Groups");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     finish();
-
                     startActivity(goToGroupDetail);
                     return true;
                 }
@@ -102,34 +171,18 @@ public class SplitViewActivity extends AppCompatActivity {
 
         setContentView(R.layout.content_split_view);
         totalAmt = (TextView) findViewById(R.id.totalAmt);
+        optimize = (CheckedTextView) findViewById(R.id.optimize);
 
-
-        int groupindex = getIntent().getIntExtra("groupindex", 0);
-        int expenseindex = getIntent().getIntExtra("expenseindex", 0);
-        int splitOption = getIntent().getIntExtra("option", -1);
+        int groupindex = getIntent().getIntExtra("newGroupIndex", 0);
+        int expenseindex = getIntent().getIntExtra("newExpenseindex", 0);
+        splitOption = getIntent().getIntExtra("option", -1);
         String option;
-
-        System.out.println(splitOption);
-
-        switch(splitOption) {
-            case 1 : option = " manually";
-                break;
-            case 2 : option = " in parts";
-                break;
-            case 3 : option = " in percent";
-                break;
-            default : option = "";
-        }
-
-        getSupportActionBar().setTitle("Split" + option);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setElevation(0);
 
         //getGroupInfo
         groupDAO = new GroupManager();
 
         try {
-            groupDAO.loadGroupData(getApplicationContext(), "Groups");
+            groupDAO.loadGroupData(getApplicationContext(), "newExpense");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -139,7 +192,34 @@ public class SplitViewActivity extends AppCompatActivity {
         groups =  groupDAO.getGroupList();
         thisGroup = groups.get(groupindex);
         thisExpense = thisGroup.getExpenses().get(expenseindex);
+        //Toast.makeText(getApplicationContext(), "Expense" + thisExpense.toString(), Toast.LENGTH_SHORT).show();
 
+
+        System.out.println(splitOption);
+
+        Currencies currList = new Currencies();
+        DecimalFormat doubleform = new DecimalFormat("#.##");
+
+        switch(splitOption) {
+            case 1 : option = " manually";
+                splitSign = currList.getCurrencies().get(thisExpense.getCurrency());
+                totalAmt.setText("Total: " + "0.00/" + doubleform.format(thisExpense.getAmount()) + splitSign);
+                break;
+            case 2 : option = " in percent";
+                splitSign = "%";
+                totalAmt.setText("Total: " + "0/100%");
+                break;
+            case 3 : option = " in parts";
+                splitSign = "Pts.";
+                totalAmt.setText("Total: " + "0 Parts");
+
+                break;
+            default : option = "";
+        }
+
+        getSupportActionBar().setTitle("Split" + option);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setElevation(0);
 
         listView = (ListView) findViewById(R.id.splitListView);
 
@@ -148,7 +228,9 @@ public class SplitViewActivity extends AppCompatActivity {
         for (Friend temp : friends)
             friendsToString.add(temp.getName() + " " + temp.getSurname());
 
-        adapter = new SimpleListAdapter(this, R.layout.simple_edit_list, friendsToString);
+
+
+        adapter = new SimpleListAdapter(this, R.layout.simple_edit_list, friendsToString, splitSign);
 
         listView.setAdapter(adapter);
 
@@ -159,6 +241,17 @@ public class SplitViewActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "hi", Toast.LENGTH_LONG).show();
             }
 
+        });
+
+        optimize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (optimize.isChecked())
+                    optimize.setChecked(false);
+                else {
+                    optimize.setChecked(true);
+                }
+            }
         });
 
     }

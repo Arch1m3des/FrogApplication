@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     android:id="@+id/relativeLayout">
 
-    <include layout="@layout/navbar_bottom" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,8 +21,9 @@
         android:fontFamily="sans-serif-thin"
         android:text="Export List"
         android:id="@+id/export"
-        android:layout_below="@+id/name"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/textBalance"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
 
     <ListView
         android:fontFamily="sans-serif-thin"
@@ -36,9 +35,23 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:id="@+id/groupView"
-        android:layout_below="@+id/export"
         android:layout_alignParentEnd="true"
-        android:clickable="true"/>
+        android:clickable="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/export" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Summary"
+        android:fontFamily="sans-serif-light"
+        android:textSize="20dp"
+        android:id="@+id/textBalance"
+        android:textAlignment="center"
+        android:layout_below="@+id/name"
+        android:layout_centerHorizontal="true" />
+
+    <include layout="@layout/navbar_bottom" />
 
 
 </RelativeLayout>

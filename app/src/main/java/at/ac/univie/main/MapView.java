@@ -40,6 +40,7 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     ArrayList<MapMarker> placesGroups = new ArrayList();
     ArrayList<LatLng> points = new ArrayList<LatLng>();
     GroupManager groupManager;
+    String groupname;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -78,7 +79,6 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_map_view);
-        getSupportActionBar().setTitle("Map");
         getSupportActionBar().setElevation(0);
 
         TextView settings = (TextView) findViewById(R.id.imageMapWithText);
@@ -95,31 +95,32 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
             e.printStackTrace();
         }
 
-        ArrayList<Group> groups =  groupManager.getGroupList();
-        for (Group group : groups) {
+        ArrayList<Group> groups = groupManager.getGroupList();
+
+        Intent intent=getIntent();
+        if(intent.hasExtra("GroupPosition")){
+            groupname = intent.getStringExtra("GroupPosition");
+            getSupportActionBar().setTitle(groupname);
+
+            for(Group group:groups){
+                if(group.getName().equals(groupname)){
+                    placesGroups.addAll(group.getPlaces());
+                }
+            }
+        }else {
+            Group group=groups.get(0);
+            getSupportActionBar().setTitle(group.getName());
             placesGroups.addAll(group.getPlaces());
         }
 
-
         MapFragment mf = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mf.getMapAsync(this);
-        //Hardcoded MapMarkers
-        MapMarker perth = new MapMarker(-31.90, 115.86, "Snakes on the plane");
-        MapMarker sydney = new MapMarker(-33.86, 151.20, "I met a guy pretending to be a banana");
-        MapMarker canberra = new MapMarker (-35.343784, 149.082977, "the food was amazing!");
-        //places.add(perth);
-        //places.add(sydney);
-        //places.add(canberra);
-        places.add(new MapMarker(10.088645, 99.826005, "Streetfood at the beach"));
-        places.add(new MapMarker(10.090023, 99.827195, "Divingsession with Callie"));
-        places.add(new MapMarker(10.094486, 99.828300, "Freediving course"));
-        places.add(new MapMarker(10.121690, 99.832549, "Bike Rental"));
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-    }
 
+    }
 
     @Override
     public void onStart() {
@@ -163,46 +164,56 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
 
     @Override
     public void onMapReady(GoogleMap Gmap) {
-
+        /*if(placesGroups.isEmpty()){
+            return;
+        }*/
 
         this.map = Gmap;
         //static final LatLng PERTH = new LatLng(-31.90, 115.86)
         PolylineOptions line = new PolylineOptions().width(5).color(Color.RED); //looks nice enough?
         LatLng obj = null;
-        for(int i = 0; i<places.size(); i++){
-            obj = new LatLng(places.get(i).getLat(), places.get(i).getLang());
-
-            map.addMarker(new MarkerOptions() //for the markers
-                    .position(obj)
-                    .title(places.get(i).getDescription()));
-
-            points.add(obj); //for the route
-        }
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
         for (MapMarker marker : placesGroups) {
             obj = new LatLng(marker.getLat(), marker.getLang());
             map.addMarker(new MarkerOptions().position(obj).title(marker.getDescription()));
+            points.add(obj);
+            builder.include(obj);
         }
 
         Polyline route = map.addPolyline(line);
         route.setPoints(points); //route
-
+        /*
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
         if (extras != null) {
             builder.include(new LatLng(intent.getDoubleExtra("lat", 0), intent.getDoubleExtra("long", 0)));
         }
 
         else {
-            builder.include(new LatLng(places.get(0).getLat(), places.get(0).getLang()));
-            builder.include(new LatLng(places.get(places.size() - 1).getLat(), places.get(places.size() - 1).getLang()));
-        }
+            builder.include(new LatLng(placesGroups.get(0).getLat(), placesGroups.get(0).getLang()));
+            builder.include(new LatLng(placesGroups.get(placesGroups.size() - 1).getLat(), placesGroups.get(placesGroups.size() - 1).getLang()));
+        }*/
 
         LatLngBounds bounds = builder.build();
-        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 13);
+        int padding=10;
+        CameraUpdate cu;
+
+        try{
+            cu = CameraUpdateFactory.newLatLngBounds(bounds,6000);
+            cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 10.0f);
+            map.animateCamera(cu);
+        } catch(IllegalStateException e) {
+            e.printStackTrace();
+            cu = CameraUpdateFactory.newLatLngBounds(bounds,6000,6000,0);
+            map.animateCamera(cu);
+        }
+        /*  //this didn't work for me
+        cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 13.0f);
+        this.map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,padding));
         this.map.animateCamera(cu);
+        */
 
     }
 

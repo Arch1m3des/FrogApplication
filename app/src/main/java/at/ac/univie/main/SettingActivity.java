@@ -24,6 +24,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import at.ac.univie.AddFriendActivity;
+import at.ac.univie.SplitDAO.Friend;
+import at.ac.univie.SplitDAO.FriendManager;
 import at.ac.univie.frog.R;
 import at.ac.univie.qr.QRGenerate;
 
@@ -75,13 +84,22 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                Toast.makeText(getApplicationContext(), "yey", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 
             }
 
         });
+
+        qrCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Starting QR Scan Intent. Greift auf die Klassen von zxing zu, welche das scannen des QR Codes uebernehmen.
+                IntentIntegrator scanIntegrator = new IntentIntegrator(SettingActivity.this);
+                scanIntegrator.initiateScan();
+
+            }
+        });
+
     }
 
     public void changeUserData(View v){
@@ -107,4 +125,66 @@ public class SettingActivity extends AppCompatActivity {
     public void goToSettings(View v){
         //
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //TODO chatching Crash when going back from scan-app
+        //retrieve scan result
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+
+        //Ueberpruefen ob gescannt werden konnte
+        if (scanningResult != null) {
+            //we have a result
+            String scanContent = scanningResult.getContents();
+            String scanFormat = scanningResult.getFormatName();
+
+            //Ueberpruefen ob Scan ein QR Code war
+            if(scanFormat.equals("QR_CODE")){
+                String parts[]=scanContent.split(";");
+
+                //Ueberpruefen ob der QR Code aus 3 Teilen besteht
+                if(parts.length==3){
+                    //Besteht der Content aus 3 Teilen, nehmen wir an das einer von unseren QR Codes gescannt wurde
+                    //Nun wird ein neuer Intent angelegt, die Daten mitgegeben und danach wird FriendActivity gestartet
+
+                    FriendManager frienddao = new FriendManager();
+                    try {
+                        frienddao.loadFriendData(getApplicationContext(),"Friends");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    ArrayList<Friend> friends = frienddao.getFriendList();
+                    friends.add(new Friend(friends.size()+1, parts[0], parts[1], parts[2]));
+
+                    frienddao.setFriendList(friends);
+                    try {
+                        frienddao.saveFriendData(getApplicationContext(),"Friends");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    
+                    Intent addQR = new Intent(this, FriendActivity.class);
+                    addQR.putExtra("values",parts);
+                    startActivity(addQR);
+                }else{
+                    //Sollte der gescannte Content nicht aus 3 Teilen bestehen, handelt es sich nicht um einen QR Code von uns
+                    Toast toast = Toast.makeText(getApplicationContext(),"Scanned QR Code wasn´t a Friend!", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }else{
+                //Sollte es sich bei dem gescannten Objekt nicht um einen QR Code handeln, wird ein Fehler ausgegeben
+                Toast toast = Toast.makeText(getApplicationContext(),"Scan wasn´t a QR Code!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "No scan data received!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+    }
+
 }

@@ -1,12 +1,16 @@
 package at.ac.univie;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
@@ -130,11 +134,11 @@ public class AddGroupActivity extends AppCompatActivity {
         participantView = (ExpandableListView) findViewById(R.id.participantView);
 
         Currencies curr = new Currencies();
-        HashMap<String, String> currmap = curr.getCurrencies();
+        HashMap<String, String> currmap = curr.sortedCurrenciesCountries();
         Iterator it = currmap.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry valuepair = (Map.Entry)it.next();
-            currency.add(new Child((String) valuepair.getKey() + "  " + valuepair.getValue()));
+            currency.add(new Child((String) valuepair.getKey() + " " + valuepair.getValue()));
         }
 
         Friend me = frienddao.getFriendList().get(0);
@@ -175,7 +179,7 @@ public class AddGroupActivity extends AppCompatActivity {
                     turn = false;
 
                     if (!groupCurrencies.contains(currency.get(childPosition))) {
-                        groupCurrencies.add(currency.get(childPosition).getName());
+                        groupCurrencies.add(currency.get(childPosition).getName().substring(0,3));
                     }
                 }
 
@@ -183,8 +187,8 @@ public class AddGroupActivity extends AppCompatActivity {
                     child.setSelected(false);
                     view.setBackgroundColor(Color.TRANSPARENT);
 
-                    if (groupCurrencies.contains(currency.get(childPosition).toString())) {
-                        groupCurrencies.remove(currency.get(childPosition).toString());
+                    if (groupCurrencies.contains(currency.get(childPosition).toString().substring(0,3))) {
+                        groupCurrencies.remove(currency.get(childPosition).toString().substring(0,3));
                     }
                 }
                 return false;
@@ -251,6 +255,25 @@ public class AddGroupActivity extends AppCompatActivity {
         startActivity(goToSettings);
     }
 
+<<<<<<< HEAD
     */
 
+=======
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
+    }
+>>>>>>> ed49d3121c4eaa36c81d52fefbe1833cdb8b0f62
 }

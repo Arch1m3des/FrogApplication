@@ -19,7 +19,8 @@
             android:layout_toRightOf="@+id/image"
             android:textSize="20sp"
             android:fontFamily="sans-serif-light"
-            android:alpha="0.8" />
+            android:alpha="0.8"
+            android:text="StandardText" />
 
         <TextView
             android:id="@+id/date"
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:layout_below="@+id/textView"
-            android:text="hi there"
+            android:text="Date"
             android:textSize="15sp" />
 
     </LinearLayout>
@@ -59,7 +60,8 @@
         android:padding="10dp"
         android:layout_centerVertical="true"
         android:background="@color/colorWhite"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textAmount"

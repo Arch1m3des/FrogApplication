@@ -32,6 +32,7 @@ import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
 import at.ac.univie.SplitDAO.Group;
 import at.ac.univie.SplitDAO.GroupManager;
+import at.ac.univie.SplitDAO.MapMarker;
 import at.ac.univie.SplitDAO.SplitEqual;
 import at.ac.univie.SplitDAO.SplitParts;
 import at.ac.univie.frog.R;
@@ -86,11 +87,11 @@ public class StartActivity extends AppCompatActivity {
                     final String nameToString = name.getText().toString();
                     final String surnameToString = surname.getText().toString();
 
-                    if (emailToString.length() == 0)
+                    if (emailToString.length() == 0 || !emailToString.contains("@"))
                         Toast.makeText(getApplicationContext(), "Please enter your email address.", Toast.LENGTH_LONG).show();
-                    else if (nameToString.length() == 0)
+                    else if (nameToString.length() <= 3)
                         Toast.makeText(getApplicationContext(), "Please enter your name.", Toast.LENGTH_LONG).show();
-                    else if (surnameToString.length() == 0)
+                    else if (surnameToString.length() <= 1)
                         Toast.makeText(getApplicationContext(), "Please enter your surname.", Toast.LENGTH_LONG).show();
 
                     else {
@@ -118,7 +119,8 @@ public class StartActivity extends AppCompatActivity {
 
     public void createDAO(SharedPreferences sharedPreferences) {
 
-        new CurrencyChanger(StartActivity.this).execute();
+        //new CurrencyChanger(StartActivity.this).execute();
+
 
         //Add Friends & Groups Hardcoded and save them
         FriendManager frienddao = new FriendManager();
@@ -194,73 +196,74 @@ public class StartActivity extends AppCompatActivity {
         g4.addMember(f2);
 
         //add expenses
-        Expense firstexpense = new SplitEqual(g1.getMembers().get(0), g1.getMembers().get(0), 350, "Straßenessen", "Food", 0);
-        firstexpense.addParticipant(f1);
-        firstexpense.addParticipant(f2);
-        firstexpense.addParticipant(f3);
-        firstexpense.addParticipant(f4);
+        Expense newExpense = new SplitEqual(g1.getMembers().get(0), 5, "Straßenessen", "Food", 0);
+        newExpense.addParticipant(f1);
+        newExpense.addParticipant(f2);
+        newExpense.addParticipant(f3);
+        newExpense.addParticipant(f4);
+
+        newExpense.setCurrency("EUR");
+
+        newExpense.setAmountinHomeCurrency(newExpense.getAmount());
+        newExpense.setSpendingInHomeCurrency(newExpense.getSpending());
 
 
-        /*
-        Location randomlocation = new Location("dummyprovider");
-        randomlocation.setLatitude(13.7134702);
-        randomlocation.setLongitude(100.5133035);
-        firstexpense.setLocation(randomlocation);
-        */
+        g1.addPlace(new MapMarker(13.7134702,100.5133035,"Straßenessen"));
+        g1.addExpense(newExpense);
 
-        g1.addExpense(firstexpense);
+        newExpense = new SplitParts(f3, 34, "Eis essen", "Food", 1);
+        newExpense.addParticipant(f3);
+        newExpense.addParticipant(f6);
+        newExpense.setitem(f3, 4);
+        newExpense.setitem(f6, 1);
 
-        firstexpense = new SplitParts(f1, f3, 34, "Eis essen", "Food", 1);
-        firstexpense.addParticipant(f3);
-        firstexpense.addParticipant(f6);
-        firstexpense.setitem(f3, 4);
-        firstexpense.setitem(f6, 1);
-
-        //randomlocation.setLatitude(51.5304439);
-        //randomlocation.setLongitude(-0.826729);
-        //firstexpense.setLocation(//randomlocation);
+        newExpense.setAmountinHomeCurrency(newExpense.getAmount());
+        newExpense.setSpendingInHomeCurrency(newExpense.getSpending());
 
         try {
-            firstexpense.calculateDebt();
-            //firstexpense.calculateDebtInHomeSpendings();
+            newExpense.calculateDebt();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        g2.addExpense(firstexpense);
+        g2.addPlace(new MapMarker(51.5304439,-0.826729,"Eis essen"));
+        g2.addExpense(newExpense);
 
-        firstexpense = new SplitEqual(f3, f3, 28.50, "Eintritt Therme", "Culture", 0);
+        newExpense = new SplitEqual(f3, 28.50, "Eintritt Therme", "Culture", 0);
         try {
-            firstexpense.calculateDebt();
+            newExpense.calculateDebt();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //randomlocation.setLatitude(48.1265264);
-        //randomlocation.setLongitude(16.3932835);
-        //firstexpense.setLocation(//randomlocation);
-        g3.addExpense(firstexpense);
 
-        //firstexpense.setLocation(randomlocation);
-        firstexpense = new SplitEqual(f3, f6, 30.50, "Eintritt Therme", "Culture", 0);
-        //randomlocation.setLatitude(48.1465264);
-        //randomlocation.setLongitude(16.4032835);
-        //firstexpense.setLocation(//randomlocation);
-        g3.addExpense(firstexpense);
+        newExpense.setAmountinHomeCurrency(newExpense.getAmount());
+        newExpense.setSpendingInHomeCurrency(newExpense.getSpending());
 
 
-        firstexpense = new SplitParts(f3, f3, 340, "Safari", "Culture", 1);
-        //randomlocation.setLatitude(-36.459652);
-        //randomlocation.setLongitude(-64.0360471);
-        //firstexpense.setLocation(//randomlocation);
+        g3.addPlace(new MapMarker(48.1265264,16.3932835,"Eintritt Therme"));
+        g3.addExpense(newExpense);
 
-        firstexpense.addParticipant(f2);
+        newExpense = new SplitEqual(f6, 30.50, "Eintritt Therme", "Culture", 0);
+        newExpense.setAmountinHomeCurrency(newExpense.getAmount());
+        newExpense.setSpendingInHomeCurrency(newExpense.getSpending());
+
+        g3.addPlace(new MapMarker(48.1265264,16.4032835,"Eintritt Therme"));
+        g3.addExpense(newExpense);
+
+
+        newExpense = new SplitParts(f3, 340, "Safari", "Culture", 1);
+        newExpense.addParticipant(f2);
+        newExpense.setAmountinHomeCurrency(newExpense.getAmount());
+        newExpense.setSpendingInHomeCurrency(newExpense.getSpending());
+
         try {
-            firstexpense.calculateDebt();
-            //firstexpense.calculateDebtInHomeSpendings();
+            newExpense.calculateDebt();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        g4.addExpense(firstexpense);
+
+        g4.addPlace(new MapMarker(-36.459652,-64.0360471,"Safari"));
+        g4.addExpense(newExpense);
 
         groupdao.addGroup(g1);
         groupdao.addGroup(g2);

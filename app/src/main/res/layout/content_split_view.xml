@@ -8,29 +8,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/splitListView"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:clickable="true"
         android:focusable="false"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="127dp" />
+        android:layout_below="@+id/totalAmt" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Total: "
         android:id="@+id/totalAmt"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="391dp"
         android:textAlignment="textStart"
         android:textSize="23dp"
-        android:layout_marginStart="156dp"
-        android:layout_marginBottom="70dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:textIsSelectable="false"
-        android:fontFamily="sans-serif-light" />
+        android:fontFamily="sans-serif-light"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <CheckedTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="optimize empty fields   "
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-light"
+        android:id="@+id/optimize"
+        android:layout_marginLeft="5dp"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:textColor="@color/colorDarkGrey"
+        android:gravity="center"
+        android:checked="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>
 

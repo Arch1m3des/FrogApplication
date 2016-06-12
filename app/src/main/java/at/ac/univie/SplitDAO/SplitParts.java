@@ -1,5 +1,6 @@
 package at.ac.univie.SplitDAO;
 
+import android.content.Context;
 import android.location.Location;
 
 import java.io.Serializable;
@@ -14,8 +15,8 @@ import java.util.Objects;
  */
 public class SplitParts extends Expense implements Serializable{
 
-    public SplitParts(Friend creator, Friend payer, double amount, String description, String category, int splitOption) {
-        super(creator, payer, amount, description, category, splitOption);
+    public SplitParts(Friend payer, double amount, String description, String category, int splitOption) {
+        super(payer, amount, description, category, splitOption);
         inputFields.put(payer, (double) 1);
     }
 
@@ -45,7 +46,8 @@ public class SplitParts extends Expense implements Serializable{
 
     public void optimizeinputs() {
         if(inputFields.containsValue((double) 0)) {
-            inputFields.put(getFriendfromKey((double) 0), (double) 1);
+            while (inputFields.containsValue(0.0))
+                inputFields.put(getFriendfromKey((double) 0), (double) 1);
         }
         else if(sumitems()>100) {
             double rel = (sumitems()/10);
@@ -60,6 +62,7 @@ public class SplitParts extends Expense implements Serializable{
             }
 
         }
+        calculateDebt();
 
     }
 

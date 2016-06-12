@@ -23,12 +23,14 @@ public class SimpleListAdapter extends ArrayAdapter<String> {
     private Context context;
     private int layoutResourceId;
     private ArrayList<String> list = null;
+    String splitSign;
 
-    public SimpleListAdapter(Context context, int layoutResourceId, ArrayList<String> list) {
+    public SimpleListAdapter(Context context, int layoutResourceId, ArrayList<String> list, String splitSign) {
         super(context, layoutResourceId, list);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.list = list;
+        this.splitSign = splitSign;
     }
 
     @Override
@@ -43,9 +45,12 @@ public class SimpleListAdapter extends ArrayAdapter<String> {
 
         TextView textView = (TextView) simpleView.findViewById(R.id.simpleText);
         EditText editText = (EditText) simpleView.findViewById(R.id.simpleEdit);
+        TextView splitSymbol = (TextView) simpleView.findViewById(R.id.splitSymbol);
+
 
         textView.setTextColor(Color.BLACK);
         textView.setText(list.get(position));
+        splitSymbol.setText(splitSign);
 
 
         //textView.setBackgroundColor(Color.WHITE);

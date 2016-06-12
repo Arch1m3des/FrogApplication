@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import at.ac.univie.GroupSettingsActivity;
@@ -97,11 +98,14 @@ public class GroupActivity extends AppCompatActivity {
         me = frienddao.getFriendList().get(0);
 
 
+        DecimalFormat doubleform = new DecimalFormat("#.##");
+
+
         for (Group temp : groups) {
                 //TODO Balance in green or red depending on + or - and smaller
                 groupsToString.add(temp.getName());
-                amount.add(temp.getsumexpenses() + "€");
-                date.add("");
+                amount.add(doubleform.format(temp.getsumexpenses()) + "€");
+                date.add("tap to see expenses");
                 iconColors.add(temp.getIconColor());
                 text.add("");
         }
@@ -117,6 +121,8 @@ public class GroupActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
                 Intent detailGroup = new Intent(GroupActivity.this, GroupDetailActivity.class);
                 detailGroup.putExtra("GroupPosition", position);
+                detailGroup.putExtra("groupIndex", position);
+
                 startActivity(detailGroup);
             }
 

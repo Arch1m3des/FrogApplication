@@ -49,6 +49,7 @@ public class FriendDetailActivity extends AppCompatActivity {
     ArrayList<String> amount = new ArrayList();
     Friend me;
     Friend owingfriend;
+    double balance =  0;
 
     @Override
     public boolean onSupportNavigateUp(){
@@ -66,6 +67,7 @@ public class FriendDetailActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
 
         TextView group=(TextView) findViewById(R.id.imageFriendsWithText);
+        TextView friendBalance = (TextView) findViewById(R.id.textBalance);
         group.setCompoundDrawablesWithIntrinsicBounds(0,R.mipmap.ic_friends_clicked,0,0);
         group.setTextColor(Color.parseColor("#000000"));
 
@@ -87,7 +89,7 @@ public class FriendDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        me = frienddao.getFriendList().get(0);  //TODO 0 is always me
+        me = frienddao.getFriendList().get(0);
         owingfriend = frienddao.getFriendList().get(friendposition);
         groups = groupdao.getGroupList();
 
@@ -100,8 +102,6 @@ public class FriendDetailActivity extends AppCompatActivity {
         Date today =  new Date();
 
         for (Group temp : groups) {
-            //TODO Balance in green or red depending on + or - and smaller
-            //show only groups where owingfriend is a member
 
             ArrayList<Friend> members = (ArrayList<Friend>) temp.getMembers();
             boolean contains = false;
@@ -114,16 +114,21 @@ public class FriendDetailActivity extends AppCompatActivity {
 
             if(contains) {
                 double owes = temp.calculateowes(me, owingfriend);
+                balance += owes;
                 if(owes==0) continue;
                 else {
                     groupsToString.add(temp.getName());
-                    amount.add(doubleform.format(owes) + "€");
-                    date.add("press to clear debt");
+                    String plus = (owes>0) ? "+" : "";
+                    amount.add(plus + doubleform.format(owes) + "€");
+                    date.add((owes>0) ? (owingfriend.getName() + " owes you") : ("You owe " + owingfriend.getName()));
                     iconColors.add(temp.getIconColor());
                     text.add("");
                 }
             }
         }
+
+        //set Balance Text
+        friendBalance.setText("Summary: " + ((balance>0) ? (owingfriend.getName() + " owes you ") : ("You owe " + owingfriend.getName() + " ")) + doubleform.format(balance) + "€");
 
         groupView = (ListView) findViewById(R.id.groupView);
         adapter = new FancyListAdapter(this, R.layout.fancy_list, groupsToString, text, amount, date, iconColors);
@@ -138,8 +143,9 @@ public class FriendDetailActivity extends AppCompatActivity {
                 emailIntent.setData(Uri.parse("mailto:"));
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, owingfriend.getMailaddress());
                 emailIntent.setType("text/plain");
+                emailIntent.putExtra(Intent.EXTRA_BCC, owingfriend.getMailaddress());
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Frog - Debt report for " + me.getName() + " to " + owingfriend.getName()+ "!");
-                emailIntent.putExtra(Intent.EXTRA_TEXT   , "Hi, " + owingfriend.getName() + "!\n" + "Attached a summary of our trip expenses.");
+                emailIntent.putExtra(Intent.EXTRA_TEXT   , "Hi, " + owingfriend.getName() + "!\n" + "Attached a summary of our trip expenses.\n" + ("Summary: " + ((balance<0) ? (me.getName() + " owes you ") : ("You owe " + me.getName() + " ")) + balance + "€"));
 
 
                 try {
