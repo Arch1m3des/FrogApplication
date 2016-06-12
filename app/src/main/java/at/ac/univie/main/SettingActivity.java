@@ -12,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +43,28 @@ public class SettingActivity extends AppCompatActivity{
     SharedPreferences.Editor editor;
     String name, surname, email;
     Switch controlGPS;
+    boolean doubleBackToExitPressedOnce=false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            Intent a = new Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(a);
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 
     @Override
     protected void onRestart(){

@@ -4,15 +4,19 @@ import at.ac.univie.SplitDAO.*;
 import at.ac.univie.frog.R;
 import at.ac.univie.SearchActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -34,6 +38,10 @@ import java.util.ArrayList;
 
 public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     //MapMarker mapMarker;
+    private SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String gruppenname;
+
     Marker marker;
     GoogleMap map;
     ArrayList<MapMarker> places = new ArrayList();
@@ -41,6 +49,28 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
     ArrayList<LatLng> points = new ArrayList<LatLng>();
     GroupManager groupManager;
     String groupname;
+    boolean doubleBackToExitPressedOnce=false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            Intent a = new Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(a);
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -108,9 +138,23 @@ public class MapView extends AppCompatActivity implements OnMapReadyCallback{
                 }
             }
         }else {
-            Group group=groups.get(0);
-            getSupportActionBar().setTitle(group.getName());
-            placesGroups.addAll(group.getPlaces());
+            sharedPreferences = getSharedPreferences("Log", Context.MODE_PRIVATE);
+
+            if (sharedPreferences.contains("Groupname")) {
+                gruppenname = sharedPreferences.getString("Groupname", "");
+                getSupportActionBar().setTitle(gruppenname);
+
+                for(Group group:groups){
+                    if(group.getName().equals(gruppenname)){
+                        placesGroups.addAll(group.getPlaces());
+                    }
+                }
+
+            }else {
+                Group group = groups.get(0);
+                getSupportActionBar().setTitle(group.getName());
+                placesGroups.addAll(group.getPlaces());
+            }
         }
 
         MapFragment mf = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
