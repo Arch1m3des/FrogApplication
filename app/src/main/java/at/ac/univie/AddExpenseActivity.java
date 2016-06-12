@@ -188,6 +188,8 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                 newExpense.setLatitude(currLocation.getLatitude());
                 newExpense.setLongitude(currLocation.getLongitude());
                 thisGroup.addPlace(new MapMarker(newExpense.getLatitude(), newExpense.getLongitude(), newExpense.getDescription()));
+            }else{
+                Toast.makeText(getApplicationContext(), "Your location could not be determined. Please make sure you enabled GPS for this app in your settings.", Toast.LENGTH_LONG).show();
             }
 
             //if Splitequal store in DAO and return to group intent
