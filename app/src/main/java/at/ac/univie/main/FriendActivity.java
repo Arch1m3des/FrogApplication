@@ -13,10 +13,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
+import at.ac.univie.SplitDAO.Group;
+import at.ac.univie.SplitDAO.GroupManager;
 import at.ac.univie.adapter.FancyListAdapter;
 import at.ac.univie.AddDummyActivity;
 import at.ac.univie.FriendDetailActivity;
@@ -69,13 +72,6 @@ public class FriendActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        //maybe needed, maybe not TODO delete later
-        /*
-        if(intent.getStringArrayExtra("values") != null) {
-            String[] parts = intent.getStringArrayExtra("values");
-            Toast.makeText(getApplicationContext(), "Dummy \"" + parts[1] + " " + parts[0] + "\" added", Toast.LENGTH_SHORT).show();
-        }
-        */
 
         FriendManager frienddao = new FriendManager();
         try {
@@ -87,26 +83,56 @@ public class FriendActivity extends AppCompatActivity {
         }
 
         Friend me = frienddao.getFriendList().get(0);
-
         friends =  frienddao.getFriendList();
 
 
-        //TODO delete because shared prefs friends are not needed any longer
-        /*
-        //Wenn der intent ein StringArrayExtra mit dem Namen values hat wird dieser ausgelesen
-        //Bevor der Intent ausgelesen werden kann, muss zuerst die Liste der Freunde geladen werden
-        if(intent.getStringArrayExtra("values")!=null){
-            String[] newFriend = intent.getStringArrayExtra("values");
 
-            //Einen neuen Freund der Liste hinzufuegen, die Nummer wird durch die Anzahl der Elemente in der Liste +1 festgelegt.
-            friends.add(new Friend(friends.size()+1,newFriend[0],newFriend[1],newFriend[2]));
+        //calculate friendbalance
+        GroupManager groupdao = new GroupManager();
+        try {
+            groupdao.loadGroupData(getApplicationContext(), "Groups");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
-        */
+        ArrayList<Group> groups = new ArrayList<>();
+        groups = groupdao.getGroupList();
 
+        DecimalFormat doubleform = new DecimalFormat("#.##");
+        ArrayList<Double> balance = new ArrayList<>();
+
+        for (Friend owingfriend : friends) {
+            if(owingfriend != me) {
+                double owes = 0;
+                for (Group temp : groups) {
+
+                    ArrayList<Friend> members = (ArrayList<Friend>) temp.getMembers();
+                    boolean contains = false;
+                    for (Friend friend : members) {
+                        if(friend.getFriendID() == owingfriend.getFriendID()) {
+                            contains = true;
+                            break;
+                        }
+                    }
+
+                    if(contains) {
+                        owes += temp.calculateowes(me, owingfriend);
+                    }
+                }
+                balance.add(owes);
+            }
+
+        }
+
+        //end
+
+
+        int i=0;
         for (Friend temp : friends) {
             if (temp != me) { // in order to not see yourself as a friend
                 friendsToString.add(temp.getName() + " " + temp.getSurname());
-                amount.add("");
+                amount.add(((balance.get(i) >0) ? "+" : "") + doubleform.format(balance.get(i++)) + "€");
                 date.add("tap for details");
                 friendsInitials.add(temp.getInitials());
                 iconColors.add(temp.getIconColor());

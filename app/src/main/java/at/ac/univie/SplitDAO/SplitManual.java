@@ -20,8 +20,9 @@ public class SplitManual extends Expense implements Serializable{
         inputFields.put(payer, (double) 0);
     }
 
+    //checks only if field exists
     public boolean setitem(Friend friend, double manual) {
-        if (inputFields.containsKey(friend) && manual<=sumitems() && sumitems()<amount)  {
+        if (inputFields.containsKey(friend))  {
             inputFields.put(friend, manual);
             calculateDebt();
             return true;
@@ -51,7 +52,7 @@ public class SplitManual extends Expense implements Serializable{
                 if(val == 0)
                     zeros++;
             }
-            double remaining = (amount-sumitems()/zeros);
+            double remaining = ((amount-sumitems())/zeros);
             while (inputFields.containsValue(0.0)) {
                 inputFields.put(getFriendfromKey((double) 0), remaining);
             }

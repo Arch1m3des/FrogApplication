@@ -66,7 +66,7 @@ public class SplitPercent extends Expense implements Serializable {
 
         }
         calculateDebt();
-        //always calc debt
+        //always calc debt afterwards
 
     }
 

@@ -111,7 +111,7 @@ public class SplitViewActivity extends AppCompatActivity {
                     case 1: //SplitManual
                         if (!((sum+1 > thisExpense.getAmount()) && (sum-1 < thisExpense.getAmount()))) {
                             Toast.makeText(getApplicationContext(), "Your sum (" + sum + ") does not add up to " + thisExpense.getAmount() + ". Please change that.", Toast.LENGTH_LONG).show();
-                            totalAmt.setText("Total: " + doubleform.format(thisExpense.sumitems()) + "/" + doubleform.format(thisExpense.getAmount()));
+                            totalAmt.setText("Total: " + doubleform.format(sum) + "/" + doubleform.format(thisExpense.getAmount()));
                             return false;
                         }
                         else {
@@ -131,7 +131,7 @@ public class SplitViewActivity extends AppCompatActivity {
                     case 3: //SplitParts
                         if (thisExpense.getinput().containsValue(0.0)) {
                             Toast.makeText(getApplicationContext(), "There are still members with 0 parts.", Toast.LENGTH_LONG).show();
-                            totalAmt.setText("Total: " + doubleform.format(thisExpense.sumitems()) +" Parts" + doubleform.format(thisExpense.getAmount()));
+                            totalAmt.setText("Total: " + doubleform.format(thisExpense.sumitems()) +" Parts");
                             return false;
                         }
                         else {
