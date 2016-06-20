@@ -44,7 +44,7 @@ import at.ac.univie.main.GroupActivity;
 public class AddExpenseActivity extends AppCompatActivity implements LocationListener {
 
     CheckedTextView locationView;
-    boolean wantLocation;
+    boolean wantLocation = true;
     EditText amount;
     TextView description;
     ExpandableListView categoryView, currencyView, splitView, friendsView, payerView;
@@ -70,6 +70,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
     String exCategory = "";
     String exCurrency = "";
     boolean doubleBackToExitPressedOnce=false;
+    String checkLocation = "no";
 
     @Override
     public void onBackPressed() {
@@ -138,6 +139,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                         } catch (ParseException e1) {
                             amountDbl = Double.parseDouble(amount.getText().toString());
                         }
+
                     }
 
 
@@ -214,6 +216,8 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                         newExpense.setLatitude(currLocation.getLatitude());
                         newExpense.setLongitude(currLocation.getLongitude());
                         thisGroup.addPlace(new MapMarker(newExpense.getLatitude(), newExpense.getLongitude(), newExpense.getDescription()));
+                        checkLocation = "yes";
+                        //System.out.println("added place to this group: " + thisGroup.getName());
                     } else {
                         newExpense.setHasLocation(false);
                         if (wantLocation)
@@ -233,7 +237,7 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                         thisGroup.addExpense(newExpense);
                         int expenseIndex = thisGroup.getExpenses().indexOf(newExpense);
 
-                        //check if it was added to groups
+                            //check if it was added to groups
                         if (groups.get(groupindex).getExpenses().contains(newExpense)) {
                             groupDAO.setGroupList(groups);
                             try {
@@ -265,6 +269,8 @@ public class AddExpenseActivity extends AppCompatActivity implements LocationLis
                         goToSplitOptions.putExtra("newGroupIndex", 0);
                         goToSplitOptions.putExtra("newExpenseindex", 0);
                         goToSplitOptions.putExtra("groupIndex", groupindex);
+                        goToSplitOptions.putExtra("location", checkLocation);
+
 
                         finish();
                         startActivity(goToSplitOptions);

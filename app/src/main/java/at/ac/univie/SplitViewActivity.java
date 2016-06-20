@@ -25,6 +25,7 @@ import at.ac.univie.SplitDAO.Expense;
 import at.ac.univie.SplitDAO.Friend;
 import at.ac.univie.SplitDAO.FriendManager;
 import at.ac.univie.SplitDAO.GroupManager;
+import at.ac.univie.SplitDAO.MapMarker;
 import at.ac.univie.adapter.SimpleListAdapter;
 import at.ac.univie.frog.R;
 
@@ -34,6 +35,7 @@ public class SplitViewActivity extends AppCompatActivity {
     SimpleListAdapter adapter;
     ArrayList<Friend> friends = new ArrayList();
     ArrayList<String> friendsToString = new ArrayList();
+    boolean location = false;
     GroupManager groupDAO;
     ArrayList<at.ac.univie.SplitDAO.Group> groups = new ArrayList();
     at.ac.univie.SplitDAO.Group thisGroup;
@@ -172,6 +174,8 @@ public class SplitViewActivity extends AppCompatActivity {
                     thisExpense.setAmountinHomeCurrency(cm.getAmountinHomeCurrency(thisExpense.getAmount(), thisExpense.getCurrency()));
 
                     thisGroup.addExpense(thisExpense);
+                    if (getIntent().getStringExtra("location").equals("yes"))
+                        thisGroup.addPlace(new MapMarker(thisExpense.getLatitude(), thisExpense.getLongitude(), thisExpense.getDescription()));
 
                     groupDAO.setGroupList(groups);
                     try {
