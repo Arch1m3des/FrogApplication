@@ -1,8 +1,9 @@
-# FrogApplication is an easy to use CostSplit Application and our first project with Android Studio
+# FrogApplication
+### Started as a study projects and is an easy to use CostSplit Application made with Android Studio
 
 
-![alt text][proto 1]
-![alt text][proto 2]
+![alt text][proto1]
+![alt text][proto2]
 
 [proto1]: http://wwwlab.cs.univie.ac.at/~weinbachea88/FrogApplication/FrogCostSplit%20Prototype%201.png
  "CostSplit Prototype 1"
