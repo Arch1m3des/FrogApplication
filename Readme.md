@@ -1,5 +1,5 @@
 # FrogApplication
-### Started as a study projects and is an easy to use CostSplit Application made with Android Studio
+### Started as a study project and is an easy to use CostSplit Application made with Android Studio
 
 
 ![alt text][proto1]
